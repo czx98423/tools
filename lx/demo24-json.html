@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+        <button> xmlRead </button>
+</body>
+<script type="text/javascript">
+var box = new twaver.ElementBox();
+        var network;
+        var datas;
+ 
+        function init() {
+            initCanvas();
+            initBox();
+        }
+ 
+        function initCanvas() {
+            network = new twaver.canvas.Network(box);
+            document.body.appendChild(network.getView());
+            network.getView().style.background = '#E9E9E9';
+            network.adjustBounds({x: 0, y: 30, width: 1300, height: 600});
+        }
+ 
+        function initBox() {
+            var from = new twaver.Node();
+            from.setName('From');
+            from.setLocation(Math.random() * 1000, Math.random() * 500);
+            box.add(from);
+ 
+            for (var i = 0; i < 20; i++) {
+                var to = new twaver.Node();
+                to.setName('To');
+                to.setLocation(Math.random() * 1200, Math.random() * 600);
+                box.add(to);
+ 
+                var link = new twaver.Link(from, to);
+                link.setName('Link');
+                box.add(link);
+            }
+            datas = new twaver.JsonSerializer(box).serialize();
+            console.log(datas)
+        }
+ 
+        function xmlRead() {
+            box.clear();
+            setTimeout(function () { 
+                if(datas) {
+                new twaver.JsonSerializer(box).deserialize(datas);
+            }
+            box.forEach(function(data){
+                if(data instanceof twaver.Link){
+                    data.setStyle('link.color',"red");
+                }
+            })
+             },2000)
+            
+        }
+        setTimeout(xmlRead(),2000)
+</script>
+
+</html>

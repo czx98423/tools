@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Pirulen';
+    src: url('./pirulen rg.ttf');
+    font-weight: normal; 
+font-style: normal;
+}
+.pir{
+    font-family: 'Pirulen';
+    color: #3BB5F8;
+    font-size: 30px;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="initNode()">
+    
+</body>
+<script>
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box)
+    function registerImage(){
+        registerNormalImage('../demo2/images/floor.png','list_view');
+  registerNormalImage('../demo2/images/floor.png','setting1');
+  registerNormalImage('../demo2/images/floor.png','wheel');
+  registerNormalImage('../demo2/images/floor.png','archive');
+  registerNormalImage('../demo2/images/floor.png','mono');
+  registerNormalImage('../demo2/images/floor.png','twitter');
+    }
+    function registerNormalImage(url, name) {
+  var image = new Image();
+  image.src = url;
+  image.onload = function() {
+    twaver.Util.registerImage(name, image, image.width/2, image.height/2);
+    image.onload = null;
+   network.invalidateElementUIs();
+  };
+}
+    function initNode(){
+        var view=network.getView();
+        document.body.appendChild(view);
+        network.adjustBounds({x:0,y:0,width:1300,height:600})
+        registerImage()
+        var node2=new twaver.Node("node2");
+        node2.setLocation(200,300)
+        box.add(node2)
+        node2.setName("a")
+        node2.setName2("b")
+        node2.setSize(200,200)
+        node2.setStyle('icons.names', [["mono","wheel",'archive'],["wheel",'archive','mono'],["archive",'mono'],["mono",'wheel']]);
+    node2.setStyle('icons.position', ['topleft.topleft','topright.topright','bottomleft.bottomleft',
+      'bottomright.bottomright']);
+    node2.s('icons.orientation',['top','left','right','bottom']);
+    }
+</script>
+</html>

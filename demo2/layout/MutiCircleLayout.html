@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../../lib/twaver.js"></script>
+	<script type="text/javascript">
+		var box =  new twaver.ElementBox();
+		var network = new twaver.vector.Network(box);
+		var springLayouter;
+		var colorsInner = ["#ffd4c9", "#f9a9b7", "#fcbfc2", "#f7919f", "#e08296", "#f92900", "#cc1827", "#dd688b", "#e8929f", "#c96650", "#ef7087", "#fcc1b0", "#c64f37", "#cc1e41", "#f40247", "#a3320d", "#e28076", "#ef561f"];
+
+		var colorsEx = ["#a7f99f", "#92c7ef", "#86f9d9", "#f97570", "#ebf981", "#96f7a0", "#ffb2c0", "#87ffe7", "#80f2d7", "#ed8a7b", "#ed7dda", "#ef9ee3", "#d79bef", "#fcd3c2", "#c0f78a", "#bbbbf9", "#7cacea", "#d5f490", "#c0bcff", "#f47cd0", "#73efad", "#76fcdd", "#ff8a7f", "#b36ce2", "#a6f9a2", "#878cf2", "#8fa0e8"];
+		// var colorsEx = ["#058744", "#ea07aa", "#037c72", "#d613c2", "#819607", "#d60ca3", "#aa10c9", "#5b8e08", "#048c55", "#0b8c50", "#0e9122", "#1b067a", "#0daa73", "#990d45", "#050b77", "#5b0f96", "#a51401", "#069b7d", "#b24007", "#360172", "#c605b3", "#e0af0d", "#9e1c00", "#150982", "#0d893b", "#e809a1", "#c40963"];
+
+		// var colorsEx = ["#ffcb9b", "#bc6116", "#dd895f", "#edd282", "#e09257", "#e8b65a", "#ffbb91", "#b57a27", "#f4a25a", "#edca80", "#dda411", "#ffc78c", "#f4c073", "#f7e4af", "#c99d1a", "#dba06f", "#b27e2a", "#ea6325"];
+
+		var reqJson = {
+			"startTime":14523264552, 
+			"endTime": 145455215665,
+			"onThreatIP":"192.168.1.66",
+		}
+
+		var resJson = {
+			"returnResult": true,
+			"errorDesc": "",
+			"data":[
+			{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.1",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.2",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.3",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.4",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.5",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.6",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.7",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.8",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.9",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.10",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.11",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.12",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.13",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.14",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.15",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.16",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.17",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.18",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.19",
+				"Area" : "External",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},{
+				"IPAddress" : "1.1.1.20",
+				"Area" : "External",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.1",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.2",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.3",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.4",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.5",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.6",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.7",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.8",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.9",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.10",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.11",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.12",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.13",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.14",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.15",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.16",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.17",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.18",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			{
+				"IPAddress" : "2.1.1.19",
+				"Area" : "Interior",
+				"Event" : "Flow"
+			},
+			{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},{
+				"IPAddress" : "2.1.1.20",
+				"Area" : "Interior",
+				"Event" : "None"
+			},
+			] 
+		};
+
+		var allExnetNodes = new twaver.List();
+		var oldtarget;
+		function init() {
+			initListener();
+			registerImage();
+			initNetwork();
+			initDataBox();
+			layout();
+		}
+
+		function initNetwork() {
+			var view = network.getView();
+			document.body.appendChild(view);
+			network.adjustBounds({x:0,y:20,width:1300,height:700});
+			network.getView().style.backgroundColor="#606060";
+
+
+			function findDimensions() {
+				if (window.innerWidth)
+					winWidth = window.innerWidth;
+				else if ((document.body) && (document.body.clientWidth))
+					winWidth = document.body.clientWidth;
+				if (window.innerHeight)
+					winHeight = window.innerHeight;
+				else if ((document.body) && (document.body.clientHeight))
+					winHeight = document.body.clientHeight;
+				if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth) {
+					winHeight = document.documentElement.clientHeight;
+					winWidth = document.documentElement.clientWidth;
+				}
+			}
+
+			findDimensions();
+			network.adjustBounds({x: 0, y: 0, width: winWidth, height: winHeight});
+			window.onresize = function (e) {
+				findDimensions();
+				network.adjustBounds({x: 0, y: 0, width: winWidth, height: winHeight});
+			};
+		}
+
+
+		function initListener() {
+			network.getView().addEventListener('mousemove', function(e){
+			});
+		}
+
+		function layout() {
+			roundLayout();
+			network.zoomOverview();
+		}
+
+		function initDataBox() {
+			var net = new twaver.Group({
+				id:'intranet',
+				styles:{
+					'group.shape':'circle',
+					'group.shape.roundrect.radius':18,
+					'group.fill.color': 'rgba(108,121,133,1)',
+					'group.deep': 0,
+					'group.outline.width': 2,
+					'group.outline.color': '#67c5d7',
+					'select.style':'none',
+					'vector.outline.pattern': [12,12],
+					'label.font':'20px "Microsoft Yahei"',
+					'label.yoffset':25,
+					'label2.font':'20px "Microsoft Yahei"',
+					'label2.yoffset':-5,
+					'whole.alpha': 0.8,
+					'group.padding.bottom':20,
+					'label.position':'top.top',
+					'label.color':'#a6a6a6',
+					'label2.color':'#a6a6a6',
+				},
+			});
+			net.setExpanded(true);
+			box.add(net);
+
+			var center = new twaver.Node({
+				id:reqJson.onThreatIP,
+				location:{x:600 ,y: 200},
+				styles:{
+					'body.type':'vector',
+					'vector.fill':true,
+					'vector.shape':'circle',
+					'vector.fill.color':colorsEx[0],
+				},
+				clients:{
+					'center':true,
+				}
+			});
+			net.addChild(center);
+			box.add(center);	
+
+			resJson.data.forEach(function(data){
+				var node = new twaver.Node({
+					clients:{
+						'net':'inner',
+					},
+					styles:{
+						'body.type':'vector',
+						'vector.fill':true,
+						'vector.shape':'circle',
+						'whole.alpha':0
+
+					}
+				});
+				
+				var l = node.getCenterLocation();
+				
+				if(data.Area === 'Interior'){
+					net.addChild(node);
+					box.add(node);
+				}else{
+					// allExnetNodes.add(node);
+				}
+
+				// var link = new twaver.Link({
+				// 	styles:{
+				// 		'link.width':0.2,
+				// 		'arrow.to':true,
+				// 	}
+				// },center, node);
+
+				var link = new FlowLink({
+					styles:{
+						'link.label.rotatable': true,
+						'link.icons.rotatable': [true],
+						'link.width': 0.001,
+						'link.color': 'blue',
+						'arrow.to': true,
+						'arrow.to.fill': true,
+						'arrow.to.width': 8,
+						'arrow.to.height': 8,
+						'arrow.to.color': 'orange',
+					},
+					clients:{
+						'arrow.glow':false,
+						'arrow.glow.tail':50,
+						'arrow.glow.shadow': false,
+						'arrow.glow.shadow.blur': 5,
+						// 'arrow.glow.shadow.color': '#CD3700',
+						// 'arrow.glow.color': '#CD3700',
+						'box':box,
+					},
+				},center,node);
+				link.setAnimate(3000);
+				
+				box.add(link);
+				node.setClient('link',link);
+			});
+		}
+
+		function random(min, max) {
+			return Math.floor(min + Math.random() * (max - min));
+		}
+
+		function roundLayout() {
+			var datas = box.getDatas().toArray();
+			var size = box.getDatas().toArray().length;
+			if (window.innerWidth)
+				winWidth = window.innerWidth;
+			else if ((document.body) && (document.body.clientWidth))
+				winWidth = document.body.clientWidth;
+			if (window.innerHeight)
+				winHeight = window.innerHeight;
+			else if ((document.body) && (document.body.clientHeight))
+				winHeight = document.body.clientHeight;
+			winWidth = 1500;
+			winHeight = 510;
+			var centerX = winWidth / 2;
+			var centerY = winHeight / 2;
+			var radius = 0;
+			var N = 0; 
+
+			var intranet = box.getDataById('intranet');
+			var allIntranetNodes =  intranet.getChildren();
+			var allExceptCenterNodes = new twaver.List();
+
+			var onThreatIP = reqJson.onThreatIP;
+			var center = box.getDataById(onThreatIP);
+			center && center.setCenterLocation(centerX,centerY);
+			N = intranet.getChildrenSize() - 1;
+
+			allIntranetNodes.forEach(function(node){
+				if(node.getId() !== onThreatIP) {
+					allExceptCenterNodes.add(node);
+				}
+			});
+
+			var radius = 100,
+			dr = 50,
+			distance = 70,
+			layoutedSum = 0;
+
+			var handle_layout = function(nodes,startIndex,count,radius, ring, inner) {
+				var weekNum =   N - layoutedSum  < count  ? N - layoutedSum : count;
+				var weekNum = count;
+				for(var j = startIndex; j< count + startIndex; j++){
+					var node = nodes.get(j);
+					if(j > N ) return;
+					if(node instanceof twaver.Node && node.getId() !== onThreatIP){
+						var x = centerX + (radius * Math.cos(Math.PI * 2 /weekNum  * j + Math.PI * 2 /5 *ring + 30 * ring));
+						var y = centerY + (radius * Math.sin(Math.PI * 2 /weekNum  * j + Math.PI * 2 /5 *ring + 30 * ring));
+
+				// var x = centerX + (radius * Math.cos(Math.PI * 2 /weekNum  * j + 30 * ring));
+				// var y = centerY + (radius * Math.sin(Math.PI * 2 /weekNum  * j + 30 *ring));
+
+				node.setCenterLocation(x, y);
+				// node.s('vector.fill.color',colorsEx[ring+1]);
+				// var link = node.getClient('link');
+				// link && link.s('link.color',colorsEx[ring+1]).s('arrow.to.color',colorsEx[ring]);
+
+				node.s('vector.fill.color',colorsEx[j - startIndex ]);
+				var link = node.getClient('link');
+				if(link){
+					link.s('link.color',colorsEx[j - startIndex]);
+					link.s('arrow.to.color',colorsEx[j - startIndex]);
+				}
+
+			}
+		}
+
+		layoutedSum += count;
+		startIndex += count;
+
+		if(layoutedSum < N) {
+			ring += 1;
+			radius += dr;
+			var sum = inner ?  count : parseInt(2 * Math.PI * radius / distance);
+			handle_layout(nodes,startIndex, sum, radius,ring,inner);
+		}else{
+			return;
+		}
+	} 
+	var sum = parseInt(2 * Math.PI * radius / distance);
+	var startIndex = 0;
+	var ring = 0;
+	handle_layout(allExceptCenterNodes,startIndex, 5, radius,ring,true);			    
+
+	var moveElementsToCenter = function(){
+		var intranet = box.getDataById('intranet');
+		var bounds = twaver.Util.getElementsBounds(allIntranetNodes);
+		var viewRect = network.getViewRect();
+		var dx = viewRect.x + viewRect.width/2 - bounds.x - bounds.width/2;
+		var dy = viewRect.y + viewRect.height/2 - bounds.y - bounds.height/2;
+		twaver.Util.moveElements(allIntranetNodes,dx,dy);
+	}
+	
+	var bounds = twaver.Util.getElementsBounds(allIntranetNodes);
+	var paddingH = (2/5*winWidth - bounds.width)/2 < 0 ? 2 : (2/5*winWidth - bounds.width)/2;
+	var paddingV = (1/2*winHeight - bounds.height)/2 < 0 ? 2 : (1/2*winHeight - bounds.height)/2;
+
+	intranet.s('group.padding.bottom',paddingV).
+	s('group.padding.top',paddingV).
+	s('group.padding.left',paddingH).
+	s('group.padding.right',paddingH);
+
+	var rect = network.getElementUI(intranet).getZoomBodyRect();
+
+	var radius1 = Math.sqrt(rect.width*rect.width+rect.height*rect.height)/2  ,
+	dr1 = 50,
+	distance1 = 70;
+	N = allExnetNodes.size();
+
+	var sum1 = parseInt(2 * Math.PI * radius1 / distance1);
+	var startIndex1 = 0;
+	layoutedSum = 0;
+	ring = 0;
+	// handle_layout(allExnetNodes,startIndex1, 4, radius1,ring,true);
+
+	N = allExnetNodes.size();
+	var c = N/20;
+	var n = parseInt(N / c);
+	var rect = network.getElementUI(intranet).getZoomBodyRect();
+	radius = Math.sqrt(rect.width/2 * rect.width/2 + rect.height/2 * rect.height/2);
+	i = 0;
+	allExnetNodes.forEach(function (data) {
+		if (data instanceof  twaver.Node && data.getId() !== reqJson.onThreatIP) {
+			var e = parseInt(i / n);
+			var x = centerX + (radius * Math.pow(1.05, e) * Math.cos(Math.PI * 2 / n * i + 1.5 * e));
+			var y = centerY + (radius * Math.pow(1.05, e) * Math.sin(Math.PI * 2 / n * i + 1.5 * e));
+			i++;
+			data.setCenterLocation(x, y);
+			data.setClient('level', e);
+			data.s('vector.fill.color',colorsEx[e]);
+			var link = data.getClient('link');
+			if(link){
+				link.s('link.color',colorsEx[e]);
+				link.s('arrow.to.color',colorsEx[e]);
+				link.setClient('arrow.glow.shadow.color', colorsEx[e]);
+				link.setClient('arrow.glow.color',colorsEx[e]);
+			}
+		}
+	});
+
+
+	// moveElementsToCenter();
+	springLayouter = new twaver.layout.SpringLayouter(network);
+	springLayouter._stepCount = 5;
+	_twaver.callLater(function(){
+		network.zoomOverview();
+		// springLayouter.start();
+		box.forEach(function(data){
+			if(data instanceof FlowLink){
+				data.playAnimate();
+			}
+		})
+	});
+}
+
+function registerImage() {
+	twaver.Util.registerImage('circle_threat', {
+    v: [
+    {
+      shape: 'circle',
+      r: 0,
+      rel: true,
+      alpha: 1,
+      fill: 'red',
+      gradient: function (data) {
+        return {
+          type: 'radial',
+          r: data._animates[0].r.current * data.getWidth(),
+          fx: 0,
+          fy: 0,
+          stop: [
+          {
+            offset: 1,
+            color: 'red'
+          },
+          {
+            offset: 0.5,
+            color: 'rgba(255, 255, 255, 0)'
+          },
+          {
+            offset: 0,
+            color: 'rgba(255, 255, 255, 0)'
+          }
+          ]
+        };
+      },
+      animate: [
+      {
+        attr: 'r',
+        from: 0,
+        to: 1,
+        // repeat: Number.POSITIVE_INFINITY,
+        reverse: false,
+        dur: 2000,
+        interval: 400,
+        easing: 'easeOut'
+      },
+      {
+        attr: 'alpha',
+        from: 1,
+        to: 0,
+        // repeat: Number.POSITIVE_INFINITY,
+        reverse: false,
+        delay: 2000,
+        dur: 400,
+      }
+      ]
+    },
+    {
+      shape: 'circle',
+      r: function(data) {
+        if(!data.getSize){
+          return 0;
+        }
+
+        var w = data.getWidth();
+        var h = data.getHeight();
+        return Math.min(w,h)/4;
+      },
+      fill: '<%=getClient("bodyColor") || "#8ABA28"%>',
+      rel: true,
+      alpha: 1,
+    },
+    ]
+  });
+}
+
+
+function FlowLink () {
+	FlowLink.superClass.constructor.apply(this, arguments);
+}
+
+twaver.Util.ext(FlowLink, twaver.Link, {
+	curentTime:function(){ 
+		var now = new Date();
+		var year = now.getFullYear();       
+		var month = now.getMonth() + 1;     
+		var day = now.getDate();            
+		var hh = now.getHours();            
+		var mm = now.getMinutes();          
+
+		var clock = year + "-";
+
+		if(month < 10)
+			clock += "0";
+
+		clock += month + "-";
+
+		if(day < 10)
+			clock += "0";
+
+		clock += day + " ";
+
+		if(hh < 10)
+			clock += "0";
+
+		clock += hh + ":";
+		if (mm < 10) clock += '0'; 
+		clock += mm; 
+		return(clock); 
+	} ,
+	getVectorUIClass: function() {
+		return FlowLinkUI;
+	},
+	playAnimate:function(dur){
+		var time = this.curentTime();
+		this.setClient('time',time);
+		this.animate.play();
+	},
+	setAnimate:function(dur) {
+		var dur = dur || 1200;
+		var self = this;
+		var fNode, tNode;
+		this.animate = new twaver.Animate({
+			from: 0,
+			to: 1,
+			repeat: 1,
+			reverse: false,
+			dur: dur,
+			onPlay: function() {
+				self.setClient('arrow.glow',true);
+			},
+			onUpdate: function (value) {
+				self.setClient('arrow.glow.percent',value);
+				network.invalidateElementUIs();
+			},
+			onDone: function () {
+				self.setClient('arrow.glow',false);
+				var toNode = self.getToNode();
+				console.log(toNode);
+				toNode.s('whole.alpha',1);
+			}
+		});
+	}
+});
+
+function FlowLinkUI () {
+	FlowLinkUI.superClass.constructor.apply(this, arguments);
+}
+
+twaver.Util.ext(FlowLinkUI, twaver.vector.LinkUI, {
+	paintBody:function(ctx){
+		var link = this._element;
+		FlowLinkUI.superClass.paintBody.call(this,ctx);
+
+
+		if (link.getClient('arrow.glow')) {
+
+			var points = new twaver.List();
+			points.add(this.getFromPoint());
+			points.add(this.getToPoint());
+
+			var f = this.getFromPoint();
+			var t = this.getToPoint();
+			var factor = link.getClient('factor') || 1;
+
+			var lineLength = _twaver.math.getDistance(f, t);
+			var offset = -lineLength / 5;
+			var m = {
+				x: (f.x + t.x) / 2 - offset ,
+				y: (f.y + t.y) / 2 + offset + Math.pow(-1,factor)*factor * 20
+			}
+			var cps = new twaver.List();
+			cps.add(m);
+			cps.add(t);
+
+			points.removeAt(1);
+			points.add(cps);
+
+			var fillColor = link.getClient('arrow.glow.color');
+			var shadowColor = link.getClient('arrow.glow.shadow.color');
+			var tail = link.getClient('arrow.glow.tail');
+			var percent = link.getClient('arrow.glow.percent');
+			var paths = points;
+			var offset = this.getLineLength() * percent;
+			var point;
+
+			for (var i = 0, count = tail; i < count; i++) {
+				var v = i / count;
+				point = _twaver.math.calculatePointInfoAlongLine(paths, true, offset - (count - i)*1.5, 0).point;
+				ctx.globalAlpha = v * v;
+				ctx.shadowBlur = 2;
+				ctx.shadowColor = shadowColor;
+				ctx.beginPath();
+				ctx.fillStyle = fillColor;
+				ctx.arc(point.x, point.y, 6, 0, Math.PI * 2, false);
+				ctx.fill();
+			}
+		}
+
+  // var tail = link.getClient('arrow.from');
+  // if(!tail) return;
+
+  // var points = new twaver.List();
+  // points.add(this.getFromPoint());
+  // points.add(this.getToPoint());
+
+  // var f = this.getFromPoint();
+  // var t = this.getToPoint();
+  // var factor = link.getClient('factor') || 1;
+
+  // var lineLength = _twaver.math.getDistance(f, t);
+  // var offset = -lineLength / 5;
+  // var m = {
+  //   x: (f.x + t.x) / 2 - offset ,
+  //   y: (f.y + t.y) / 2 + offset + Math.pow(-1,factor)*factor * 20
+  // }
+  // var cps = new twaver.List();
+  // cps.add(m);
+  // cps.add(t);
+
+  // points.removeAt(1);
+  // points.add(cps);
+
+  // var width = 0.000001;
+  // var pattern = link.getStyle('link.pattern');
+  // this.drawLinePoints(ctx, points, width, this._innerColor || link.getStyle('link.color'), pattern);
+  // this.drawFromArrow(this, ctx, points, this._network.zoomManager);
+},
+drawFromArrow : function (ui, g, points, zoomManager) {
+	var link = ui._element;
+
+	var arrowBodyFill = link.getStyle('arrow.from.fill');
+	var arrowOutlineWidth = link.getStyle('arrow.from.outline.width');
+	var arrowShadowColor = link.getClient('arrow.from.shadow.color');
+	if (arrowBodyFill || arrowOutlineWidth >= 0) {
+		var arrowWidth = link.getStyle('arrow.from.width');
+		var arrowHeight = link.getStyle('arrow.from.height');
+		var arrowXOffset = link.getClient('arrow.from.xoffset');
+
+		if (arrowXOffset > 0 && arrowXOffset < 1) {
+			var lineLength;
+			if (ui.getLineLength) {
+				lineLength = ui.getLineLength();
+			} else {
+				lineLength = ui._element.getLineLength();
+			}
+			arrowXOffset *= lineLength;
+		} else if (ui.getLineLength) {
+			arrowXOffset += _twaver.arrow.calculateArrowXOffsetAtEdge(points, ui, true, zoomManager);
+		}
+
+		var arrowYOffset = link.getStyle('arrow.from.yoffset');
+    // var arrowStyle = link.getStyle('arrow.from.shape');
+    var arrowStyle = link.getClient('arrow.from.shape') || 'arrow.tail';
+
+    arrowXOffset = ui._network._edgeDetect? 0:arrowXOffset;
+    arrowYOffset = ui._network._edgeDetect? 0:arrowYOffset;
+    if(zoomManager){
+    	arrowXOffset *= zoomManager.getLocationZoom();
+    	arrowYOffset *= zoomManager.getLocationZoom();
+    }
+    _twaver.arrow.drawArrow(g, arrowWidth, arrowHeight, points, true, arrowStyle, arrowBodyFill,
+    	link.getClient('arrow.from.color'), arrowXOffset, arrowYOffset, arrowOutlineWidth, link.getStyle('arrow.from.outline.color'), ui);
+}
+},
+});
+
+</script>
+</head>
+<body onload="init()">
+</body>
+</html>

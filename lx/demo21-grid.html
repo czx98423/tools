@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    <div id="main"></div>
+</body>
+<script type="text/javascript">
+var box = new twaver.ElementBox(); 
+var network = new twaver.vector.Network(box);
+ function init() { initNetwork(); initDataBox(); } 
+ function initNetwork() { var view = network.getView(); 
+	document.body.appendChild(view); 
+	network.adjustBounds({x: 0, y: 0, width: 1300, height: 600}); } 
+	function initDataBox() { 
+		var grid = new twaver.Grid(); 
+		grid.setName("Grid"); 
+		grid.s('grid.border', 1); 
+		grid.s('grid.deep', 1); 
+		grid.s('grid.column.count', 4); 
+		grid.s('grid.row.count', 4); 
+		grid.setSize(250, 200); 
+		grid.setLocation(20, 30); 
+		grid.s("grid.fill", true); 
+		grid.s("grid.fill.color", '#61b6d8'); 
+		box.add(grid); 
+		var slot = new twaver.Grid(); 
+		slot.setName("Slot"); 
+		slot.s('body.type', 'vector'); 
+		slot.s('vector.shape', 'circle'); 
+		slot.s('vector.gradient', 'radial.southwest'); 
+		slot.s('vector.fill.color', '#ec6c00'); 
+		slot.setHost(grid); 
+		slot.setParent(grid); 
+		slot.s('follower.row.index', 2); 
+slot.s('follower.column.index', 1); box.add(slot); }
+</script>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    <div id="main"></div>
+</body>
+<script>
+  // var network = new twaver.vector.Network(); 相同
+  // var box = network.getElementBox();
+  var box=new twaver.ElementBox();
+  var network=new twaver.vector.Network(box); 
+function init() { 
+  initNetwork(); 
+  initBox(); 
+} 
+function initNetwork(){ 
+  //var view = network.getView(); 
+ // document.body.appendChild(view); 
+  var networkDom = network.getView();
+  document.getElementById("main").appendChild(networkDom);
+  
+  network.adjustBounds({x: 0, y: 0, width: 1600, height: 800}); 
+  network.getAlarmLabel = function(element){
+
+            var severity = element.getAlarmState().getHighestNewAlarmSeverity();
+            if (severity) {
+              var label = element.getAlarmState().getNewAlarmCount(severity) + severity.nickName;//警告个数+警告类型
+              console.log(element.getAlarmState().getNewAlarmCount(severity))
+              if (element.getAlarmState().hasLessSevereNewAlarms()) {
+                label += "+";
+            }
+      console.log(label)
+      label = "<p><div><font color=red size=+6>"
+         + label +
+          "</font></div></p>";
+      return label
+    } 
+    return null
+  }
+} 
+function initBox() {
+  var htmlNode=new twaver.HTMLNode({name:
+  "<p><div style='background:rgba(200,200,200,0.6)'><p>In case you thought that TWaver label had to be" 
+    + "boring, one line descriptions, the " 
+    +"<font color=yellow size=+2>TWaver Team</font>" 
+    + "is happy to shatter your illusions." 
+    + "In TWaver, they can use HTML to " 
+    + "</p><ul></p><li>Have Lists<li><b>Bold</b> " 
+    + "text<li><em>emphasized</em> " 
+    +"text<li>text with <font color=red>Color</font>" 
+    +"<li>text in different <font size=+3>sizes</font>" 
+    + "<li>and <font face=AvantGarde>Fonts</font></ul><p>" 
+    +"Oh, and they can be multi-line, too.</div></p>",
+    location:{x:600,y:200}})
+    box.add(htmlNode)
+
+for(var i=0;i<10;i++){
+        var htmlNode = new twaver.HTMLNode({
+          width:95,
+          height:95,
+          name:"<image src='../demo2/images/run.gif' style='width:100px;height:100px'/>;",
+          location:{x: 100 + 50*i, y:200+ i%2 * 100}
+        });
+        box.add(htmlNode);
+        htmlNode.setStyle('label.position','center');
+      }
+    addAlarm("alarm2",htmlNode.getId(),twaver.AlarmSeverity.MAJOR, box.getAlarmBox())
+}
+function addAlarm(alarmID, elementID, alarmSeverity, alarmBox) {
+  var alarm = new twaver.Alarm(alarmID, elementID, alarmSeverity);
+  alarmBox.add(alarm);
+}
+</script>
+</html>

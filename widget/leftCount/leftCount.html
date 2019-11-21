@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+.statistics-box{
+    position: relative;
+    width: 266px;
+    height: 81px;
+    background:url("./big-panel.png") ;
+    opacity: 0.85;
+}
+.statistics-box>div{
+    position: absolute;
+    height: 44px;
+}
+
+.bg-num{
+    background: url("./dark-num.png") no-repeat;
+}
+.statistics-title{
+    margin-left: 10px;
+}
+.statistics-title>div{
+    font-size: 26px;
+    color: #20adf3;
+    display: inline-block;
+    margin-left: 5px;
+}
+.statistics-title>div{
+    vertical-align: text-bottom;
+}
+.statistics-box>div:first-child{
+    left:15px;
+    color: #e1f4fb;
+    font-size: 24px;
+    top:25px;  
+}
+.statistics-box>div:nth-child(2){
+    left:155px;
+    top:15px; 
+    display: flex; 
+}
+.statistics-box>div:nth-child(3){
+    left:233px;
+    top:15px; 
+    width: 18px;
+    color: #e1f4fb;
+    font-size: 18px;
+    line-height: 98%;
+}
+#companyInfoPanel_left{
+    margin-top: 60px;
+    margin-left: 30px;
+    position: relative;
+}
+#companyInfoPanel_left>div{
+    transform: scale(0.85);
+    transform-origin: left top;
+    position: absolute;
+}
+#companyInfoPanel_left>div:nth-child(2){
+    top:250px;
+}
+#companyInfoPanel_left>div:nth-child(3){
+    top:500px;
+}
+body{
+    background-color: #2e5d8c;
+}
+.boat{
+ position: relative;
+ height: 32px;
+ width: 32px;
+ overflow: hidden;
+}
+.boat>img{
+    position: absolute;
+}
+.boat>img:first-child{
+}
+.boat>img:last-child{
+    top:26px;
+    animation: leftright 2s linear infinite normal;
+}
+@keyframes leftright{
+    0%{
+        left:-4px;
+    }
+    25%{
+        left:-8px;
+    }
+    50%{
+        left:-12px;
+    }
+    75%{
+        left:-16px;
+    }
+    100%{
+        left: -22px
+    }
+}
+</style>
+<script src="../js/countUp.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="./statistics.js"></script>
+<body>
+    <div id="companyInfoPanel_left">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <img src="./4.png" alt="">
+    <!-- <div class="boat">
+        <img src="./boat.png" alt="">
+        <img src="./wave.png" alt="">
+    </div> -->
+</body>
+<script>
+//     $("#companyInfoPanel_left").tongji({
+//         title:"2018年度",
+//         text1:"年输油总量",
+//         text2:"年收油总量",
+//         text3:"年船次",
+//         input:890.21,
+//         output:669.9,
+//         saillings:289
+// })
+var i=1
+for(var div of $("#companyInfoPanel_left").children()){
+    
+    i++
+    $(div).tongji({
+        title:"2018年度",
+        text1:"年输油总量",
+        text2:"年收油总量",
+        text3:"年船次",
+        output:669.9+i,
+        input:890.21,
+        saillings:289
+})
+}
+
+</script>
+</html>

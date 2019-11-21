@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.591px" height="252.284px" viewBox="0 0 1275.591 252.284" enable-background="new 0 0 1275.591 252.284"
+	 xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="637.7949" y1="252.2842" x2="637.7949" y2="4.882813e-004">
+	<stop  offset="0" style="stop-color:#414459"/>
+	<stop  offset="0.8979" style="stop-color:#555A7C"/>
+	<stop  offset="1" style="stop-color:#6C71A3"/>
+</linearGradient>
+<rect fill="url(#SVGID_1_)" width="1275.59" height="252.284"/>
+<rect y="6.969" fill="#0A090A" width="1275.59" height="3.97"/>
+<rect y="95.671" fill="#414459" width="1275.59" height="3.97"/>
+<g>
+	<path fill="#272828" d="M280.889,252.284l31.786-118.392c0,0,4.793-13.741,22.956-14.23c18.163-0.488,939.959-0.218,939.959-0.218"
+		/>
+	<polygon fill="#272828" points="1275.59,252.284 298.548,252.284 340.928,119.369 1275.59,119.369 	"/>
+</g>
+<g>
+	<path fill="#424544" d="M289.823,252.284l31.5-112.607c0,0,4.75-13.07,22.75-13.535s931.517-0.207,931.517-0.207"/>
+	<polygon fill="#424544" points="1275.59,252.284 307.323,252.284 349.323,125.862 1275.59,125.862 	"/>
+</g>
+<path fill="#343535" d="M93.475,33.603H0v35.334h93.475c2.131,0,3.858-1.728,3.858-3.858c0,0-2.001-10.275-2.001-13.809
+	s2.001-13.809,2.001-13.809C97.333,35.33,95.606,33.603,93.475,33.603z"/>
+<g>
+	<radialGradient id="SVGID_2_" cx="150.6113" cy="45.2666" r="46.9838" gradientUnits="userSpaceOnUse">
+		<stop  offset="0.3386" style="stop-color:#414459"/>
+		<stop  offset="0.5161" style="stop-color:#42455B"/>
+		<stop  offset="0.5801" style="stop-color:#454860"/>
+		<stop  offset="0.6255" style="stop-color:#4B4F6A"/>
+		<stop  offset="0.6622" style="stop-color:#535878"/>
+		<stop  offset="0.6693" style="stop-color:#555A7C"/>
+		<stop  offset="1" style="stop-color:#676B9A"/>
+		<stop  offset="1" style="stop-color:#6C71A3"/>
+	</radialGradient>
+	<circle fill="url(#SVGID_2_)" stroke="#192040" stroke-width="0.1" stroke-miterlimit="10" cx="155.611" cy="51.267" r="33.292"/>
+	<g>
+		<circle fill="#EAEAEA" cx="155.611" cy="50.963" r="27.979"/>
+		<g>
+			<path fill="#94B361" d="M142.367,26.916c0,0,6.595-5.318,20.85-2.979c0,0,10.212,3.191,14.468,9.148
+				c0,0-14.042-7.021-21.914-6.808C155.771,26.278,144.282,26.703,142.367,26.916z"/>
+			<path fill="#D3E4B9" d="M129.389,39.788c0,0,4.361-8.404,12.978-12.872c0,0,16.903-2.412,24.355,1.613
+				c0,0,8.941,3.067,10.963,5.089c0,0-9.681-6.659-27.659-5.404C150.026,28.214,137.474,28.618,129.389,39.788z"/>
+			<path fill="#828FC2" d="M128.325,42.767c0,0,0.434-2.146,1.064-2.979c0.629-0.834,7.872-11.617,23.616-11.713
+				c0,0,11.275-1.372,24.68,5.543c0,0,1.276,0.744,2.34,2.34c0,0,0.213,2.341-4.148,0.532c0,0-10.106-4.468-18.084-4.361
+				c0,0-7.293-0.726-17.126,2.553C140.666,34.682,129.815,39.043,128.325,42.767z"/>
+			<path fill="#8DB289" d="M127.581,46.915c0,0-0.213-2.732,0.745-4.148c0,0,8.511-9.775,23.829-10.525
+				c0,0,11.192-1.128,21.818,3.476c0,0,7.754,5.135,9.031,5.986c0,0-11.808-6.489-24.147-6.915c0,0-10.545-0.713-16.489,0.577
+				C142.367,35.365,129.389,37.447,127.581,46.915z"/>
+			<path fill="#E8EAA0" d="M127.561,48.191c0,0,1.276-13.68,22.57-13.573c0,0,18.651,0.011,25.496,3.813
+				c0,0,5.249,1.676,7.376,4.335c0,0,0.852,2.127,1.17,4.787c0,0-6.595-5.384-17.978-6.149c0,0-7.232-1.51-12.02-0.872
+				c0,0-6.384,0.532-7.235,0c0,0-4.574-0.76-2.66-5.167C144.282,35.365,131.051,35.214,127.561,48.191z"/>
+			<path fill="#CFD97D" d="M184.174,52.766c0,0-3.298-5.744-21.276-6.808c0,0-8.191,0-10.744,1.489c0,0-3.404,2.34-2.979,5.318
+				c0,0,0.319,3.667,3.936,4.493c0,0,5.495,1.465,13.545,0.933c0,0,9.327-0.482,11.773-0.933
+				C178.429,57.259,182.259,56.489,184.174,52.766z"/>
+			<path fill="#868FC1" d="M127.561,48.191c0,0,3.849-7.988,13.955-8.675c0,0,6.491-2.069,12.66,1.016c0,0,2.213,1.915,1.691,4.681
+				c0,0-1.054,4.468-4.99,4.787c0,0-5.744,1.396-10.638,0.911C140.24,50.911,130.732,51.596,127.561,48.191z"/>
+			<path fill="#443E8C" d="M127.049,54.043c0,0,6.17,2.553,16.914,2.127l21.169,1.089c0,0,4.574-0.344,6.063,3.592
+				c0,0,0.851,3.617-1.809,5.106c0,0-4.785,2.233-15.211,1.809c0,0-11.49-0.213-15.532-1.809
+				C138.644,65.957,129.496,64.361,127.049,54.043z"/>
+			<path fill="#433C6D" d="M132.687,65.638c0,0,5.957,7.446,17.021,6.915c0,0,9.148,0.105,13.616-0.639c0,0,2.197-0.371,3.333,0.666
+				c0,0,0.497,2.1-1.95,2.525c0,0-6.383,2.021-11.17,1.383c0,0-12.74-0.682-14.254-3.724
+				C139.282,72.765,132.823,68.286,132.687,65.638z"/>
+			<path fill="#B0B969" d="M132.687,61.489c0,0,24.786,6.595,39.892,0.531c0,0,9.255-2.929,10.851-4.762
+				c0,0-5.213,9.868-11.489,11.145c0,0-12.552,2.997-19.467,2.722c0,0-10.425,1.428-19.786-6.231
+				C132.687,64.894,130.559,62.34,132.687,61.489z"/>
+		</g>
+	</g>
+	<path fill="#EAEAEA" d="M145.573,44.692c0,0.699-0.566,1.266-1.266,1.266h-0.674c-0.699,0-1.266-0.566-1.266-1.266l0,0
+		c0-0.699,0.567-1.266,1.266-1.266h0.674C145.006,43.427,145.573,43.993,145.573,44.692L145.573,44.692z"/>
+	<path fill="#EAEAEA" d="M150.271,43.899c-0.495,0.495-1.296,0.495-1.79,0.001l-0.477-0.478c-0.494-0.493-0.495-1.295,0-1.79l0,0
+		c0.494-0.494,1.296-0.493,1.79,0.001l0.477,0.477C150.765,42.604,150.765,43.405,150.271,43.899L150.271,43.899z"/>
+</g>
+<path fill="#343535" d="M1275.59,71.126H211.823c0,0,4.705-9.741,4.536-18.762c-0.185-9.896-4.536-18.762-4.536-18.762H1275.59
+	V71.126z"/>
+<rect x="1034.321" y="49.426" fill="#6B6B6B" width="12.08" height="6.666"/>
+<rect x="999.169" y="49.426" fill="#6B6B6B" width="12.08" height="6.666"/>
+<rect x="1073.207" y="49.426" fill="#6B6B6B" width="12.08" height="6.666"/>
+<rect x="1109.091" y="49.426" fill="#6B6B6B" width="12.08" height="6.666"/>
+<rect x="1145.976" y="49.426" fill="#6B6B6B" width="12.08" height="6.666"/>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="393.142,173.924 393.142,164.424 
+	412.498,164.424 "/>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="459.486,173.924 459.486,164.424 
+	440.13,164.424 "/>
+<text transform="matrix(1 0 0 1 421.8228 165.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">By</text>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="521.459,173.924 521.459,164.424 
+	540.814,164.424 "/>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="587.803,173.924 587.803,164.424 
+	568.446,164.424 "/>
+<text transform="matrix(1 0 0 1 550.1387 165.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">By</text>
+<text transform="matrix(1 0 0 1 382.686 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH11</text>
+<text transform="matrix(1 0 0 1 447.8706 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH10</text>
+<text transform="matrix(1 0 0 1 513.498 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH9</text>
+<text transform="matrix(1 0 0 1 577.9941 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH8</text>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="1013.17,173.924 1013.17,164.424 
+	1032.526,164.424 "/>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="1079.514,173.924 1079.514,164.424 
+	1060.157,164.424 "/>
+<text transform="matrix(1 0 0 1 1041.8506 165.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">By</text>
+<text transform="matrix(1 0 0 1 1005.209 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH3</text>
+<text transform="matrix(1 0 0 1 1069.7061 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH1</text>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="1133.96,173.924 1133.96,164.424 
+	1153.315,164.424 "/>
+<polyline fill="none" stroke="#767777" stroke-width="2" stroke-miterlimit="10" points="1200.304,173.924 1200.304,164.424 
+	1180.948,164.424 "/>
+<text transform="matrix(1 0 0 1 1162.6406 165.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">By</text>
+<text transform="matrix(1 0 0 1 1126 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH2</text>
+<text transform="matrix(1 0 0 1 1190.4961 182.4307)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH0</text>
+<text transform="matrix(1 0 0 1 700.1875 184.4316)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH7</text>
+<text transform="matrix(1 0 0 1 762.1719 184.4316)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH6</text>
+<text transform="matrix(1 0 0 1 824.1563 184.4316)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH5</text>
+<text transform="matrix(1 0 0 1 886.1416 184.4316)" fill="#8A8A8A" font-family="'HeitiEG-Ultra-GB'" font-size="9">ETH4</text>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="739.231" cy="196.553" r="3.418"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="739.231" cy="211.813" r="3.418"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="800.989" cy="196.553" r="3.418"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="800.989" cy="211.813" r="3.418"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="862.748" cy="196.553" r="3.418"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="862.748" cy="211.813" r="3.418"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="924.506" cy="196.553" r="3.419"/>
+<circle fill="#B7B7B6" stroke="#151515" stroke-miterlimit="10" cx="924.506" cy="211.813" r="3.419"/>
+<text transform="matrix(1 0 0 1 989.8223 83.9297)" fill="#EAEAEA" font-family="'HeitiEG-Ultra-GB'" font-size="9">BYPASS2</text>
+<text transform="matrix(1 0 0 1 1026.8223 83.9297)" fill="#EAEAEA" font-family="'HeitiEG-Ultra-GB'" font-size="9">BYPASS1</text>
+<text transform="matrix(1 0 0 1 1063.8223 83.9297)" fill="#EAEAEA" font-family="'HeitiEG-Ultra-GB'" font-size="9">STATUS</text>
+<text transform="matrix(1 0 0 1 1100.8223 83.9297)" fill="#EAEAEA" font-family="'HeitiEG-Ultra-GB'" font-size="9">ALARM</text>
+<text transform="matrix(1 0 0 1 1140.8242 83.9297)" fill="#EAEAEA" font-family="'HeitiEG-Ultra-GB'" font-size="9">POWER</text>
+</svg>

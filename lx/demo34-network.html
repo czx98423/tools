@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+        <div id="a1" style="height:800px;position: relative;width: 1300px"></div>
+        <div id="a2"></div>
+</body>
+<script type="text/javascript">
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box);
+    var toolBar=document.createElement("div")
+    var autoLayouter=new twaver.layout.AutoLayouter(box)
+  function init(){
+      initNetwork()
+      initBox()
+      initBar()
+  }
+  function initNetwork(){
+      var pane=new  twaver.controls.BorderPane(network,toolBar);
+      pane.setTopHeight(25);
+      var view=pane.getView()  
+      view.style.left = '0px';
+      view.style.top = '0px';
+      view.style.right = '0px';
+      view.style.bottom = '0px';
+      document.body.appendChild(view)
+      window.onresize=function(){
+          split.invalidate()
+      }  
+}
+   function initBox(){      
+       var node1=new twaver.Node({name:"a"});
+       node1.setLocation(100,100)
+       var node2=new twaver.Node({name:"a1"});
+       node2.setLocation(300,300)
+       var link=new twaver.Link(node1,node2)
+        box.add(node1);
+        box.add(node2);
+        box.add(link)
+   }
+   function initBar(){
+
+   }
+</script>
+
+</html>

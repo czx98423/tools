@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="226.16px" height="52.54px" viewBox="0 0 226.16 52.54" enable-background="new 0 0 226.16 52.54" xml:space="preserve">
+<g>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="3027.3291" y1="1073.5488" x2="3248.4199" y2="1073.5488" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+		<stop  offset="0" style="stop-color:#5E605F"/>
+		<stop  offset="1" style="stop-color:#474446"/>
+	</linearGradient>
+	<rect x="2.054" y="6.279" fill="url(#SVGID_1_)" width="221.091" height="46.249"/>
+	
+		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="3027.3291" y1="1052.0977" x2="3248.4199" y2="1052.0977" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+		<stop  offset="0" style="stop-color:#858586"/>
+		<stop  offset="0.4843" style="stop-color:#838384"/>
+		<stop  offset="0.7355" style="stop-color:#7D7B7E"/>
+		<stop  offset="0.9326" style="stop-color:#716E72"/>
+		<stop  offset="1" style="stop-color:#6C676D"/>
+	</linearGradient>
+	<rect x="2.054" y="6.279" fill="url(#SVGID_2_)" width="221.091" height="3.347"/>
+	
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="3060.3701" y1="1056.2041" x2="3060.3701" y2="1099.2141" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+		<stop  offset="0" style="stop-color:#106186"/>
+		<stop  offset="0.4261" style="stop-color:#40B4D4"/>
+		<stop  offset="0.4462" style="stop-color:#42B8D8"/>
+		<stop  offset="0.5669" style="stop-color:#40B5D5"/>
+		<stop  offset="0.6666" style="stop-color:#3AAACC"/>
+		<stop  offset="0.7588" style="stop-color:#3199BC"/>
+		<stop  offset="0.8464" style="stop-color:#2381A5"/>
+		<stop  offset="0.9301" style="stop-color:#126289"/>
+		<stop  offset="1" style="stop-color:#00426B"/>
+	</linearGradient>
+	<rect x="28.918" y="9.626" fill="url(#SVGID_3_)" width="12.352" height="42.902"/>
+	<g>
+		<polygon fill="#101112" points="199.146,43.267 189.631,43.267 184.943,37.654 189.848,32.313 199.193,32.313 		"/>
+		<polygon fill="#101112" points="180.467,43.267 170.949,43.267 166.264,37.654 171.166,32.313 180.512,32.313 		"/>
+		<polygon fill="#101112" points="161.787,43.267 152.27,43.267 147.582,37.654 152.486,32.313 161.832,32.313 		"/>
+		<polygon fill="#101112" points="143.105,43.267 133.588,43.267 128.902,37.654 133.807,32.313 143.152,32.313 		"/>
+		<polygon fill="#101112" points="124.426,43.267 114.908,43.267 110.221,37.654 115.125,32.313 124.471,32.313 		"/>
+		<polygon fill="#101112" points="105.745,43.267 96.229,43.267 91.541,37.654 96.445,32.313 105.789,32.313 		"/>
+		<polygon fill="#101112" points="87.064,43.267 77.548,43.267 72.86,37.654 77.764,32.313 87.109,32.313 		"/>
+		<polygon fill="#101112" points="68.385,43.267 58.866,43.267 54.18,37.654 59.084,32.313 68.43,32.313 		"/>
+		<polygon fill="#101112" points="195.549,25.671 186.031,25.671 181.344,20.058 186.248,14.717 195.594,14.717 		"/>
+		<polygon fill="#101112" points="176.867,25.671 167.35,25.671 162.662,20.058 167.568,14.717 176.912,14.717 		"/>
+		<polygon fill="#101112" points="158.188,25.671 148.67,25.671 143.982,20.058 148.887,14.717 158.232,14.717 		"/>
+		<polygon fill="#101112" points="139.508,25.671 129.99,25.671 125.303,20.058 130.207,14.717 139.551,14.717 		"/>
+		<polygon fill="#101112" points="120.826,25.671 111.309,25.671 106.621,20.058 111.526,14.717 120.871,14.717 		"/>
+		<polygon fill="#101112" points="102.146,25.671 92.629,25.671 87.941,20.058 92.846,14.717 102.191,14.717 		"/>
+		<polygon fill="#101112" points="83.465,25.671 73.947,25.671 69.261,20.058 74.165,14.717 83.51,14.717 		"/>
+		<polygon fill="#101112" points="64.785,25.671 55.268,25.671 50.58,20.058 55.484,14.717 64.83,14.717 		"/>
+		<defs>
+			<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="55.268" y="25.671" width="143.926" height="6.643">
+				<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
+				<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
+			</filter>
+		</defs>
+		<mask maskUnits="userSpaceOnUse" x="55.268" y="25.671" width="143.926" height="6.643" id="SVGID_4_">
+			<g filter="url(#Adobe_OpacityMaskFilter)">
+				<defs>
+					<filter id="Adobe_OpacityMaskFilter_1_" filterUnits="userSpaceOnUse" x="55.268" y="25.671" width="124.492" height="6.643">
+						<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
+						<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
+					</filter>
+				</defs>
+				<mask maskUnits="userSpaceOnUse" x="55.268" y="25.671" width="124.492" height="6.643" id="SVGID_4_">
+				</mask>
+				
+					<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="3142.79" y1="1069.6123" x2="3142.79" y2="1079.348" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+					<stop  offset="0" style="stop-color:#FFFFFF"/>
+					<stop  offset="1" style="stop-color:#000000"/>
+				</linearGradient>
+				<rect x="55.268" y="25.671" mask="url(#SVGID_4_)" fill="url(#SVGID_5_)" width="124.492" height="6.643"/>
+			</g>
+		</mask>
+		
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="3152.5068" y1="1069.6123" x2="3152.5068" y2="1079.348" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+			<stop  offset="0" style="stop-color:#7E7C7E"/>
+			<stop  offset="1" style="stop-color:#303133"/>
+		</linearGradient>
+		<polygon fill="url(#SVGID_6_)" points="199.193,32.313 60.105,32.313 55.268,25.671 195.549,25.671 		"/>
+		<defs>
+			<filter id="Adobe_OpacityMaskFilter_2_" filterUnits="userSpaceOnUse" x="55.268" y="43.267" width="143.697" height="6.644">
+				<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
+				<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
+			</filter>
+		</defs>
+		<mask maskUnits="userSpaceOnUse" x="55.268" y="43.267" width="143.697" height="6.644" id="SVGID_7_">
+			<g filter="url(#Adobe_OpacityMaskFilter_2_)">
+				<defs>
+					<filter id="Adobe_OpacityMaskFilter_3_" filterUnits="userSpaceOnUse" x="55.268" y="43.267" width="124.492" height="6.644">
+						<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
+						<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
+					</filter>
+				</defs>
+				<mask maskUnits="userSpaceOnUse" x="55.268" y="43.267" width="124.492" height="6.644" id="SVGID_7_">
+				</mask>
+				
+					<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="3142.79" y1="1087.208" x2="3142.79" y2="1096.9465" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+					<stop  offset="0" style="stop-color:#FFFFFF"/>
+					<stop  offset="1" style="stop-color:#000000"/>
+				</linearGradient>
+				<rect x="55.268" y="43.267" mask="url(#SVGID_7_)" fill="url(#SVGID_8_)" width="124.492" height="6.644"/>
+			</g>
+		</mask>
+		
+			<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="3152.3926" y1="1087.208" x2="3152.3926" y2="1096.9465" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+			<stop  offset="0" style="stop-color:#7E7C7E"/>
+			<stop  offset="1" style="stop-color:#303133"/>
+		</linearGradient>
+		<polygon fill="url(#SVGID_9_)" points="189.127,49.91 55.268,49.91 58.866,43.267 198.965,43.267 		"/>
+	</g>
+	
+		<linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="3137.875" y1="1051.1113" x2="3137.875" y2="1041.6696" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+		<stop  offset="0" style="stop-color:#101112"/>
+		<stop  offset="1" style="stop-color:#141416"/>
+	</linearGradient>
+	<polygon fill="url(#SVGID_10_)" points="2.054,6.271 22.125,-0.007 207.705,-0.007 223.145,6.271 	"/>
+	
+		<linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="3026.3027" y1="1098.1592" x2="3026.3027" y2="1049.8854" gradientTransform="matrix(1 0 0 1 -3025.2764 -1044.1445)">
+		<stop  offset="0" style="stop-color:#101112"/>
+		<stop  offset="1" style="stop-color:#141416"/>
+	</linearGradient>
+	<polygon fill="url(#SVGID_11_)" points="2.054,6.279 0,11.339 0,48.537 2.054,52.528 	"/>
+	
+		<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="-3639.6763" y1="1098.1592" x2="-3639.6763" y2="1049.8854" gradientTransform="matrix(-1 0 0 1 -3415.0264 -1044.1445)">
+		<stop  offset="0" style="stop-color:#101112"/>
+		<stop  offset="1" style="stop-color:#141416"/>
+	</linearGradient>
+	<polygon fill="url(#SVGID_12_)" points="223.145,6.279 226.156,11.339 226.156,48.537 223.145,52.528 	"/>
+</g>
+</svg>

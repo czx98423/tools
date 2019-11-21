@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    
+</body>
+<script>
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box);
+    function init(){
+        initNetwork();
+        initDataBox();
+    }
+    function initNetwork(){
+        var view=network.getView();
+        document.body.appendChild(view);
+        network.adjustBounds({x:0,y:0,width:1300,height:600})
+        network.getToolTip=function(element){
+            var Id=element.getId()
+            var name=element.getName();
+            var name2=element.getName2();
+            var icon=element.getIcon();
+            var clientProperty=element.getClient("clientProperty");
+            return 'Id:'+Id+' '+'name:'+name+' '+'name2:'+name2+' '+'icon:'+icon
+        }
+        twaver.Styles.setStyle("label.color","red")
+        twaver.Styles.setStyle("label2.color","green")
+        twaver.Styles.setStyle("select.color","pink")
+    }
+    function initDataBox(){
+        var node=new twaver.Node({name:"sb",name2:"mdzz",location:{x:300,y:200}})
+        box.add(node);
+        var node2=new twaver.Node({name:"sb2",name2:"mdzz2",location:{x:500,y:250}})
+        box.add(node2)
+        var link=new twaver.Link(node,node2)
+        link.setName("hello 1")
+        link.setName2("hello 2")
+        link.setClient("clientProperty",node)
+        box.add(link)
+    }
+</script>
+</html>

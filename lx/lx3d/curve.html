@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="load()">
+    <div id = "mainDiv" >
+        <canvas id="myCanvas" width="800" height="800"/>    
+    </div>
+    <div id="plu">+</div>
+    <div id="inc">-</div>
+</body>
+<style>
+#plu,#inc{
+    position: fixed;
+    top:100px;
+    border: 1px solid black;
+}
+#plu{
+    left:200px;
+}
+</style>
+<script src="./js/t.js"></script>
+<script src="./js/twaver.js"></script>
+<script src="./js/jquery.js"></script>
+<script>
+
+var network, interaction;
+var box = new mono.DataBox();
+    var camera = new mono.PerspectiveCamera(50, 1, 1.5, 10000);
+    var target = new mono.Vec3(150,50,150); 
+function load(){  
+    camera.setPosition(-700,1000,500);
+    camera.lookAt(target);
+    network = new mono.Network3D(box, camera, myCanvas);
+    network.setClearColor("pink")   	
+    network.setInteractions([new mono.DefaultInteraction(network)]);
+    mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');    
+    box.add(new mono.AmbientLight(0xffffff));           
+    network.setShowAxis(true);//显示原地
+network.setShowAxisText(true);//显示坐标线
+
+    var path = new mono.Path();
+    path.moveTo(0,100,0);
+    path.lineTo(200,100,0);
+    path.curveTo(300,0,0, 400,100,0);
+    path.lineTo(1000,100,0)
+    path.lineTo(1000,100,500)
+    // path = mono.PathNode.prototype.adjustPath(path,0.5,20);
+    var node=new mono.PathNode(path,20, 10, 220,'round', 'round');
+        node.s({
+            'm.texture.image': './img/iron.png'
+        
+    })
+    node.setStartCapSize(0);
+    node.setEndCapSize(1);
+    box.add(node)
+
+    var node2 = new mono.Cube(20,20,20);
+    node2.setStyle('m.texture.image','./img/floor.jpg');
+    box.add(node2);
+    var billboard=new mono.Billboard();  
+    billboard.setStyle('m.texture.image','./img/b.png'); //设置公告牌图片
+    billboard.setScale(150,150,1);  //设置图片的宽高放大比例。第三个z轴参数没有意义，传入1即可
+    billboard.setPosition(0,0,0);  //设置公告牌位置
+    
+    billboard.setStyle('m.alignment',mono.BillboardAlignment.bottomCenter); //设置公告牌在附属节点上的对齐位置。附属节点是公告牌的父节点，会随其移动。这里设置为公告牌的中间下方和父节点对齐
+    //billboard.setStyle('m.transparent',true); //设置图片透明模式。此时图片的透明区域会显示为镂空
+    
+    billboard.setParent(node2); 
+
+
+}
+
+
+
+</script>
+</html>

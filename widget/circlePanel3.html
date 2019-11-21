@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="js/jquery.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/circlePanel.js"></script>
+<script src="js/echarts.min.js"></script>
+<style>
+#a1,#a2{
+    width: 300px;
+    height: 300px;
+}
+</style>
+<body>
+<div id="a1"  ></div>
+<div id="a2"></div>    
+</body>
+<script>
+     option = {
+    tooltip : {
+        formatter: "{a} <br/>{b} : {c}%"
+    },
+    toolbox: {
+        feature: {
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    series: [
+        {
+            name: '业务指标',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [60]
+        }
+    ]
+};
+   var a1=document.getElementById("a1")
+        var mychart=echarts.init(a1)
+       
+
+        setInterval(function () {
+            console.log(1)
+        option.series[0].data[0].value = [(Math.random() * 100).toFixed(2) - 0];
+        mychart.setOption(option,true);
+         },2000);
+
+       
+
+</script>
+</html>

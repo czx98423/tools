@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="load()">
+    <div id = "mainDiv" >
+        <canvas id="myCanvas" width="800" height="800"/>
+    </div>
+</body>
+<script src="./js/t.js"></script>
+<script src="../lib/twaver.js"></script>
+<script>
+    var network, interaction;
+function load(){
+    var box = new mono.DataBox();
+    var camera = new mono.PerspectiveCamera(30, 1.5, 0.1, 10000);
+    var target = new mono.Vec3(150,50,150); 
+    camera.setPosition(1000,500,1000);
+    camera.lookAt(target);
+    network = new mono.Network3D(box, camera, myCanvas);
+    network.setClearColor("pink")   	
+    network.setInteractions([new mono.DefaultInteraction(network)]);
+    mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');    
+    box.add(new mono.AmbientLight(0xffffff));           
+
+    var floor = new mono.Plane(500, 500);
+    floor.setRotationX(Math.PI/2);
+    floor.s({
+    'm.texture.image': 'floor.png',
+    'm.repeat': new mono.Vec2(10, 10),
+    'm.side': mono.DoubleSide,
+    });
+    box.add(floor);
+    network.setShowAxis(true)
+    var rack= new mono.Cube(60, 200, 80);
+    rack.s({
+    'm.type': 'phong',
+    'm.texture.image': 'metal.png',
+    'front.m.texture.image': 'rack.png',
+    });
+    rack.setPositionY(rack.getHeight()/2);
+    box.add(rack);
+    animateRack(rack)
+    }
+function animateRack(rack){
+	if(rack.getClient('animating')) { 
+		return;
+	}
+	rack.setClient('animating', true);
+	var animation=new twaver.Animate({
+		delay: 1000,
+		from: 0,
+		to: 1,
+		dur: 4000,
+		easing: 'elasticOut',
+		onUpdate: function (value) {
+			var scale = value;
+			rack.setScaleY(scale);
+			rack.setPositionY(rack.getHeight() * scale /2);
+		},
+		onDone: function(){
+			rack.setClient('animating', false);
+		},
+	});
+	animation.play();
+
+    rack.setClient('animating2', true);
+	var animation2=new twaver.Animate({
+		delay: 1000,
+		from: 200,
+		to: 100,
+		dur: 4000,
+        interval:5,
+		easing: 'elasticOut',
+		onUpdate: function (value) {
+			var height = value;			
+			rack.setHeight(height);
+            rack.setPositionY(rack.getHeight()/2)
+		},
+		onDone: function(){
+			rack.setClient('animating2', false);
+		},
+	});
+    animation2.play()
+}
+    
+</script>
+</html>

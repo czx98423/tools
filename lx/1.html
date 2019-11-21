@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main"></div>
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script>
+    (function ($) {
+    $.widget('hud.nav', {
+        options: {
+            width: '141px',
+            color: '#29edf1',
+            fontSize: '20px',
+            items: [
+                {
+                    id: 'test',//名称，唯一编号
+                    name: '安全生产',//name 提示信息
+                    class: 'icon-all',//样式
+                },
+            ],
+        },
+
+        _create: function () {
+            console.log(1)
+            var self = this;
+            var el = this.element;
+            el.addClass("nav");
+            this._createBar();
+        },
+
+        _createBar: function () {
+            console.log(1)
+            var self = this;
+            var el = this.element;
+            var $bar = this.$bar = $('<div class="nav-bar"></div>').appendTo(el);
+            $bar.css({
+                'width': this.options.width,
+                'color': this.options.color,
+                'font-size': this.options.fontSize
+            });
+            this.createNavs($bar);
+        },
+
+        createNavs: function($ele){
+            console.log(1)
+            if(!this.options.items.length) return;
+            var self = this;
+            this.options.items.forEach(function(item){
+                var $nav = self.createNav(item).appendTo($ele);
+            });
+        },
+
+        createNav: function(item){
+            console.log(1)
+            var $nav = $('<div data-id ="'+item.id+'"></div>'),
+                $icon = $('<div class="icon iconfont"></div>').appendTo($nav),
+                $text = $('<div>'+item.name+'</div>').appendTo($nav);
+            $nav.css({
+                'background-image': "url('../img/bottom-nav-border.png')",
+                'background-repeat': 'no-repeat',
+                'background-size': '100% 100%',
+                '-moz-background-size': '100% 100%', 
+                'padding': '10px'
+            });
+            $icon.addClass(item.class);
+            return $nav;
+        },
+        destory: function(){
+            console.log(1)
+            this.element.remove();
+        } 
+    });
+})(jQuery)
+ $("#main").nav()
+</script>
+</html>

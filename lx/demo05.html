@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    
+</body>
+<script>
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box)
+    function init(){
+        registerImage();
+        initNetwork();
+        initNode()
+    }
+    function initNetwork(){
+        var view=network.getView();
+        document.body.appendChild(view)
+        network.adjustBounds({x:0,y:0,width:1300,height:600})
+        twaver.Styles.setStyle('select.color', '#57ab9a'); 
+    }
+    function registerImage(){
+        twaver.Util.registerImage('shadow', { w: 37, h: 29, shadowOffsetX: 0, shadowOffsetY: 0, shadowBlur: 5, shadowColor: '#ec6c00', v: [ { shape: 'vector', name: 'node_image', x: 0, y: 0 } ] }); 
+
+    }
+    
+    function initNode(){
+       var parent=new twaver.Group({name:"p",location:{x:300,y:400}})
+       console.log(twaver.Group.prototype)
+       twaver.Group.prototype.isAdjustedToBottom=function(){
+    return true;
+}
+       addAlarm("a0",parent.getId(),twaver.AlarmSeverity.MINOR,box.getAlarmBox())
+       box.add(parent)
+       var node1=new twaver.Node({name:"n1",location:{x:200,y:200}})
+       addAlarm("a1",node1.getId(),twaver.AlarmSeverity.CRITICAL,box.getAlarmBox())
+       addAlarm("a12",node1.getId(),twaver.AlarmSeverity.CRITICAL,box.getAlarmBox())
+       node1.setClient("vector",true)
+       box.add(node1)
+       var node2=new twaver.Node({name:"n2",location:{x:500,y:350}})
+       addAlarm("a2",node2.getId(),twaver.AlarmSeverity.MAJOR,box.getAlarmBox())
+       node2.setClient("vector",true)
+       box.add(node2)
+       var link=new twaver.Link(node1,node2)
+       link.setName("l1")
+       link.s("label.position","topleft.topleft");
+       addAlarm("a3",link.getId(),twaver.AlarmSeverity.WARNING,box.getAlarmBox())
+       box.add(link)
+       parent.addChild(node1)
+       parent.addChild(node2)
+
+    }
+    function addAlarm(alarmID,elementID,alarmSeverity,alarmBox){
+        alarm=new twaver.Alarm(alarmID,elementID,alarmSeverity);
+        alarmBox.add(alarm)
+    }
+</script>
+</html>

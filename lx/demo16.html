@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    <button>SetLink1</button> <button>SetLink2</button> <button>SetLink3</button>
+</body>
+<script type="text/javascript">
+  var box = new twaver.ElementBox(); 
+  var network = new twaver.vector.Network(box); 
+  function init() { initNetwork(); initBox(); } 
+  function initNetwork() 
+  { var view = network.getView(); 
+    document.body.appendChild(view); 
+    network.adjustBounds({x: 0, y: 20, width: 1300, height: 600}); } 
+    function initBox() 
+    { 
+    var node1 = new twaver.Node({ name:'node1', location:{x:100,y:100} }); 
+    box.add(node1); 
+    var node2 = new twaver.Node({ name:'node2', location:{x:300,y:200} }); 
+    box.add(node2); 
+    var link1 = new twaver.Link("link1",node1,node2); 
+    link1.s('link.color',"#ec6c00"); 
+    box.add(link1); 
+    var link2 = new twaver.Link("link2",node1,node2); 
+    link2.s('link.color',"#57ab9a"); 
+    box.add(link2); 
+    var link3 = new twaver.Link("link3",node1,node2); 
+    link3.s('link.color',"#61b6d8"); 
+    box.add(link3); 
+} 
+    function changeBundleLink(linkID)
+    { 
+        twaver.Defaults.LINK_BUNDLE_AGENT_FUNCTION = function (links) { 
+            return box.getDataById(linkID);}
+    }    
+    box.forEach(function(data){ 
+        if(data instanceof twaver.Link){ 
+            var fromAgent = data.getFromAgent(); 
+            var toAgent = data.getToAgent(); 
+            _twaver.element.resetBundleLinks(fromAgent,toAgent); } 
+        }); 
+</script>
+
+</html>

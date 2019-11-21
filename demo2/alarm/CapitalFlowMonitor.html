@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="pragma" content="no-cache">
+  <meta charset="UTF-8">
+  <title>全球资金流向图</title>
+  <script type="text/javascript" src="../../lib/twaver.js"></script>
+  <script type="text/javascript" src="./countries.js"></script>
+  <script type="text/javascript">
+    var box = new twaver.ElementBox();
+    var network = new twaver.vector.Network(box);
+    var timeLineNodes = new twaver.List();
+    var animate;
+    var countriesNodes = new twaver.List();
+    var box2 = new twaver.ElementBox();
+    var table = new twaver.controls.Table(box2);
+    var autoLayouter = new twaver.layout.AutoLayouter(box);
+    var chinaSubNetwork;
+    var chinaInnerFlowLinks = new twaver.List();
+    window.flowLinks = new twaver.List();
+
+    function init() {
+      initTools();
+      registerImage();
+      initNetwork();
+      // initTable();
+      createTimeLine();
+      loadMapData();
+    }
+
+    function initTools() {
+      var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;  
+      String.prototype.colorRgb = function(a){  
+        var sColor = this.toLowerCase();  
+        if(sColor && reg.test(sColor)){  
+          if(sColor.length === 4){  
+            var sColorNew = "#";  
+            for(var i=1; i<4; i+=1){  
+              sColorNew += sColor.slice(i,i+1).concat(sColor.slice(i,i+1));     
+            }  
+            sColor = sColorNew;  
+          }  
+          var sColorChange = [];  
+          for(var i=1; i<7; i+=2){  
+            sColorChange.push(parseInt("0x"+sColor.slice(i,i+2)));    
+          }  
+          if(a){
+            return "rgba(" + sColorChange.join(",") + "," + a + ")";  
+          }else{
+            return "rgb(" + sColorChange.join(",") + ")";  
+          }
+        }else{  
+          return sColor;    
+        }  
+      };  
+    }
+
+    function initNetwork() {
+      var view = network.getView();
+      document.body.appendChild(view);
+      function findDimensions() {
+        if (window.innerWidth)
+         winWidth = window.innerWidth;
+       else if ((document.body) && (document.body.clientWidth))
+         winWidth = document.body.clientWidth;
+       if (window.innerHeight)
+         winHeight = window.innerHeight;
+       else if ((document.body) && (document.body.clientHeight))
+         winHeight = document.body.clientHeight;
+       if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth) {
+         winHeight = document.documentElement.clientHeight;
+         winWidth = document.documentElement.clientWidth;
+       }
+     }
+
+     findDimensions();
+     network.adjustBounds({x: 0, y: 0, width: winWidth, height: winHeight});
+     window.onresize = function (e) {
+      findDimensions();
+      network.adjustBounds({x: 0, y: 0, width: winWidth, height: winHeight});
+    };
+    network.setAsyncZoomAndViewRect(true);
+    network.getView().style.backgroundColor = 'white';
+    network.setLinkPathFunction(function(linkUI, defaultPoints) {
+      var link = linkUI._element;
+      var from = link.getFromNode();
+      var to = link.getToNode();
+
+      if(from.getId() === to.getId()){
+        if(link.getClient('curveLinkPoints')){
+          return link.getClient('curveLinkPoints');
+        }
+        var f = linkUI.getFromPoint();
+        var t = linkUI.getToPoint();
+        var points = new twaver.List();
+
+        var aX = f.x - 100/2, aY = f.y, aWidth = 100, aHeight = 100;
+        var hB = (aWidth / 2) * .5522848,
+        vB = (aHeight / 2) * .5522848,
+        eX = aX + aWidth,
+        eY = aY + aHeight,
+        mX = aX + aWidth / 2,
+        mY = aY + aHeight / 2;
+
+        points.add({x:mX,y:aY});
+
+        var cps = new twaver.List();
+        cps.add({x:mX + hB, y:aY});
+        cps.add({x:eX,y: mY - vB});
+        cps.add({x:eX,y:mY});
+        points.add(cps);
+
+        var cps = new twaver.List();
+        cps.add({x:eX, y:mY + vB});
+        cps.add({x:mX + hB, y:eY});
+        cps.add({x:mX, y:eY});
+        points.add(cps);
+
+        var cps = new twaver.List();
+        cps.add({x:mX - hB,y: eY});
+        cps.add({x:aX, y:mY + vB});
+        cps.add({x:aX, y:mY});
+        points.add(cps);
+
+        var cps = new twaver.List();
+        cps.add({x:aX, y:mY - vB});
+        cps.add({x:mX - hB, y:aY});
+        cps.add({x:mX, y:aY});
+        points.add(cps);
+        link.setClient('curveLinkPoints',points);
+
+        return points;
+      }else if(link.getClient('link.type') === 'flowLink'){
+        var f = linkUI.getFromPoint();
+        var t = linkUI.getToPoint();
+        var factor = link.getClient('factor') || 1;
+
+        var points = new twaver.List();
+        points.add(f);
+        points.add(t);
+
+        var lineLength = _twaver.math.getDistance(f, t);
+        var offset = -lineLength / 5;
+        var m = {
+          x: (f.x + t.x) / 2 + offset ,
+          y: (f.y + t.y) / 2 + offset + Math.pow(-1,factor)*factor * 20
+        }
+        var cps = new twaver.List();
+        cps.add(m);
+        cps.add(t);
+
+        points.removeAt(1);
+        points.add(cps);
+        link.setClient('controlPoint',m);
+
+        return points;
+      }else{
+        return defaultPoints;
+      }
+    });
+
+    var sm = network.getSelectionModel();
+    var lastSelected = null, oldColor,oldTailRadius;
+
+    sm.addSelectionChangeListener(function (e) {
+      var data = sm.getLastData();
+      if (data == null) {
+        if (lastSelected) {
+          lastSelected.setStyle('vector.fill.color', oldColor);
+        }
+        lastSelected = null;
+      }
+      if (data instanceof twaver.ShapeNode) {
+        if (data !== lastSelected) {
+          if (lastSelected) {
+            lastSelected.setStyle('vector.fill.color', oldColor);
+            window.flowLinks.forEach(function(link){
+              link.s('link.width',0.5);
+              link.setClient('tailRadius',oldTailRadius);
+            });
+          }
+          oldColor = data.getStyle('vector.fill.color');
+          data.setStyle('vector.fill.color', '#DCD036');
+          oldTailRadius = data.getClient('tailRadius');
+          lastSelected = data;
+
+          var children = data.getChildren();
+          children.forEach(function(child){
+            var fromLinks = child.getFromLinks();
+            var toLinks = child.getToLinks();
+            fromLinks && fromLinks.forEach(function(link){
+              link.s('link.width',3);
+              link.setClient('tailRadius',3);
+            });
+            toLinks && toLinks.forEach(function(link){
+              link.s('link.width',3);
+              link.setClient('tailRadius',3);
+            });
+          });
+        }
+      }
+    });
+    network.addInteractionListener(function(e){
+      if(e.kind === 'clickElement') {
+        var element = network.getElementAt(e);
+        if(element && element.getClient('timeLine') === 'timeLine'){
+          timeLineNodes.forEach(function(data){
+            data.s('vector.fill.color','black')
+            .s('label.color','black');
+            data.setSize(8,8);
+          });
+          element.s('vector.fill.color','#A68246')
+          .s('label.color','#A68246');
+          createMoneyFlow(parseInt(element.getName() - 1900)/10);
+        }
+      }else if(e.kind === 'clickBackground'){
+        if(network.getCurrentSubNetwork() instanceof twaver.SubNetwork)return;
+        window.flowLinks && window.flowLinks.forEach(function(link){
+          link.s('link.width',0.5);
+          link.setClient('tailRadius',1);
+        });
+      }else if(e.kind === 'doubleClickElement'){
+        var element = network.getElementAt(e);
+        if(element.getId() === 'CN'){
+          network.setCurrentSubNetwork(chinaSubNetwork,true,function(){
+            network.zoomOverview();
+            chinaInnerFlowLinks.forEach(function(link){
+              link.playAnimate();
+            })
+          });
+        }
+      }
+    });
+
+    animate = new twaver.Animate({
+      from: 0,
+      to: 0.96,
+      repeat: Number.POSITIVE_INFINITY,
+      reverse: false,
+      dur: 5000,
+      easing: 'easeOutStrong',
+      onUpdate: function (value) {
+        if(value > 0.95){
+         flowLinks.forEach(function (data) {
+          if (data instanceof twaver.Link) {
+            data.playAnimate();
+          }
+        });
+       }
+       network.invalidateElementUIs();
+     }
+   });
+  }
+
+  function initTable() {
+    var view = network.getView();
+    var tablePane = new twaver.controls.TablePane(table);
+      // table.setRowLineColor('rgba(255,0,0,0.5)');
+      var tableHeader = tablePane.getTableHeader().getView();
+      // tableHeader.style.backgroundColor = 'rgba(255,255,255,0.1)';
+      tableHeader.style.backgroundColor = 'rgba(0,0,0,0.6)';
+      var tableDom = tablePane.getView();
+      tableDom.style.position = 'absolute';
+      tableDom.style.bottom = '30px';
+      tableDom.style.width = winWidth + "px";
+      tableDom.style.height = "120px";
+      tableDom.style.backgroundColor = 'rgba(188,201,227,0.5)';
+      table.getView().onmousedown = null;
+      view.appendChild(tableDom);
+      window.onresize = function () {
+        tablePane.invalidate();
+      }
+      createColumn(table, '威胁等级', 'icon', 'accessor', 'i',200);
+      createColumn(table, '威胁ID', 'id', 'accessor', 'string');
+      createColumn(table, '威胁名称', 'icon', 'accessor','string',130);
+      createColumn(table, '可信度', 'type', 'client','string',130);
+      createColumn(table, '受威胁主机', 'type', 'client','string',130);
+      createColumn(table, '普通威胁/异常事件', 'type', 'client','string',130);
+      createColumn(table, '时间', 'time', 'client','string',130);
+      createColumn(table, '状态', 'type', 'client','string',130);
+      createColumn(table, '操作', 'type', 'client','string',200);
+
+      table.onCellRendered = function (params) {
+        var div = params.div;
+        var data = params.data;
+        div.style.color =  data.getClient('font.color');
+        div.style.textAlign = 'center';
+      };
+      table.setMakeVisibleOnSelected(true);
+
+      box2.getSelectionModel().addSelectionChangeListener(function(e){
+        var lastSelectedData = box2.getSelectionModel().getLastData();
+        var selectModel = box.getSelectionModel();
+        selectModel.setSelection(lastSelectedData);
+        if(lastSelectedData instanceof FlowLink) {
+          var link = lastSelectedData;
+          window.flowLinks.forEach(function(link){
+            link.s('link.width',0.1);
+          });
+          link.s('link.width',1);
+        }
+      });
+    }
+
+    function createColumn(table, name, propetyName, propertyType, valueType,width) {
+      var column = new twaver.Column(name);
+      column.setName(name);
+      column.setPropertyName(propetyName);
+      column.setPropertyType(propertyType);
+      if (valueType) {
+        column.setValueType(valueType);
+      }
+      width && column.setWidth(width);
+  // column.setFontColor(randomColor());
+  column.renderHeader = function (div) {
+    var span = document.createElement('span');
+    span.style.whiteSpace = 'nowrap';
+    span.style.verticalAlign = 'middle';
+    span.style.padding = '1px 2px 1px 2px';
+    span.innerHTML = column.getName() ? column.getName() : column.getPropertyName();
+    span.setAttribute('title', span.innerHTML);
+    // span.style.backgroundColor = 'rgba(0,0,0,0)';
+    span.style.font = 'bold 12px Helvetica';
+    div.style.textAlign = 'center';
+    div.style.color = 'white';
+    div.style.backgroundColor = 'rgba(188,201,227,0.5)';
+    div.appendChild(span);
+  };
+
+  table.getColumnBox().add(column);
+  return column;
+}
+
+function loadMapData () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('GET', 'world-lowres.geo.json');
+  xhttp.onload = function () {
+    _loadData(xhttp.responseText);
+    _twaver.callLater(function(){
+      network.zoomOverview(true);
+    });
+    initChinaInnerNodes();
+    layoutIntranet();
+     createMoneyFlow(1);
+  };
+  xhttp.send();
+}
+
+function _loadData (json) {
+  JSON.parse(json).features.forEach(function (feature) {
+    var node = new twaver.ShapeNode(feature.id);
+    node.s('vector.fill', true)
+    .s('vector.fill.color', '#DBEAFF')
+    .s('vector.outline.color', '#7788BF')
+    .s('select.color','#7788BF')
+    .s('vector.outline.width', 0.5);
+    node.setMovable(false);
+    node.setToolTip(feature.properties.name);
+
+    var segments = new twaver.List();
+    var points = new twaver.List();
+    if (feature.geometry.type === 'MultiPolygon') {
+      feature.geometry.coordinates.forEach(function (polygon) {
+        polygon.forEach(function (coordinate) {
+          segments.add('moveto');
+          coordinate.forEach(function (point, i) {
+            if (i !== 0) {
+              segments.add('lineto');
+            }
+            points.add({ x: point[0] / 10 + 230, y: -point[1] / 10 + 1087 });
+          });
+        });
+      });
+    } else if (feature.geometry.type === 'Polygon') {
+      feature.geometry.coordinates.forEach(function (coordinate) {
+        segments.add('moveto');
+        coordinate.forEach(function (point, i) {
+          if (i !== 0) {
+            segments.add('lineto');
+          }
+          points.add({ x: point[0] / 10 + 230, y: -point[1] / 10 + 1087 });
+        });
+      });
+    } else {
+      console.log(feature.geometry.type);
+    }
+    node.setSegments(segments);
+    node.setPoints(points);
+    box.add(node);
+  });
+
+  var linkLayer = new twaver.Layer('link');
+  box.getLayerBox().add(linkLayer);
+}
+
+function createNode(id, color,raduis,offsetX,offsetY){
+  raduis = raduis||100;
+  offsetX = offsetX || 0;
+  offsetY = offsetY || 0;
+  var node = box.getDataById(id);
+  node.s('vector.fill.color', color);
+  var follower = new twaver.Node({
+    image:'circle',
+    width:raduis,
+    height:raduis,
+    clients:{
+      color:color,
+      radius:raduis,
+      'node.type':'city',
+    }
+  });
+  node.addChild(follower);
+  var center = node.getCenterLocation();
+  follower.setCenterLocation(center.x + offsetX, center.y + offsetY);
+  follower.setLayerId('link');
+  box.add(follower);
+  box2.add(follower);
+  return follower;
+}
+
+function createLinks(fromNode,toNode,color,factor,tailRadius,tailFactor){
+      // 第一种flowLink
+      var link = new FlowLink({
+        clients:{
+          box:box,
+          factor:factor,
+          'link.type':'flowLink',
+        },
+        styles:{
+          'link.color':color,
+          'link.width':0.4,
+          'link.pattern':[6,2],
+          'arrow.from':false,
+          'arrow.from.shape':'arrow.tail',
+          'arrow.from.shadow':true,
+          'arrow.from.shadow.blur':5,
+          'arrow.from.shadow.color':color,
+          'arrow.from.color':color,
+          'arrow.from.xoffset':0.000001,
+        }
+      },fromNode,toNode);
+      link.setLayerId('link');
+      link.setAnimate(Math.random() * 10000 + 3000);
+      box.add(link);
+      box2.add(link);
+      return link;
+    }
+
+    function createLinks2(fromNode,toNode,color,factor,tailRadius,tailFactor,tailCount){
+      var link = new FlowLink2({
+        clients:{
+          box:box,
+          factor:factor,
+          'link.type':'flowLink',
+          'fillColor':color,
+          'shadowColor':color,
+          'tail':tailCount,
+          'tailRadius':tailRadius,
+          'tailFactor':tailFactor,
+          'track':true,
+        },
+        styles:{
+          'link.color':color,
+          'link.width':0.4,
+          // 'link.pattern':[4,2],
+        }
+      },fromNode,toNode);
+      link.setLayerId('link');
+      link.setAnimate(Math.random() * 5000 + 3000);
+      box.add(link);
+      return link;
+    }
+
+    function createTimeLine() {
+      var node = new twaver.Node({
+        name:'时间轴',
+        styles:{
+          'body.type':'vector',
+          'vector.fill':false,
+          'label.position':'center',
+        },
+        centerLocation:{x:60,y:60},
+      });
+      box.add(node);
+      node.setMovable(false);
+      var years  = {};
+
+      for(var i = 1900;i<= 2010; i+=10){
+       var year = new twaver.Node({
+        name:i + '  ',
+        styles:{
+          'body.type':'vector',
+          'vector.fill':true,
+          'vector.fill.color':'black',
+          'vector.shape':'circle',
+          'label.position':'left.left',
+        },
+        clients:{
+          'timeLine':'timeLine',
+
+        },
+        size:{width:8,height:8},
+        centerLocation:{x:60,y:100 + (i-1900) * 4},
+      });
+       box.add(year);
+       year.setMovable(false);
+       timeLineNodes.add(year);
+       years[i] = year;
+       if(years[i - 10]) {
+        var link = new twaver.Link({
+          styles:{
+            'link.color':'black',
+            'link.width':1,
+          },
+        },years[i-10],years[i]);
+        box.add(link);
+      }
+    }
+  }
+
+  function createMoneyFlow(count) {
+    if(window.flowLinks){
+      window.flowLinks.forEach(function(link){
+        box.remove(link);
+      });
+      window.flowLinks.clear();
+    }
+
+    if(animate) animate.stop();
+
+    var flowLinks = window.flowLinks;
+    if(countriesNodes.size() == 0){
+      //9ED9FF,3379A6
+      countriesNodes.add(createNode('US','#3362A6',100,50,30));     //'#A67A30'
+      countriesNodes.add(createNode('CA','#5548A6',80,0,0));        //'#A68E30'
+      countriesNodes.add(createNode('BR','#3362A6',40,0,0));        //'#FFD894'
+      countriesNodes.add(createNode('FR','#3362A6',40,-145,-100));  //'#BFA983'
+      countriesNodes.add(createNode('DE','#3362A6',40,0,0));        //'#FFE1AF'
+      countriesNodes.add(createNode('SD','#3362A6',40,0,0));        //'#FFE9C4'
+      countriesNodes.add(createNode('TG','#3362A6',40,0,0));        //'#FFEFAF'
+      countriesNodes.add(createNode('AU','#3362A6',40,0,0));        //'#FFE994'
+      countriesNodes.add(createNode('NZ','#3362A6',40,0,0));        //'#FFF3C4'
+      countriesNodes.add(createNode('ID','#3362A6',40,0,0));        //'#FFEFAF'
+      countriesNodes.add(createNode('CN','yellow',100,30,0));
+    }
+
+    var offsets = [-30,10,-30,-10,-20,-10,30,20,30,46,35,40,20,15,22,11,-22,8,44,10,10,10];
+    
+    var cnNode = createNode('CN','#FFEDE1',100,offsets[0],offsets[1]);
+    flowLinks.add(createLinks2(cnNode,cnNode,'green',i,2,2,40));
+
+    for(var i = 0;i<count;i++){
+      var cnNode = createNode('CN','#FFEDE1',100,offsets[i*2],offsets[i*2+1]);
+      flowLinks.add(createLinks2(cnNode,countriesNodes.get(0),'#A68246',i,2,2,30));
+      flowLinks.add(createLinks2(cnNode,countriesNodes.get(1),'#A68246',i,2,2,30));
+      // flowLinks.add(createLinks(cnNode,countriesNodes.get(2),'#A68246',i,1,3,20));
+      // flowLinks.add(createLinks2(cnNode,countriesNodes.get(3),'#A68246',i,1,3,20));
+      flowLinks.add(createLinks(cnNode,countriesNodes.get(4),'#A68246',i,1,4,20));
+      // flowLinks.add(createLinks2(cnNode,countriesNodes.get(5),'#A68246',i,1,3,20));
+      // flowLinks.add(createLinks(cnNode,countriesNodes.get(6),'#A68246',i,1,3,20));
+      flowLinks.add(createLinks2(cnNode,countriesNodes.get(7),'#A68246',i,1.6,2,20));
+      // flowLinks.add(createLinks(cnNode,countriesNodes.get(8),'#A68246',i,1.6,2,20));
+      // flowLinks.add(createLinks2(cnNode,countriesNodes.get(9),'#A68246',i,1.6,2,20));
+    }
+    animate.play();
+  }
+
+  function registerImage() {
+    twaver.Util.registerImage('locate', {
+      "w": 15.771,
+      "h": 16,
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "clip": true,
+      "v": [
+      {
+        "shape": "ellipse",
+        "cx": 8.432,
+        "cy": 5.531,
+        "rx": 5,
+        "ry": 0,
+        "fill": "#F42525"
+      },
+      {
+        "shape": "path",
+        "data": "M13.284,5.723c0,2.868-5,9.809-5,9.809s-5-6.94-5-9.809c0-2.867,2.239-5.191,5-5.191  S13.284,2.855,13.284,5.723z",
+        "fill": "#F42525"
+      },
+      {
+        "shape": "ellipse",
+        "cx": 8.284,
+        "cy": 5.514,
+        "rx": 2.5,
+        "ry": 2.5,
+        "fill": "#FFFFFF"
+      }
+      ]
+    });
+    twaver.Util.registerImage('circle', {
+      v: [
+      {
+        shape: 'vector',
+        name: 'locate'
+      },
+      {
+        shape: 'circle',
+        r: 0,
+        rel: true,
+        alpha: 1,
+        fill: 'blue',
+        visible: function (data) {
+          return !data.getClient('hide');
+        },
+        gradient: function (data) {
+          if(data._animates[1].r.current >= 0.5) {
+            if(data.getClient('depository') === 'depository'){
+              setTimeout(function(){
+                box.remove(data);
+              },300);
+            }
+          }
+          return {
+            type: 'radial',
+            r: data._animates[1].r.current * data.getWidth(),
+            fx: 0,
+            fy: 0,
+            stop: [
+            {
+              offset: 1,
+              color: data.getClient('color')
+            },
+            {
+              offset: 0.25,
+              color: data.getClient('color').colorRgb('0.25'),
+            },
+            {
+              offset: 0.55,
+              color: data.getClient('color').colorRgb('0.55'),
+            },
+            {
+              offset: 0.85,
+              color: data.getClient('color').colorRgb('0.85'),
+            },
+            {
+              offset: 0,
+              color: 'rgba(255, 255, 255, 0)'
+            }
+            ]
+          };
+        },
+        animate: 
+        [
+        {
+          attr: 'r',
+          from: 0,
+          to: 0.5,
+          repeat: 1,
+          reverse: false,
+          dur: 1500,
+          interval: 400,
+          easing: 'easeOut'
+        },
+        {
+          attr: 'alpha',
+          from: 1,
+          to: 0,
+          repeat: 1,
+          reverse: false,
+          delay: 800,
+          dur: 1500,
+        }
+        ]
+      },
+      ]
+    });
+  }
+
+  function initChinaInnerNodes() {
+    chinaSubNetwork = new twaver.SubNetwork({
+      location:{x:100,y:100},
+      image:''
+    });
+    box.add(chinaSubNetwork);
+
+    var net = new twaver.Group({
+      id:'intranet',
+      // name:'内网',
+      // name2:'外网',
+      image:'group',
+      styles:{
+        'group.shape':'roundrect',
+        'group.shape.roundrect.radius':18,
+        // 'group.fill.color': 'rgba(108,121,133,1)',
+        'group.fill.color': '#DBEAFF',
+        'group.deep': 10,
+        'group.outline.width': 2,
+        'group.outline.color': '#A68246',
+        'select.style':'none',
+        'vector.outline.pattern': [12,12],
+        'label.font':'20px "Microsoft Yahei"',
+        'label.yoffset':25,
+        'label2.font':'20px "Microsoft Yahei"',
+        'label2.yoffset':-5,
+        'whole.alpha': 0.8,
+        'group.padding.bottom':20,
+        'label.position':'top.top',
+        'label.color':'#a6a6a6',
+        'label2.color':'#a6a6a6',
+      },
+    });
+    net.setExpanded(true);
+    box.add(net);
+    chinaSubNetwork.addChild(net);
+
+    var json = [
+    {
+      "ip": "1.1.1.1",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "1.1.1.2",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "1.1.1.3",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "1.1.1.4",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "2.1.0.1",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.1",
+      },
+      ]
+    },
+    {
+      "ip": "2.1.0.2",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.1",
+      },
+      ]
+    },
+    {
+      "ip": "2.1.0.3",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.1",
+      },
+      ]
+    },
+    {
+      "ip": "2.1.1.1",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.2",
+      },
+      ]
+    },
+    {
+      "ip": "2.1.1.2",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.3",
+      },
+      ]
+    },
+    {
+      "ip": "2.1.1.3",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.4",
+      },
+      ]
+    },
+    {
+      "ip": "2.1.1.4",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.5",
+      },
+      {
+        "ip": "2.1.1.6",
+      },
+      {
+        "ip": "2.1.1.7",
+      },
+      {
+        "ip": "2.1.1.8",
+      },
+      {
+        "ip": "2.1.1.9",
+      },
+
+      ]
+    }, 
+    {
+      "ip": "2.1.1.5",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, 
+    {
+      "ip": "2.1.1.6",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, 
+    {
+      "ip": "2.1.1.7",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, 
+    {
+      "ip": "2.1.1.8",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, 
+    {
+      "ip": "2.1.1.9",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, 
+    {
+      "ip": "3.1.0.1",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "3.1.0.2",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "3.1.0.3",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "3.1.0.4",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "3.1.0.5",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "3.1.1.1",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.2",
+      },
+      {
+        "ip": "3.1.1.5",
+      },
+
+      ]
+    },
+    {
+      "ip": "3.1.1.2",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.3",
+      },
+      {
+        "ip": "3.1.1.7",
+      },
+      ]
+    },
+    {
+      "ip": "3.1.1.3",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.4",
+      },
+      ]
+    },
+    {
+      "ip": "3.1.1.4",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.8",
+      },
+      ]
+    },
+    {
+      "ip": "3.1.1.5",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "3.1.1.7",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {"ip":"3.1.1.8"},
+      {"ip":"3.1.1.9"},
+      {"ip":"3.1.1.10"},
+      {"ip":"3.1.1.11"},
+      ]
+    },
+    {
+      "ip": "3.1.1.8",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },{
+      "ip": "3.1.1.9",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },{
+      "ip": "3.1.1.10",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },{
+      "ip": "3.1.1.11",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+
+    {
+      "ip": "4.1.0.1",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "3.1.1.1",
+      },
+      {
+        "ip": "4.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "4.1.0.2",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "4.1.0.3",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "4.1.0.4",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "4.1.0.5",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.1",
+      }
+      ]
+    }, 
+    {
+      "ip": "4.1.1.1",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.2",
+      },
+      {
+        "ip": "4.1.1.5",
+      },
+      {
+        "ip": "4.1.1.6",
+      },
+      ]
+    },
+    {
+      "ip": "4.1.1.2",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.3",
+      },
+      {
+        "ip": "4.1.1.7",
+      },
+      ]
+    },
+    {
+      "ip": "4.1.1.3",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.4",
+      },
+      {
+        "ip": "4.1.1.8",
+      },
+      ]
+    },
+    {
+      "ip": "4.1.1.4",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.8",
+      },
+      ]
+    },
+    {
+      "ip": "4.1.1.5",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.5.1",
+      },
+      {
+        "ip": "4.1.1.5.2",
+      }
+      ]
+    },
+    {
+      "ip": "4.1.1.5.1",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "4.1.1.5.2",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "2.1.1.8",
+      },
+      ]
+    },
+    {
+      "ip": "4.1.1.6",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+      {
+        "ip": "4.1.1.6.1",
+      },{
+        "ip": "4.1.1.6.2",
+      },{
+        "ip": "4.1.1.6.3",
+      },{
+        "ip": "4.1.1.6.4",
+      },{
+        "ip": "4.1.1.6.5",
+      },
+      ]
+    },
+    {
+      "ip": "4.1.1.6.1",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, {
+      "ip": "4.1.1.6.2",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, {
+      "ip": "4.1.1.6.3",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, {
+      "ip": "4.1.1.6.4",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    }, {
+      "ip": "4.1.1.6.5",
+      "name": "srcarea1",
+      "net": "outer",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "4.1.1.7",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    {
+      "ip": "4.1.1.8",
+      "name": "srcarea1",
+      "net": "inner",
+      "countryCode": "",
+      "threatLevel": "0",
+      "to": [
+
+      ]
+    },
+    ];
+    organizeData(json);
+  }
+
+  function organizeData(json) {
+    if(!(json instanceof Array)){
+      return;
+    }
+
+    var datas = new Array();
+
+    json.forEach(function(js){
+      var ip = js.ip, to = js.to, net = js.net, name = js.name;
+
+      var data = {
+        ip:ip,
+        // image:"externalNode_Green",
+        name:name,
+        name2:net,
+        clients: {
+          bodyColor:'#8ABA28',
+          type:'net_node',
+          net:net,
+          to:to,
+        },
+      }
+      datas.push(data);
+    });
+
+    createElemetByJsonData(datas);
+    setNetRelation();
+    return datas;
+  }
+
+  function setNetRelation() {
+    var intranet = box.getDataById('intranet');
+    box.toDatas().forEach(function(data) {
+      if(data.getClient('net') === 'inner'){
+        intranet.addChild(data);
+      }
+    });
+  }
+
+  function createElemetByJsonData(datas,type) {
+    for(var i = 0; i < datas.length; i++) {
+      var d = datas[i];
+      if(!d.ip) return;
+      var width = d.width || 20;
+      var height = d.height || 20;
+      var location = d.location || {x:0,y:0};
+      var image = d.image;
+      var name  = d.name;
+      var name2 = d.name2;
+
+      var node = new twaver.Follower({
+        id:d.ip,
+        // name:d.ip,
+        name2:name2,
+          // image: image || 'circle_ip',
+          width:width,
+          height:height,
+          styles:{
+            'label.color':'#A68246',
+            'label.font':'10px arial',
+            'label.alpha':0,
+            'body.type':'vector',
+            'vector.fill':true,
+            'vector.fill.color':'#A68246',
+            'vector.shape':'circle',
+          },
+        });
+      box.add(node);
+      chinaSubNetwork.addChild(node);
+
+      if(d.clients) {
+        var clients = d.clients;
+        for(var name in clients) {
+          node.setClient(name,clients[name]);
+        }
+      }
+    }
+
+    box.toDatas().forEach(function(data) {
+      var to = data.getClient('to');
+      if(to instanceof Array) {
+        for(var j = 0; j<to.length;j++) {
+          var n = to[j];
+          var ele = box.getDataById(n.ip);
+          var of =  0.2;
+          var link = new FlowLink({
+            styles:{
+              'link.label.rotatable': true,
+              'link.icons.rotatable': [true],
+              'link.width': 1,
+              'link.color': 'blue',
+              'arrow.from': true,
+              'arrow.from.shape':'arrow.dot',
+              'arrow.from.shadow': true,
+              'arrow.from.shadow.blur': 5,
+              'arrow.from.shadow.color': 'orange',
+              'arrow.from.color': 'white',
+              'arrow.from.width':6,
+              'arrow.from.height':6,
+            },
+            clients:{
+              'box':box,
+              'endUnGlow':true,
+            },
+          },data,ele);
+          link.setAnimate(10000);
+          chinaInnerFlowLinks.add(link);
+          box.add(link);
+          chinaSubNetwork.addChild(link);
+          chinaSubNetwork.addChild(ele);
+        }
+      }
+    });
+  }
+
+  function layoutIntranet() {
+    var netNodes  = new twaver.List();
+    var intranetNodes = new twaver.List();
+    var externalNodes = new twaver.List();
+    var isolatedNodes = new twaver.List();
+
+    box.toDatas().forEach(function(data) {
+      if(data.getClient('type') === 'net_node'){
+        netNodes.add(data);
+        if(data.getClient('net') === 'inner'){
+          if(!data.getLinks()) {
+            isolatedNodes.add(data);
+          }else{
+            intranetNodes.add(data);
+          }
+        }else if(data.getClient('net') === 'outer') {
+          externalNodes.add(data);
+        }
+      }
+    });
+
+    var intranet = box.getDataById('intranet');
+    isolatedNodes.forEach(function(data){
+      intranet.removeChild(data);
+    });
+
+    var list = new twaver.List();
+
+    intranetNodes.forEach(function(data) {
+      list.add(data);
+    });
+    list.add(intranet);
+
+    autoLayouter.getElements = function(){
+      return list;
+    }
+    autoLayouter.isMovable = function(data){
+      return data.isMovable();
+    }
+
+    autoLayouter.setRepulsion(5);
+    autoLayouter.setExplicitXOffset(1);
+    autoLayouter.setExplicitYOffset(1);
+    autoLayouter.doLayout('leftright',function(){
+      network.invalidateElementUI(intranet);
+    });
+
+    var moveElementsToCenter = function(){
+      var intranet = box.getDataById('intranet');
+      var bounds = network.getElementUI(intranet).getBodyRect();
+      var bounds = twaver.Util.getElementsBounds(intranetNodes);
+      var viewRect = network.getViewRect();
+      var dx = viewRect.x + viewRect.width/2 - bounds.x - bounds.width/2;
+      var dy = viewRect.y + viewRect.height/2 - bounds.y - bounds.height/2;
+      twaver.Util.moveElements(intranetNodes,dx,dy);
+    }
+
+  //统计root节点
+
+  var roots = new twaver.List();
+  
+  intranetNodes.forEach(function(node){
+    var fromLinks = node.getFromLinks();
+    var toLinks = node.getToLinks();
+    var netProperty = "";
+    fromLinks && fromLinks.forEach(function(link){
+      var toNode = link.getToNode();
+      netProperty += toNode.getClient('net');
+    });
+    toLinks && toLinks.forEach(function(link){
+      var fromNode = link.getFromNode();
+      netProperty += fromNode.getClient('net');
+    });
+    if(netProperty.indexOf('innerouter') > -1){
+      roots.add(node);
+    }
+  });
+
+
+  //统计尾节点
+  var tails = new twaver.List();
+
+  intranetNodes.forEach(function(node){
+    var fromLinks = node.getFromLinks();
+    var toLinks = node.getToLinks();
+    var netProperty = "";
+    fromLinks && fromLinks.forEach(function(link){
+      var toNode = link.getToNode();
+      netProperty += toNode.getClient('net');
+    });
+    toLinks && toLinks.forEach(function(link){
+      var fromNode = link.getFromNode();
+      netProperty += fromNode.getClient('net');
+    });
+    if(netProperty.indexOf('outerinner') > -1){
+      tails.add(node);
+    }
+  });
+
+  var center = intranet.getCenterLocation();
+  var location = intranet.getLocation();
+
+      //计算所有roots中网元的x坐标最小值
+      var allRootLocationX = new Array();
+      roots.forEach(function(root){
+        var cl = root.getCenterLocation();
+        allRootLocationX.push(cl.x);
+      });
+
+      var minX = Math.min.apply(null, allRootLocationX);//最小值
+
+      for(var i = 0;i<roots.size();i++){
+        var root = roots.get(i);
+        var ol = root.getCenterLocation();
+        var dx = ol.x - minX;
+        root.setCenterLocation(minX, center.y+ (i-1)*200);
+        root.setClient('offsetY',Math.abs(center.y + (i-1)*150 - ol.y));
+        root.setClient('offsetX',dx);
+        layout(root);
+      }
+
+      moveElementsToCenter();
+
+      var bounds = twaver.Util.getElementsBounds(intranetNodes);
+      var paddingH = (2/5*winWidth - bounds.width)/2 < 0 ? 2 : (2/5*winWidth - bounds.width)/2;
+      var paddingV = (1/2*winHeight - bounds.height)/2 < 0 ? 2 : (1/2*winHeight - bounds.height)/2;
+
+      intranet.s('group.padding.bottom',paddingV).
+      s('group.padding.top',paddingV).
+      s('group.padding.left',paddingH).
+      s('group.padding.right',paddingH);
+
+
+      //布局孤立的点
+      var rootL = roots.get(0).getCenterLocation();
+      for(var i = 0; i<isolatedNodes.size(); i++){
+        var node = isolatedNodes.get(i);
+        node.setCenterLocation(rootL.x + i * 100, rootL.y - 100);
+        intranet.addChild(node);
+      }
+
+      for(var i = 0; i<roots.size(); i++){
+        var root = roots.get(i);
+        var ol = root.getCenterLocation();
+
+        var links = root.getToLinks();
+        if(links){
+          var fromNodes = new twaver.List();
+          links.forEach(function(link){
+            var from = link.getFromNode();
+            fromNodes.add(from);
+          });
+          var d = 200;
+          for(var j = 0, count = fromNodes.size(); j< count; j++){
+            if(!fromNodes.get(j).getClient('isLocationed')) {
+            //垂直布局
+           /* var cl = root.getCenterLocation();
+            var x = ol.x - d;
+            var c = j % 2 == 0 ? j/2 : (j+1)/2;
+            var y = ol.y + Math.pow(-1,j) * c * 40;*/
+
+            //扇形布局
+            var dangle = 60/count;
+            var c = j % 2 == 0 ? j/2 : (j+1)/2;
+            var x = ol.x  - paddingH + d * Math.cos((180 + Math.pow(-1,j) * c * dangle) * Math.PI/180);
+            var y = ol.y + d * Math.sin((180 + Math.pow(-1,j) * c * dangle) * Math.PI/180);
+            fromNodes.get(j).setCenterLocation(x,y);
+            fromNodes.get(j).setClient('isLocationed',true);
+          }
+        }
+      }
+    }
+
+    var bounds = twaver.Util.getElementsBounds(intranetNodes);
+    for(var i = 0; i<tails.size(); i++){
+      var tail = tails.get(i);
+      var ol = tail.getCenterLocation();
+
+      var links = tail.getFromLinks();
+
+      if(links){
+        var toNodes = new twaver.List();
+        links.forEach(function(link){
+          var to = link.getToNode();
+          toNodes.add(to);
+        });
+        var d = 200;
+        for(var j = 0, count = toNodes.size(); j< count; j++){
+          if(!toNodes.get(j).getClient('isLocationed')){
+            //垂直布局
+           /* var cl = root.getCenterLocation();
+            var x = ol.x - d;
+            var c = j % 2 == 0 ? j/2 : (j+1)/2;
+            var y = ol.y + Math.pow(-1,j) * c * 40;*/
+
+            //扇形布局
+            var dangle = 60/count;
+            var c = j % 2 == 0 ? j/2 : (j+1)/2;
+            var x = bounds.x + bounds.width + paddingH +  d * Math.cos((0 + Math.pow(-1,j) * c * dangle) * Math.PI/180);
+            var y = ol.y + d * Math.sin((0 + Math.pow(-1,j) * c * dangle) * Math.PI/180);
+            toNodes.get(j).setCenterLocation(x,y);
+            toNodes.get(j).setClient('isLocationed',true);
+          }
+        }
+      }
+    }
+
+    setTimeout(function(){
+        // network.setZoom(0.7);
+        network.zoomOverview();
+      },200);
+  }
+
+  function getToNodes(toNodes, node, net,recursion) {
+   var links = node.getLinks();
+   if(links.size() == 0) return;
+   links.forEach(function(link){
+     var toNode = link.getToNode();
+     if(toNode !== node && toNode.getClient('net') === 'inner'){
+      toNodes.add(toNode);
+      if(recursion){
+        getToNodes(toNodes, toNode, net);
+      }
+    }
+  });
+ }
+
+ function layout(node,points){
+  if(!node) return;
+  var list = new twaver.List();
+  getToNodes(list, node, 'inner',false);
+  var rl = node.getCenterLocation();
+  var count = list.size();
+  var offsetY = node.getClient('offsetY');
+  var offsetX = node.getClient('offsetX');
+  var size = list.size();
+  for(var i = 0; i < size; i++){
+    var data = list.get(i);
+    var location = data.getCenterLocation();
+
+    var dy = offsetY - Math.random() * offsetY * 3/4 ;
+    data.setCenterLocation(i == 0 ? location.x - offsetX : rl.x, rl.y + i * dy);
+    data.setClient('offsetX',offsetX);
+    data.setClient('offsetY',offsetY);
+    layout(data,points);
+  }
+}
+
+function FlowLink2 () {
+  FlowLink2.superClass.constructor.apply(this, arguments);
+}
+
+twaver.Util.ext(FlowLink2, twaver.Link, {
+  getVectorUIClass: function() {
+    return FlowLink2UI;
+  },
+  playAnimate:function(dur){
+    this.animate.play();
+  },
+  setAnimate:function(dur) {
+    var dur = dur || 1200;
+    var self = this;
+    var fNode, tNode;
+    this.animate = new twaver.Animate({
+      from: 0.1,
+      to: 0.99,
+      repeat: 1,
+      reverse: false,
+      dur: dur,
+      // easing: 'easeInStrong',
+      onPlay: function() {
+      },
+      onUpdate: function (value) {
+        self.setClient('percent', value);
+        network.invalidateElementUIs();
+      },
+      onDone: function () {
+        var box = self.getClient('box');
+        if(!box) return;
+        var toNode = self.getToNode();
+        var tl = toNode.getCenterLocation();
+        tNode = new twaver.Node({
+          image:'circle',
+          width:60,
+          height:60,
+          centerLocation:{x:tl.x,y:tl.y},
+          clients:{
+            'depository':'depository',
+            'color': self.getStyle('link.color'),
+            'radius': 100,
+          }
+        });
+        box.add(tNode);
+      }
+    });
+  }
+});
+
+function FlowLink2UI () {
+  FlowLink2UI.superClass.constructor.apply(this, arguments);
+}
+
+twaver.Util.ext(FlowLink2UI, twaver.vector.LinkUI, {
+  paintBody: function (ctx) {
+    var link = this.getElement();
+    var fillColor = link.getClient('fillColor');
+    var shadowColor = link.getClient('shadowColor');
+    var tail = link.getClient('tail');
+    var percent = link.getClient('percent');
+    var paths = this.getLinkPoints();
+    var offset = this.getLineLength() * percent;
+    var tailFactor = link.getClient('tailFactor') || 1.5;
+    var tailRadius = link.getClient('tailRadius') || 2;
+    var point;
+
+    if(link.getClient('track') && link.getClient('controlPoint')){
+      var fromPoint = this._element.getFromAgent().getCenterLocation();
+      var toPoint = this._element.getToAgent().getCenterLocation();
+      var point = _twaver.math.calculatePointInfoAlongLine(paths, true, offset, 0).point;
+      var points = new twaver.List();
+
+      var controlPoint = link.getClient('controlPoint');
+      var c1 = {x:(fromPoint.x + controlPoint.x)/2,y:(fromPoint.y + controlPoint.y)/2};
+      var c2 = {x:(toPoint.x + controlPoint.x)/2,y:(toPoint.y + controlPoint.y)/2};
+      var c3 = {x:(c1.x + c2.x)/2,y:(c1.y + c2.y)/2};
+      points.add(fromPoint);
+      points.add(point);
+      points.add(c1);
+      points.add(c2);
+      points.add(c3);
+
+      var rect = _twaver.math.getRect(points);
+      ctx.beginPath();
+      if(fromPoint.x < toPoint.x){
+        ctx.rect(rect.x,rect.y,Math.abs(point.x - fromPoint.x) + 1.5, rect.height);  
+      }else{
+       ctx.rect(point.x - 1.5,rect.y,Math.abs(point.x - fromPoint.x),rect.height);
+     }
+     ctx.clip();
+   }
+
+   FlowLink2UI.superClass.paintBody.call(this, ctx);
+   
+   for (var i = 0, count = tail; i < count; i++) {
+    var v = i / count;
+    point = _twaver.math.calculatePointInfoAlongLine(paths, true, offset - (count - i)*tailFactor, 0).point;
+    ctx.globalAlpha = v * v;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = shadowColor;
+    ctx.beginPath();
+    ctx.fillStyle = fillColor;
+    ctx.arc(point.x, point.y, tailRadius, 0, Math.PI * 2, false);
+    ctx.fill();
+  }
+  for (var i = 0, count = tail; i < count; i++) {
+    var v = i / count;
+    point = _twaver.math.calculatePointInfoAlongLine(paths, true, offset - (count - i)*1, 0).point;
+    ctx.globalAlpha = v * v;
+    ctx.shadowBlur = 1;
+    ctx.shadowColor = shadowColor;
+    ctx.beginPath();
+    ctx.fillStyle = 'white';
+    ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false);
+    ctx.fill();
+  }
+
+}
+});
+
+function FlowLink () {
+  FlowLink.superClass.constructor.apply(this, arguments);
+}
+
+twaver.Util.ext(FlowLink, twaver.Link, {
+  curentTime:function(){ 
+    var now = new Date();
+    var year = now.getFullYear();       
+    var month = now.getMonth() + 1;     
+    var day = now.getDate();            
+    var hh = now.getHours();            
+    var mm = now.getMinutes();          
+
+    var clock = year + "-";
+
+    if(month < 10)
+      clock += "0";
+
+    clock += month + "-";
+
+    if(day < 10)
+      clock += "0";
+
+    clock += day + " ";
+
+    if(hh < 10)
+      clock += "0";
+
+    clock += hh + ":";
+    if (mm < 10) clock += '0'; 
+    clock += mm; 
+    return(clock); 
+  } ,
+  getVectorUIClass: function() {
+    return FlowLinkUI;
+  },
+  playAnimate:function(dur){
+    var time = this.curentTime();
+    this.setClient('time',time);
+    this.animate.play();
+  },
+  setAnimate:function(dur) {
+    var dur = dur || 1200;
+    var self = this;
+    var fNode, tNode;
+    this.animate = new twaver.Animate({
+      from: 0,
+      to: 0.96,
+      repeat: 1,
+      reverse: false,
+      dur: dur,
+      onPlay: function() {
+        self.s('arrow.from',true);
+      },
+      onUpdate: function (value) {
+        self.s('arrow.from.xoffset',value);
+        network.invalidateElementUIs();
+      },
+      onDone: function () {
+        self.s('arrow.from',false);
+        var box = self.getClient('box');
+        if(!box) return;
+        if(self.getClient('endUnGlow')) return;
+        var toNode = self.getToNode();
+        var tl = toNode.getCenterLocation();
+        tNode = new twaver.Node({
+          image:'circle',
+          width:60,
+          height:60,
+          centerLocation:{x:tl.x,y:tl.y},
+          clients:{
+            'depository':'depository',
+            'color': self.getStyle('link.color'),
+            'radius': 100,
+          }
+        });
+        box.add(tNode);
+      }
+    });
+  }
+});
+
+function FlowLinkUI () {
+  FlowLinkUI.superClass.constructor.apply(this, arguments);
+}
+
+twaver.Util.ext(FlowLinkUI, twaver.vector.LinkUI, {
+  paintBody: function (ctx) {
+    FlowLinkUI.superClass.paintBody.call(this, ctx);
+    var link = this.getElement();
+    var fillColor = link.getClient('fillColor');
+    var shadowColor = link.getClient('shadowColor');
+    var tail = link.getClient('tail');
+    var percent = link.getClient('percent');
+    var paths = this.getLinkPoints();
+    var offset = this.getLineLength() * percent;
+    var point;
+
+    for (var i = 0, count = tail; i < count; i++) {
+      var v = i / count;
+      point = _twaver.math.calculatePointInfoAlongLine(paths, true, offset - (count - i)*1.5, 0).point;
+      ctx.globalAlpha = v * v;
+      ctx.shadowBlur = 5;
+      ctx.shadowColor = shadowColor;
+      ctx.beginPath();
+      ctx.fillStyle = fillColor;
+      ctx.arc(point.x, point.y, 2, 0, Math.PI * 2, false);
+      ctx.fill();
+    }
+  }
+});
+</script>
+</head>
+<body onload="init()">
+</body>
+</html>

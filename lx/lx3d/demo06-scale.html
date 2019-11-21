@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="load()">
+    <div id = "mainDiv" >
+        <canvas id="myCanvas" width="800" height="800"/>
+    </div>
+</body>
+<script src="./js/t.js"></script>
+<script src="./js/twaver.js"></script>
+<script>
+    var network, interaction;
+function load(){
+    var box = new mono.DataBox();
+    var camera = new mono.PerspectiveCamera(30, 1.5, 0.1, 10000);
+    var target = new mono.Vec3(150,50,150); 
+    camera.setPosition(1000,500,1000);
+    camera.lookAt(target);
+    network = new mono.Network3D(box, camera, myCanvas);
+    network.setClearColor("pink")   	
+    network.setInteractions([new mono.DefaultInteraction(network)]);
+    mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');    
+    box.add(new mono.AmbientLight(0xffffff));           
+    var body=new mono.Cylinder(100,50,180,150)
+    body.s({
+        "m.type":"phong",
+        "m.texture.image":"./img/floor.jpg",
+        "m.repeat":new mono.Vec2(8,3)
+    })
+    //box.add(body)
+
+    var cufoffScale = 0.9;
+    var cutoff = body.clone();
+    cutoff.setScale(body.getScale().x * cufoffScale, body.getScale().y * cufoffScale, body.getScale().z * cufoffScale);
+    cutoff.setPositionY(10);
+    //box.add(cutoff);
+    
+var vase = new mono.ComboNode([body, cutoff], ['-']);
+box.add(vase);
+
+var mudScale = 0.85;
+var mud = body.clone();
+mud.setScale(body.getScale().x * mudScale, body.getScale().y * mudScale, body.getScale().z * mudScale);
+mud.s({
+	'm.color': '#555555',
+	'm.ambient': '#555555',
+	'm.repeat': new mono.Vec2(1, 10),
+});
+mud.setPositionY(-5);
+box.add(mud);
+var plant = new mono.Plane(150, 200);
+plant.s({
+  'm.texture.image': './img/stone.jpg',
+  'm.transparent': true,
+  'm.side': mono.DoubleSide,
+});
+plant.setPositionY(130);
+plant.setRotationY(Math.PI*2/count*i);
+box.add(plant);
+    }
+
+    
+</script>
+</html>

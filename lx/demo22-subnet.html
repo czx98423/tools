@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    <div id="main"></div>
+</body>
+<script type="text/javascript">
+ var box = new twaver.ElementBox(); 
+ var network = new twaver.vector.Network(box); 
+ var tree = new twaver.controls.Tree(box); 
+ var table = new twaver.controls.Table(box); 
+ function init() { 
+     //创建分屏
+     var tablePane = new twaver.controls.TablePane(table); 
+     var rightSplit = new twaver.controls.SplitPane(network, tablePane, 'vertical', 0.9); 
+     var mainSplitPane = new twaver.controls.SplitPane(tree, rightSplit, 'horizontal', 0.1); 
+     var networkDom = mainSplitPane.getView(); 
+     networkDom.style.width = "100%"; 
+     networkDom.style.height = "100%"; 
+     document.body.appendChild(networkDom); 
+     network.getView().style.backgroundColor = "pink"; 
+     network.getView().style.cursor = "hand"; 
+     window.onresize = function () { 
+         mainSplitPane.invalidate();
+         } 
+         initDataBox(); } 
+    function initDataBox() { 
+        var subNetworkA = new twaver.SubNetwork(); 
+        subNetworkA.setName("Subnetwork A"); 
+        subNetworkA.setLocation(120, 120); 
+        box.add(subNetworkA); 
+        var groupA = new twaver.Group({ name: 'groupA', location: {x: 100, y: 100} }); 
+        box.add(groupA); 
+        var nodeA = new twaver.Node({ name: 'nodeA', location: {x: 200, y: 200} }); 
+        box.add(nodeA); 
+        var link = new twaver.Link(groupA,nodeA); 
+        box.add(link); 
+        subNetworkA.addChild(nodeA); 
+        subNetworkA.addChild(groupA); 
+        subNetworkA.addChild(link); 
+        var subNetworkB = new twaver.SubNetwork(); 
+        subNetworkB.setName("Subnetwork B"); 
+        subNetworkB.setLocation(120, 20); 
+        box.add(subNetworkB); 
+        var node2=new twaver.Node({name:"ak",name2:"ak2",location:{x:200,y:200}})
+        var node3=new twaver.Node({name:"ak1",name2:"ak12",location:{x:300,y:400}})      
+        var link2=new twaver.Link(node2,node3)
+        link2.setName("ak")
+        box.add(node2) 
+        box.add(node3) 
+        box.add(link2) 
+        subNetworkB.addChild(link2)
+        subNetworkB.addChild(node2)
+        subNetworkB.addChild(node3)
+
+    
+    }
+
+</script>
+
+</html>

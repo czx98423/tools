@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    <button onclick="zoomIn()">1</button>
+    <button onclick="zoomOut()">2</button>
+    <div id="main"></div>
+</body>
+<script>
+  // var network = new twaver.vector.Network(); 相同
+  // var box = network.getElementBox();
+  var box=new twaver.ElementBox();
+  var network=new twaver.vector.Network(box); //
+  var table = new twaver.controls.Table(box); //将table与图元关联
+  var node,freshTableTimerId ;
+function init() { 
+  initNetwork(); 
+  initBox(); 
+  initTable();
+} 
+function initNetwork(){ 
+  //var view = network.getView(); 
+ // document.body.appendChild(view); 
+ var networkDom = network.getView();
+      document.getElementById("main").appendChild(networkDom);
+      network.adjustBounds({x:0,y:0,width:1300,height:800});
+      network.setMaxZoom(100);
+} 
+function initBox() {
+  node = new twaver.HTMLNode();
+      node.setImage(null);
+      var html = "";
+      html+=''+"</p><div style='width:320px;'><p> " +
+      "</p><div id='tableBoxTitle' style='width:320px;height:20px;text-align:center;background-color:#ccc;-moz-border-radius-topright: 10px;-moz-border-radius-topleft: 10px;-webkit-border-top-left-radius: 10px;-webkit-border-top-right-radius: 10px;'> " +
+      "<span>表格标题栏</span>" +
+      "</div><p>" +"</p><div id='tableBox' style='width:320px;'> " +
+      "</div><p>" +"</div><p>";
+      node.setName(html);
+      node.setLocation(200, 0);
+      box.add(node);
+      var i = 10;
+      while (i-- > 0) {
+        var data = new twaver.Node();
+        data.setName("TWaver-" + i);
+        data.setLocation(Math.random()*600 + 400, Math.random()*600 + 100);
+        data.s('inner.color', randomColor());
+        box.add(data);
+      }
+}
+function randomColor() {
+      var r = randomInt(255);
+      var g = randomInt(255);
+      var b = randomInt(255);
+      return '#' + formatNumber((r << 16) | (g << 8) | b);
+    }
+function randomInt(n) {
+  return Math.floor(Math.random() * n);
+}    
+function formatNumber(value) {
+      var result = value.toString(16);
+      while (result.length < 6) { result = '0' + result; } return result; 
+}
+function initTable(){
+  network.addViewListener(function(e){
+        if(e.kind === 'validateEnd'){
+          var tableBox = document.getElementById('tableBox');
+          var tablePane = new twaver.controls.TablePane(table);
+          var tableDom = tablePane.getView();
+          tableDom.style.width = "320px";
+          tableDom.style.height = "300px";
+          tableBox.appendChild(tableDom);
+        }
+      });
+  createColumn(table, 'Name', 'name', 'accessor');
+  createColumn(table, 'Id', 'id', 'accessor');
+  createColumn(table, 'Icon', 'icon', 'accessor');
+  var column=createColumn(table,"Inner color","inner.color","style","color")
+  column.setSortFunction(function (color1, color2) {
+        if (!color1) {
+          return -1;
+        }
+        if (!color2) {
+          return 1;
+        }
+        var number1 = parseInt(color1.substring(1), 16);
+        var r1 = (number1 >> 16) & 0xff;
+        var g1 = (number1 >> 8) & 0xff;
+        var b1 = number1 & 0xff;
+        var number2 = parseInt(color2.substring(1), 16);
+        var r2 = (number2 >> 16) & 0xff;
+        var g2 = (number2 >> 8 ) & 0xff;
+        var b2 = number2 & 0xff;
+        return (r1 + g1 + b1) - (r2 + g2 + b2);
+      });
+}
+function createColumn(table, name, propetyName, propertyType, valueType) {
+      var column = new twaver.Column(name);
+      column.setName(name);
+      column.setPropertyName(propetyName);
+      column.setPropertyType(propertyType);
+      if (valueType) {
+        column.setValueType(valueType);
+      }
+      table.getColumnBox().add(column);
+      return column;
+    }
+function addAlarm(alarmID, elementID, alarmSeverity, alarmBox) {
+  var alarm = new twaver.Alarm(alarmID, elementID, alarmSeverity);
+  alarmBox.add(alarm);
+}
+function zoomIn(){
+      network.zoomIn(10);
+    }
+ 
+    function zoomOut(){
+      network.zoomOut();
+    }
+ 
+</script>
+</html>

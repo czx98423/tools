@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="monoCanvas"></canvas>
+    </div>
+</body>
+<script src="./js/t.js"></script>
+<script src="./js/twaver.js"></script>
+<script src="./js/jquery.js"></script>
+<script src="./js/twaver-make.js"></script>
+<script>
+    var box = new mono.DataBox();
+var network = new mono.Network3D(box, null, monoCanvas);
+mono.Utils.autoAdjustNetworkBounds(network, document.documentElement, 'clientWidth', 'clientHeight');
+
+var pointlight = new mono.PointLight(0xffffff, 0.5)
+pointlight.setPosition(1000, 1000, 1000)
+box.add(pointlight)
+var camera = network.getCamera();
+camera.setPosition(-758.4344224813372, 966.1554351353735, 874.8157303237876);
+camera.setNear(20);
+camera.setFar(160000);
+camera.setFov(150);
+var node;
+box.add(new mono.AmbientLight(0x888888));
+    make.Default.registerObj('shuichi','shuiccc','./models/shuichi/');
+    make.Default.load('shuichi',function(obj){
+        obj.setPosition(0,0,0)
+        node = obj
+        box.addByDescendant(obj)
+    })
+</script>
+</html>

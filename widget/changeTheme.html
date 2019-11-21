@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<link rel="stylesheet" href="css/1/1.css">
+<body>
+  <div>主题切换测试</div>
+  <button id='btn' onclick="change()">切换</button>
+</body>
+<script>
+    var link = document.getElementsByTagName('link')
+    var button = document.getElementById('btn')
+   // var change=function(){
+      Array.from(link).forEach(e=>{
+      console.log(e.getAttribute('href'))
+      e.setAttribute('href','css/2/1.css')
+    })
+//  }
+
+
+</script>
+</html>

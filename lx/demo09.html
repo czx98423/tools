@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    
+</body>
+<script>
+    //基于Node封装新的样式Cnode
+    CNode = function(id) {
+    CNode.superClass.constructor.call(this, id);
+    
+}
+console.log(twaver.Util,twaver) 
+twaver.Util.ext("CNode", twaver.Node, {
+    getVectorUIClass: function (){
+        return CNodeUI;
+    }
+});
+ 
+CNodeUI = function(network, element) {
+    CNodeUI.superClass.constructor.call(this, network, element);
+}
+ 
+twaver.Util.ext('CNodeUI', twaver.vector.NodeUI, {
+    checkAttachments: function() {
+        CNodeUI.superClass.checkAttachments.call(this);
+        this.checkCAttachment();
+ 
+    },
+    checkCAttachment: function () {
+        var tip = this._element.getClient("tip");
+        var showTip = this._element.getClient("show.tip");
+    if (tip != null && tip !== "" && showTip !=null &&showTip !=false) {
+            if (!this._CAttachment) {
+                this._CAttachment = new CAttachment(this);
+                this.addAttachment(this._CAttachment);
+            }
+        } else {
+            if (this._CAttachment) {
+                this.removeAttachment(this._CAttachment);
+                this._CAttachment = null;
+            }
+        }
+    }
+});
+ 
+CAttachment = function(elementUI, showInAttachmentDiv) {
+    CAttachment.superClass.constructor.call(this, elementUI, showInAttachmentDiv);
+};
+//拓展样式 
+twaver.Util.ext('CAttachment', twaver.canvas.BasicAttachment, {
+    paint: function (ctx) {
+        CAttachment.superClass.paint.apply(this, arguments);
+        _twaver.g.drawText(ctx, this.text, this._contentRect, this.font, this.getStyle('alarm.color'));
+    },
+    validate: function () {
+        this.font = null;
+        if(this._element.getClient("tip.font")) {
+            this.font = this._element.getClient("tip.font");
+        }
+        this.text = this._element.getClient("tip");
+        this._textSize = _twaver.g.getTextSize(this.font, this.text);
+        this._fillColor = this._element.getClient("tip.fill.color");
+        twaver.canvas.LabelAttachment.superClass.validate.call(this);
+    },
+    getContentWidth: function () {
+        if(this._element.getClient("tip.width")) {
+            return this._element.getClient("tip.width");
+        }
+        return this._textSize ? this._textSize.width : 0;
+    },
+    getContentHeight: function () {
+        if(this._element.getClient("tip.height")) {
+            return this._element.getClient("tip.height");
+        }
+        return this._textSize ? this._textSize.height : 0;
+    },
+    getCornerRadius: function () {
+        if(this._element.getClient('tip.corner.radius')) {
+            return this._element.getClient('tip.corner.radius');
+        }
+        return 5;
+    },
+    getPointerLength: function () {
+        if(this._element.getClient('tip.pointer.length')) {
+            return this._element.getClient('tip.pointer.length');
+        }
+        return 10;
+    },
+    getPointerWidth: function () {
+        if(this._element.getClient('tip.pointer.width')) {
+            return this._element.getClient('tip.pointer.width');
+        }
+        return 8;
+    },
+    getPosition: function () {
+        if(this._element.getClient('tip.position')) {
+            return this._element.getClient('tip.position');
+        }
+        return "topleft.topleft";// 'topleft.topleft', 'top.top', 'topright.topright', 'right.right', 'left.left', 'bottom.bottom', 'bottomleft.bottomleft', 'bottomright.bottomright'
+    },
+    getXOffset: function () {
+        if(this._element.getClient('tip.xoffset')) {
+            return this._element.getClient('tip.xoffset');
+        }
+        return 0;
+    },
+    getYOffset: function () {
+        if(this._element.getClient('tip.yoffset')) {
+            return this._element.getClient('tip.yoffset');
+        }
+        return 0;
+    },
+    getPadding: function () {
+        if(this._element.getClient('tip.padding.left')) {
+            return this._element.getClient('tip.padding.left');
+        }
+        return 0;
+    },
+    getPaddingLeft: function () {
+        if(this._element.getClient('tip.padding.left')) {
+            return this._element.getClient('tip.padding.left');
+        }
+        return 0;
+    },
+    getPaddingRight: function () {
+        if(this._element.getClient('tip.padding.right')) {
+            return this._element.getClient('tip.padding.right');
+        }
+        return 0;
+    },
+    getPaddingTop: function () {
+        if(this._element.getClient('tip.padding.top')) {
+            return this._element.getClient('tip.padding.top');
+        }
+        return 0;
+    },
+    getPaddingBottom: function () {
+        if(this._element.getClient('tip.padding.bottom')) {
+            return this._element.getClient('tip.padding.bottom');
+        }
+        return 0;
+    },
+    getDirection: function () {
+        if(this._element.getClient('tip.direction')) {
+            return this._element.getClient('tip.direction');
+        }
+        return "aboveleft";
+    },
+    isFill: function () {
+        return this._fillColor != null;
+    },
+    getFillColor: function () {
+        return this._fillColor;
+    },
+    getGradient: function () {
+        if(this._element.getClient('tip.gradient')) {
+            return this._element.getClient('tip.gradient');
+        }
+        return "none";
+    },
+    getGradientColor: function () {
+        if(this._element.getClient('tip.gradient.color')) {
+            return this._element.getClient('tip.gradient.color');
+        }
+        return "#FFFFFF";
+    },
+    getOutlineWidth: function () {
+        if(this._element.getClient('tip.outline.width')) {
+            return this._element.getClient('tip.outline.width');
+        }
+        return -1;
+    },
+    getOutlineColor: function () {
+        if(this._element.getClient('tip.outline.color')) {
+            return this._element.getClient('tip.outline.color');
+        }
+        return "#000000";
+    },
+    getCap: function () {
+        if(this._element.getClient('tip.cap')) {
+            return this._element.getClient('tip.cap');
+        }
+        return 'butt';
+    },
+    getJoin: function () {
+        if(this._element.getClient('tip.join')) {
+            return this._element.getClient('tip.join');
+        }
+        return 'miter';
+    },
+    getAlpha: function () {
+        if(this._element.getClient('tip.alpha')) {
+            return this._element.getClient('tip.alpha');
+        }
+        return 1;
+    },
+    isShadowable: function () {
+        return false;
+    }
+});
+console.log(new CNode,new CNodeUI)
+     var box = new twaver.ElementBox();
+      var network = new twaver.vector.Network(box); 
+      function init() { initNetwork(); initDataBox(); } 
+      function initNetwork(){ document.body.appendChild(network.getView()); 
+        network.getView().style.background = '#E9E9E9'; 
+
+        network.adjustBounds({x: 10, y: 10, width: 500, height: 300}); 
+        
+        network.addInteractionListener(function(e) { console.log(e.kind); 
+            if(e.kind == "doubleClickElement") 
+            { 
+                if(e.element.getClient("show.tip")) { e.element.setClient("show.tip", false); 
+            }
+        
+             else
+              { e.element.setClient("show.tip", true); } } }); } 
+
+             function initDataBox(){ 
+                 var node1 = new CNode({name:"a"});
+                  node1.setClient("show.tip", false); 
+             node1.setClient("tip","testTip"); 
+             node1.setClient("tip.fill.color","rgba(255,255,0,0.8)");
+              node1.setClient("tip.width",80); 
+              node1.setClient("tip.height",50);
+               node1.setClient("tip.corner.radius",10);
+                node1.setClient("tip.pointer.length",20); 
+                node1.setClient("tip.pointer.width",20); 
+                var node2 = new CNode({name:"a2"}); 
+                node2.setClient("show.tip", false); node2.setClient("tip","testTip2");
+                 node2.setClient("tip.fill.color","rgba(255,255,0,0.3)"); 
+                 node2.setClient("tip.width",80); node2.setClient("tip.height",50); 
+                 node2.setClient("tip.corner.radius",10);
+                  node2.setClient("tip.pointer.length",20); 
+                  node2.setClient("tip.pointer.width",20);
+                   var link = new twaver.Link(node1, node2); node1.setLocation(200, 100);
+                    node2.setLocation(300, 200); box.add(node1); box.add(node2); box.add(link);}
+</script>
+</html>

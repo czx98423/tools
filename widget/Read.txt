@@ -1,0 +1,14 @@
+基于countUp.js 在代码内修改过查询修改位置用 @ 
+再使用jQuery-ui widget 封装小插件 
+实现可控 title，小数值，是否用0补齐整数位不足的长度
+
+使用：$("xxx").count({.......})
+可配置参数：
+            start:0,//起始值
+            end:0,//更新值
+            decimals:2,//保留多少小数
+            duration:2,//数值跳动时间
+            isPad:false,//是否用0补齐
+            maxLength:5,//当ispad=true一起决定 当整数个数不足maxlength，用0在前补齐个数
+            options:{},//
+            title:undefined,//不传入就不添加title

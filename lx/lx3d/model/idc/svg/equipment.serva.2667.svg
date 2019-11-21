@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.6px" height="126.1px" viewBox="0 0 1275.6 126.1" enable-background="new 0 0 1275.6 126.1" xml:space="preserve">
+<g id="XMLID_22421_">
+	<rect id="XMLID_22484_" fill="#2D2D2D" width="1275.6" height="126.1"/>
+</g>
+<g id="XMLID_22084_">
+	<rect id="XMLID_22086_" x="566.5" y="57.9" fill="#030000" width="43.1" height="36.6"/>
+	<linearGradient id="XMLID_4_" gradientUnits="userSpaceOnUse" x1="567.0069" y1="76.302" x2="609.0157" y2="76.302">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22085_" x="567" y="58.7" fill="url(#XMLID_4_)" width="42" height="35.3"/>
+</g>
+<g id="XMLID_22065_">
+	
+		<rect id="XMLID_22070_" x="620" y="80.1" fill="#1C1D20" stroke="#CCCCCC" stroke-width="0.5" stroke-miterlimit="10" width="35.6" height="14.6"/>
+	<rect id="XMLID_22069_" x="634" y="93.9" fill="#ACACAF" width="7.5" height="0.7"/>
+	<rect id="XMLID_22068_" x="624.1" y="87.4" fill="#5A5B55" width="27.3" height="4"/>
+	<rect id="XMLID_22067_" x="653.3" y="93.2" fill="#ACACAF" width="2.3" height="1.5"/>
+	<rect id="XMLID_22066_" x="620" y="93.2" fill="#ACACAF" width="2.3" height="1.5"/>
+</g>
+<g id="XMLID_22059_">
+	
+		<rect id="XMLID_22064_" x="620" y="57.9" fill="#1C1D20" stroke="#CCCCCC" stroke-width="0.5" stroke-miterlimit="10" width="35.6" height="14.6"/>
+	<rect id="XMLID_22063_" x="634" y="71.8" fill="#ACACAF" width="7.5" height="0.7"/>
+	<rect id="XMLID_22062_" x="624.1" y="65.2" fill="#5A5B55" width="27.3" height="4"/>
+	<rect id="XMLID_22061_" x="653.3" y="71" fill="#ACACAF" width="2.3" height="1.5"/>
+	<rect id="XMLID_22060_" x="620" y="71" fill="#ACACAF" width="2.3" height="1.5"/>
+</g>
+<text id="XMLID_22058_" transform="matrix(1 0 0 1 570.5818 52.6553)" fill="#E2E1E0" font-family="'MicrosoftYaHei'" font-size="7px">CONSOLE</text>
+<text id="XMLID_22057_" transform="matrix(1 0 0 1 630.1493 52.6553)" fill="#E2E1E0" font-family="'MicrosoftYaHei'" font-size="7px">USB</text>
+<g id="XMLID_22054_">
+	<rect id="XMLID_22056_" x="674.1" y="58" fill="#030000" width="43.1" height="36.6"/>
+	
+		<linearGradient id="XMLID_5_" gradientUnits="userSpaceOnUse" x1="-2912.8599" y1="21818.6758" x2="-2870.8511" y2="21818.6758" gradientTransform="matrix(-1 0 0 -1 -2196.2671 21895.0039)">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22055_" x="674.6" y="58.7" fill="url(#XMLID_5_)" width="42" height="35.3"/>
+</g>
+<g id="XMLID_22038_">
+	<rect id="XMLID_22040_" x="719.6" y="58" fill="#030000" width="43.1" height="36.6"/>
+	
+		<linearGradient id="XMLID_6_" gradientUnits="userSpaceOnUse" x1="-2958.3711" y1="21818.6758" x2="-2916.3623" y2="21818.6758" gradientTransform="matrix(-1 0 0 -1 -2196.2671 21895.0039)">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22039_" x="720.1" y="58.7" fill="url(#XMLID_6_)" width="42" height="35.3"/>
+</g>
+<text id="XMLID_22024_" transform="matrix(1 0 0 1 692.1122 50.3225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">0</text>
+<text id="XMLID_21977_" transform="matrix(1 0 0 1 737.1122 50.3225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">1</text>
+<g id="XMLID_21974_">
+	<rect id="XMLID_21976_" x="765.5" y="58" fill="#030000" width="43.1" height="36.6"/>
+	
+		<linearGradient id="XMLID_8_" gradientUnits="userSpaceOnUse" x1="-3004.323" y1="21818.6758" x2="-2962.314" y2="21818.6758" gradientTransform="matrix(-1 0 0 -1 -2196.2671 21895.0039)">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_21975_" x="766" y="58.7" fill="url(#XMLID_8_)" width="42" height="35.3"/>
+</g>
+<g id="XMLID_21838_">
+	<rect id="XMLID_21840_" x="811" y="58" fill="#030000" width="43.1" height="36.6"/>
+	
+		<linearGradient id="XMLID_9_" gradientUnits="userSpaceOnUse" x1="-3049.834" y1="21818.6758" x2="-3007.8252" y2="21818.6758" gradientTransform="matrix(-1 0 0 -1 -2196.2671 21895.0039)">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_21839_" x="811.6" y="58.7" fill="url(#XMLID_9_)" width="42" height="35.3"/>
+</g>
+<text id="XMLID_20089_" transform="matrix(1 0 0 1 784.5974 50.3225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">2</text>
+<text id="XMLID_4987_" transform="matrix(1 0 0 1 829.5974 50.3225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">3</text>
+<text id="XMLID_22116_" transform="matrix(1 0 0 1 987.8109 20.8225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">4</text>
+<g id="XMLID_22112_">
+	<rect id="XMLID_22114_" x="969.3" y="26.3" fill="#030000" width="43.1" height="77.5"/>
+	<linearGradient id="XMLID_10_" gradientUnits="userSpaceOnUse" x1="969.8343" y1="65.17" x2="1011.8431" y2="65.17">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22113_" x="969.8" y="27.8" fill="url(#XMLID_10_)" width="42" height="74.7"/>
+</g>
+<text id="XMLID_22145_" transform="matrix(1 0 0 1 1056.3109 20.8225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">5</text>
+<g id="XMLID_22142_">
+	<rect id="XMLID_22144_" x="1037.8" y="26.3" fill="#030000" width="43.1" height="77.5"/>
+	<linearGradient id="XMLID_11_" gradientUnits="userSpaceOnUse" x1="1038.3344" y1="65.17" x2="1080.3431" y2="65.17">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22143_" x="1038.3" y="27.8" fill="url(#XMLID_11_)" width="42" height="74.7"/>
+</g>
+<text id="XMLID_22174_" transform="matrix(1 0 0 1 1124.8109 20.8225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">6</text>
+<g id="XMLID_22171_">
+	<rect id="XMLID_22173_" x="1106.3" y="26.3" fill="#030000" width="43.1" height="77.5"/>
+	<linearGradient id="XMLID_12_" gradientUnits="userSpaceOnUse" x1="1106.8344" y1="65.17" x2="1148.8431" y2="65.17">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22172_" x="1106.8" y="27.8" fill="url(#XMLID_12_)" width="42" height="74.7"/>
+</g>
+<text id="XMLID_22203_" transform="matrix(1 0 0 1 1190.3822 20.8225)" fill="#EFEFEF" font-family="'MicrosoftYaHei'" font-size="10px">7</text>
+<g id="XMLID_22200_">
+	<rect id="XMLID_22202_" x="1171.9" y="26.3" fill="#030000" width="43.1" height="77.5"/>
+	<linearGradient id="XMLID_13_" gradientUnits="userSpaceOnUse" x1="1172.4056" y1="65.17" x2="1214.4146" y2="65.17">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect id="XMLID_22201_" x="1172.4" y="27.8" fill="url(#XMLID_13_)" width="42" height="74.7"/>
+</g>
+<text id="XMLID_22208_" transform="matrix(1 0 0 1 513.7213 88.2655)" fill="#DDDDDD" font-family="'MicrosoftYaHei'" font-size="6px">STATUS</text>
+<radialGradient id="XMLID_14_" cx="-4235.3555" cy="9284.7969" r="4.7995" gradientTransform="matrix(-1 0 0 -1 -3688.5698 9370.8281)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.6774" style="stop-color:#2B2B2B"/>
+	<stop  offset="0.8441" style="stop-color:#595757"/>
+	<stop  offset="1" style="stop-color:#000000"/>
+</radialGradient>
+<path id="XMLID_22207_" fill="url(#XMLID_14_)" d="M542,86c0-2.6,2.1-4.8,4.8-4.8c2.7,0,4.8,2.1,4.8,4.8c0,2.7-2.1,4.8-4.8,4.8
+	C544.1,90.8,542,88.7,542,86"/>
+<circle id="XMLID_22206_" fill="none" stroke="#131313" stroke-width="0.75" stroke-miterlimit="10" cx="546.8" cy="86" r="4.8"/>
+<circle id="XMLID_22115_" fill="#B5ED2E" cx="546.8" cy="86" r="3.7"/>
+<text id="XMLID_22215_" transform="matrix(1 0 0 1 514.0333 70.2905)" fill="#DDDDDD" font-family="'MicrosoftYaHei'" font-size="6px">POWER</text>
+<radialGradient id="XMLID_15_" cx="-4235.3555" cy="9302.7715" r="4.7995" gradientTransform="matrix(-1 0 0 -1 -3688.5698 9370.8281)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.6774" style="stop-color:#2B2B2B"/>
+	<stop  offset="0.8441" style="stop-color:#595757"/>
+	<stop  offset="1" style="stop-color:#000000"/>
+</radialGradient>
+<path id="XMLID_22214_" fill="url(#XMLID_15_)" d="M542,68.1c0-2.6,2.1-4.8,4.8-4.8c2.7,0,4.8,2.1,4.8,4.8c0,2.7-2.1,4.8-4.8,4.8
+	C544.1,72.9,542,70.7,542,68.1"/>
+<circle id="XMLID_22213_" fill="none" stroke="#131313" stroke-width="0.75" stroke-miterlimit="10" cx="546.8" cy="68.1" r="4.8"/>
+<circle id="XMLID_22210_" fill="#B5ED2E" cx="546.8" cy="68.1" r="3.7"/>
+</svg>

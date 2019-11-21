@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="load()">
+    <div id = "mainDiv" >
+        <canvas id="myCanvas" width="800" height="800"/>    
+    </div>
+    <div id="plu">+</div>
+    <div id="inc">-</div>
+</body>
+<style>
+#plu,#inc{
+    position: fixed;
+    top:100px;
+    border: 1px solid black;
+}
+#plu{
+    left:200px;
+}
+</style>
+<script src="./js/t.js"></script>
+<script src="./js/twaver.js"></script>
+<script src="./js/jquery.js"></script>
+<script>
+
+var network, interaction;
+var path,node;
+var box = new mono.DataBox();
+    var camera = new mono.PerspectiveCamera(50, 1, 1.5, 3000);
+    var target = new mono.Vec3(150,50,150); 
+function load(){  
+    camera.setPosition(-700,1000,500);
+    camera.lookAt(target);
+    network = new mono.Network3D(box, camera, myCanvas);
+    network.setClearColor("pink")   	
+    network.setInteractions([new mono.DefaultInteraction(network)]);
+    mono.Utils.autoAdjustNetworkBounds(network,document.documentElement,'clientWidth','clientHeight');    
+    box.add(new mono.AmbientLight(0xffffff));           
+    network.setShowAxis(true);//显示原地
+network.setShowAxisText(true);//显示坐标线
+path = new mono.Path();
+path.moveTo(0,100,0);
+path.lineTo(200,100,0);
+path.lineTo(200,200,0);
+path.lineTo(300,200,0);
+//path = mono.PathNode.prototype.adjustPath(path,20,1);
+
+//path = mono.PathNode.prototype.adjustPath(path,2, 100);
+node=new mono.PathNode(path, 5, 5, 50);
+box.add(node)
+
+node.s({
+    'm.color':"#B0C7E2",
+	'm.gradientType': 1,
+    'm.texture.repeat': new mono.Vec2(1,-1),
+})
+path.moveTo(0,100,0);
+path.lineTo(200,100,0);
+
+node.setPath(path)
+
+
+var animate = new twaver.Animate({
+      from: 0,
+      to: 1,
+      dur: 5000,
+      easing:'easeOut',
+      onUpdate: function (value) {
+        var color={
+            '0':'#00085F',
+            '1':'#B0C7E2',
+        }
+        color[value+0.1]='#B0C7E2';
+        color[value+0.05]='#2BF2FE'
+        color[value]='#00085F'
+        node.s({
+            'm.gradient':color
+        })
+      },
+      onDone: function () {
+        node.s({
+            'm.color':"#00085F"
+        })
+      }
+    });
+    animate.play();
+  }
+
+
+</script>
+</html>

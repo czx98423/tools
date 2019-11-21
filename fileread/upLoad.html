@@ -1,0 +1,157 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-01-25 10:30:49
+ * @LastEditTime: 2019-08-26 14:42:09
+ * @LastEditors: Please set LastEditors
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    *{
+    padding: 0;
+    margin: 0;
+}
+img {
+    display: block;
+    width: 500px;
+}
+.card{
+    display: inline-block;
+    position: relative;
+    width: 400px;
+    height: 250px;
+}
+.card img{
+    width: 100%;
+}
+.card .down_btn_a {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #20b1aa;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+}
+.card .down_btn_a:hover {
+    background-color: #ccc;
+    color: #000;
+}
+html{
+    height: 100%;
+    width: 100%;   
+}
+.bg{
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+</style>
+<link rel="stylesheet" href="./css/font.css">
+<script src="./jquery.js"></script>
+<script src="./taiwan.js"></script>
+<!-- <script src="./js/scale.js"></script> -->
+<body class="bg">
+        <div>
+            <!-- <a href="./导入模板-用户.xlsx" download="导入模板-用户.xlsx" class="pir">点击下载</a> -->
+        <button id='down'>down</button>
+        <br>
+            <input id='file' type="file"><button id='up' class="pir">上传</button>
+            <em class="pir">ABC</em>
+            <div class="pir">edf13</div>
+        </div>
+</body>
+<script>
+    console.log(_twJson);console.log(_twJson2)
+var canvas = document.createElement('canvas');
+var context = canvas.getContext('2d');
+var img =new Image();
+var reader = new FileReader()
+$("#up").click(function(){
+    
+    var fileList=document.getElementById('file');
+    file=fileList.files[0];
+    
+    //压缩图片
+    reader.onload = function(e) {
+        img.src = e.target.result;
+    };
+    if (file.type.indexOf("image") == 0) {
+        reader.readAsDataURL(file);    
+    }
+    img.onload = function () {
+    // 图片原始尺寸
+    var originWidth = this.width;
+    var originHeight = this.height;
+    // 最大尺寸限制
+    var maxWidth = 400, maxHeight = 400;
+    // 目标尺寸
+    var targetWidth = originWidth, targetHeight = originHeight;
+    // 图片尺寸超过400x400的限制
+    if (originWidth > maxWidth || originHeight > maxHeight) {
+        if (originWidth / originHeight > maxWidth / maxHeight) {
+            // 更宽，按照宽度限定尺寸
+            targetWidth = maxWidth;
+            targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+        } else {
+            targetHeight = maxHeight;
+            targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+        }
+    } 
+    // canvas对图片进行缩放
+    document.body.appendChild(canvas)
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+    // 清除画布
+    context.clearRect(0, 0, targetWidth, targetHeight);
+    // 图片压缩
+    context.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+    var dataurl = canvas.toDataURL('image/png'); //base64图片数据
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]), //解析base64编码
+    n = bstr.length, 
+    u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    //编码段转换成图片
+    file = new Blob([u8arr], {type:mime});
+    //压缩结束
+    var form = new FormData();
+    form.append('upload',file,new Date().getTime()+'.png');
+    form.append('type','wrnm')
+    $.ajax({
+            url: '/upload',
+            type: "post",
+            contentType: 'multipart/form-data; charset=UTF-8', //当上传文档时则要这个type，否则服务器不知道怎样读取
+            data: form,
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头，此时header的contentType就会有个：boundary=...
+            beforeSend: function () {
+                console.log("in_progress");
+            },
+            success: function (data) {
+                console.log(data);
+                if(data='上传成功！')
+                alert("ok")
+            },
+            error: function (e) {
+                alert('error');
+            }
+        });
+    }
+})    
+
+</script>
+</html>

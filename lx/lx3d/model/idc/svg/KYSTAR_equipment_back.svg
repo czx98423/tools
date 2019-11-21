@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.59px" height="126.14px" viewBox="0 0 1275.59 126.14" enable-background="new 0 0 1275.59 126.14"
+	 xml:space="preserve">
+<g>
+	<rect y="-0.001" fill="#474747" width="1275.59" height="126.142"/>
+	
+		<rect x="7.586" y="7.039" fill="#474747" stroke="#151515" stroke-width="2" stroke-miterlimit="10" width="1259.052" height="112.063"/>
+</g>
+<g>
+	<circle fill="#030000" cx="67.47" cy="25.331" r="4.5"/>
+	<circle fill="#030000" cx="67.47" cy="38.267" r="4.5"/>
+</g>
+<rect x="76.648" y="18.464" fill="#030000" width="94.672" height="26.668"/>
+<path fill="#030000" d="M237.729,28.306h-5.822v-0.483c0-2.762-2.238-5-5-5H192.22c-2.762,0-5,2.238-5,5v0.483h-5.822
+	c-1.786,0-3.234,1.448-3.234,3.234s1.448,3.235,3.234,3.235h5.822v0.482c0,2.762,2.238,5,5,5h34.688c2.762,0,5-2.238,5-5v-0.482
+	h5.822c1.786,0,3.234-1.449,3.234-3.235S239.516,28.306,237.729,28.306z"/>
+<g>
+	<rect x="74.648" y="63.07" fill="#030000" width="85.804" height="39.567"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="76.6006" y1="82.8926" x2="160.4521" y2="82.8926">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect x="76.601" y="63.834" fill="url(#SVGID_1_)" width="83.852" height="38.117"/>
+</g>
+<g>
+	<rect x="335.982" y="19.07" fill="#030000" width="119.395" height="39.567"/>
+	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="338.6992" y1="38.8931" x2="455.377" y2="38.8931">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect x="338.699" y="19.834" fill="url(#SVGID_2_)" width="116.678" height="38.117"/>
+</g>
+<path fill="#2F302F" d="M453.816,50.425c0,1.104-0.896,2-2,2h-28.607c-1.104,0-2-0.896-2-2V25.55c0-1.104,0.896-2,2-2h28.607
+	c1.104,0,2,0.896,2,2V50.425z"/>
+<g>
+	<rect x="335.982" y="64.148" fill="#030000" width="119.395" height="39.566"/>
+	<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="338.6992" y1="83.9707" x2="455.377" y2="83.9707">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1688" style="stop-color:#B1B4B5"/>
+		<stop  offset="0.4086" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.7581" style="stop-color:#B1B4B5"/>
+		<stop  offset="1" style="stop-color:#C2C2C2"/>
+	</linearGradient>
+	<rect x="338.699" y="64.912" fill="url(#SVGID_3_)" width="116.678" height="38.117"/>
+</g>
+<path fill="#2F302F" d="M453.816,95.504c0,1.104-0.896,2-2,2h-28.607c-1.104,0-2-0.896-2-2V70.629c0-1.104,0.896-2,2-2h28.607
+	c1.104,0,2,0.896,2,2V95.504z"/>
+<path fill="none" stroke="#E8E8E8" stroke-miterlimit="10" d="M1101.847,59.304c0,1.104-1.31,2-2.924,2H706.05
+	c-1.615,0-2.925-0.896-2.925-2V24.423c0-1.104,1.31-2,2.925-2h392.873c1.614,0,2.924,0.896,2.924,2V59.304z"/>
+<rect x="1142.304" y="23.423" fill="#E0E0DF" width="69.911" height="5.725"/>
+<rect x="741.831" y="54.034" fill="#E0E0DF" width="27.771" height="4.604"/>
+<rect x="886.702" y="54.034" fill="#E0E0DF" width="27.771" height="4.604"/>
+<rect x="742.6" y="103.715" fill="#E0E0DF" width="27.771" height="4.604"/>
+<rect x="887.471" y="103.715" fill="#E0E0DF" width="27.771" height="4.604"/>
+<rect x="1031.573" y="54.034" fill="#E0E0DF" width="27.771" height="4.604"/>
+<rect x="78.745" y="48.648" fill="#E0E0DF" width="10.768" height="2.762"/>
+<rect x="113.143" y="48.648" fill="#E0E0DF" width="10.768" height="2.762"/>
+<rect x="93.831" y="106.938" fill="#E0E0DF" width="10.768" height="2.762"/>
+<rect x="133.229" y="106.938" fill="#E0E0DF" width="10.768" height="2.762"/>
+<rect x="204.18" y="50.029" fill="#E0E0DF" width="10.768" height="2.762"/>
+<rect x="147.539" y="48.648" fill="#E0E0DF" width="10.769" height="2.762"/>
+</svg>

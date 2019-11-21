@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+.number_block,.point_block{
+    font-family: "Microsoft YaHei";
+    color: #ffffff;
+    text-align: center;
+    margin: 0 2px;
+    height: 55px;
+    opacity: 0.85;
+}
+.number_block{ 
+    width: 38px; 
+    background-image: url("img/b.png");
+    background-repeat: no-repeat;
+    background-size:38px 55px;
+    -moz-background-size:38px 55px;   
+}
+.point_block{
+    width: 28px;
+    background-image: url("img/l.png");
+    background-repeat: no-repeat;
+    background-size:28px 55px;
+    -moz-background-size:28px 55px;
+}
+.CountUp_title{
+    margin: 5px 2px;
+    color: #00e4ff;
+    font-size: 16px;
+    font-weight: 600;
+}
+</style>
+<body>
+    <div id="a2"></div>
+    <div id="a22"></div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/countUp.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/oidCount.js"></script>
+<script> 
+    $("#a2").count({end:10608,isPad:true,maxLength:6,title:"实时存储总量（单位：吨）"})
+    setTimeout(()=>{
+        $("#a2").count("update")
+    },2000)
+    $("#a22").count({end:80608,isPad:true,maxLength:6,title:"实时存储总量（单位：吨）"})
+    setTimeout(()=>{
+        $("#a22").count("update")
+    },2000)
+</script>
+</html>

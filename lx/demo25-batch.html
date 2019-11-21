@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+        <button> xmlRead </button>
+</body>
+<script type="text/javascript">
+ function init() { 
+        var box = new twaver.ElementBox(); 
+        var network = new twaver.vector.Network();  
+        document.body.appendChild(network.getView()); 
+        network.getView().style.background = '#E9E9E9'; 
+        network.adjustBounds({x: 0, y: 0, width: 1300, height: 800}); 
+        console.time("createLink"); 
+        twaver.Styles.setStyle('link.bundle.enable',false); 
+        var from = new twaver.Node({ 
+            name:'from', 
+            location:{x:100, y:100} 
+        }); 
+        box.add(from);
+        box.startBatch(function(){ 
+            for(var i = 0, len = 2000; i< len; i++){ 
+                var to = new twaver.Node({ 
+                    name:'to', 
+                    location:{x:Math.random()*1000, y:Math.random()*500} 
+                }); 
+                box.add(to); 
+ 
+                var link = new twaver.Link(from,to); 
+                box.add(link); 
+            } 
+        });
+        network.setElementBox(box); 
+        console.timeEnd("createLink"); 
+    } 
+</script>
+
+</html>

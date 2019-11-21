@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.59px" height="126.143px" viewBox="0 0 1275.59 126.143" enable-background="new 0 0 1275.59 126.143"
+	 xml:space="preserve">
+<g>
+	<g>
+		<rect y="1.687" fill="#B1A89A" width="1275.59" height="124.455"/>
+	</g>
+	<g>
+		<rect fill="#DCD6CE" width="1275.59" height="23.915"/>
+	</g>
+	<g>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="637.7954" y1="126.1416" x2="637.7954" y2="83.8447">
+			<stop  offset="0" style="stop-color:#B0A698"/>
+			<stop  offset="0.3333" style="stop-color:#DCD6CC"/>
+			<stop  offset="1" style="stop-color:#4E4D4D"/>
+		</linearGradient>
+		<rect y="83.845" fill="url(#SVGID_1_)" width="1275.59" height="42.297"/>
+	</g>
+	<g>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_2_" d="M77.302,46.077c0,3.065,2.519,5.551,5.625,5.551c3.106,0,5.625-2.485,5.625-5.551
+						c0-3.063-2.519-5.549-5.625-5.549C79.821,40.528,77.302,43.014,77.302,46.077"/>
+				</defs>
+				<clipPath id="SVGID_3_">
+					<use xlink:href="#SVGID_2_"  overflow="visible"/>
+				</clipPath>
+				
+					<radialGradient id="SVGID_4_" cx="-250.8906" cy="-140.4814" r="1" gradientTransform="matrix(8.2859 0 0 8.175 2160.4023 1192.5347)" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#636262"/>
+					<stop  offset="1" style="stop-color:#040000"/>
+				</radialGradient>
+				<rect x="77.302" y="40.528" clip-path="url(#SVGID_3_)" fill="url(#SVGID_4_)" width="11.25" height="11.1"/>
+			</g>
+			<g>
+				<defs>
+					<path id="SVGID_5_" d="M77.302,62.759c0,3.064,2.519,5.549,5.625,5.549c3.106,0,5.625-2.484,5.625-5.549
+						s-2.519-5.55-5.625-5.55C79.821,57.209,77.302,59.694,77.302,62.759"/>
+				</defs>
+				<clipPath id="SVGID_6_">
+					<use xlink:href="#SVGID_5_"  overflow="visible"/>
+				</clipPath>
+				
+					<radialGradient id="SVGID_7_" cx="-250.8906" cy="-138.4414" r="1" gradientTransform="matrix(8.2859 0 0 8.175 2160.4023 1192.5347)" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#636262"/>
+					<stop  offset="1" style="stop-color:#040000"/>
+				</radialGradient>
+				<rect x="77.302" y="57.209" clip-path="url(#SVGID_6_)" fill="url(#SVGID_7_)" width="11.25" height="11.099"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_8_" d="M124.302,46.077c0,3.065,2.519,5.551,5.625,5.551c3.106,0,5.625-2.485,5.625-5.551
+						c0-3.063-2.519-5.549-5.625-5.549C126.821,40.528,124.302,43.014,124.302,46.077"/>
+				</defs>
+				<clipPath id="SVGID_9_">
+					<use xlink:href="#SVGID_8_"  overflow="visible"/>
+				</clipPath>
+				
+					<radialGradient id="SVGID_10_" cx="-245.2183" cy="-140.4814" r="1" gradientTransform="matrix(8.2859 0 0 8.175 2160.4023 1192.5347)" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#636262"/>
+					<stop  offset="1" style="stop-color:#040000"/>
+				</radialGradient>
+				<rect x="124.302" y="40.528" clip-path="url(#SVGID_9_)" fill="url(#SVGID_10_)" width="11.25" height="11.1"/>
+			</g>
+			<g>
+				<defs>
+					<path id="SVGID_11_" d="M124.302,62.759c0,3.064,2.519,5.549,5.625,5.549c3.106,0,5.625-2.484,5.625-5.549
+						s-2.519-5.55-5.625-5.55C126.821,57.209,124.302,59.694,124.302,62.759"/>
+				</defs>
+				<clipPath id="SVGID_12_">
+					<use xlink:href="#SVGID_11_"  overflow="visible"/>
+				</clipPath>
+				
+					<radialGradient id="SVGID_13_" cx="-245.2183" cy="-138.4414" r="1" gradientTransform="matrix(8.2859 0 0 8.175 2160.4023 1192.5347)" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#636262"/>
+					<stop  offset="1" style="stop-color:#040000"/>
+				</radialGradient>
+				<rect x="124.302" y="57.209" clip-path="url(#SVGID_12_)" fill="url(#SVGID_13_)" width="11.25" height="11.099"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_14_" d="M171.302,46.077c0,3.065,2.519,5.551,5.625,5.551c3.106,0,5.625-2.485,5.625-5.551
+						c0-3.063-2.519-5.549-5.625-5.549C173.821,40.528,171.302,43.014,171.302,46.077"/>
+				</defs>
+				<clipPath id="SVGID_15_">
+					<use xlink:href="#SVGID_14_"  overflow="visible"/>
+				</clipPath>
+				
+					<radialGradient id="SVGID_16_" cx="-239.5459" cy="-140.4814" r="1" gradientTransform="matrix(8.2859 0 0 8.175 2160.4023 1192.5347)" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#636262"/>
+					<stop  offset="1" style="stop-color:#040000"/>
+				</radialGradient>
+				<rect x="171.302" y="40.528" clip-path="url(#SVGID_15_)" fill="url(#SVGID_16_)" width="11.25" height="11.1"/>
+			</g>
+			<g>
+				<defs>
+					<path id="SVGID_17_" d="M171.302,62.759c0,3.064,2.519,5.549,5.625,5.549c3.106,0,5.625-2.484,5.625-5.549
+						s-2.519-5.55-5.625-5.55C173.821,57.209,171.302,59.694,171.302,62.759"/>
+				</defs>
+				<clipPath id="SVGID_18_">
+					<use xlink:href="#SVGID_17_"  overflow="visible"/>
+				</clipPath>
+				
+					<radialGradient id="SVGID_19_" cx="-239.5459" cy="-138.4414" r="1" gradientTransform="matrix(8.2859 0 0 8.175 2160.4023 1192.5347)" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#636262"/>
+					<stop  offset="1" style="stop-color:#040000"/>
+				</radialGradient>
+				<rect x="171.302" y="57.209" clip-path="url(#SVGID_18_)" fill="url(#SVGID_19_)" width="11.25" height="11.099"/>
+			</g>
+		</g>
+	</g>
+	
+		<text transform="matrix(1.0136 0 0 1 247.04 63.9141)" fill="#2B6D92" font-family="'STHeitiSC-Light'" font-size="39.4645" letter-spacing="7.893">电路综合协议分析单元 </text>
+	
+		<text transform="matrix(1.0136 0 0 1 742.7891 62.7578)" fill="#2B6D92" font-family="'STHeitiSC-Light'" font-size="39.4645" letter-spacing="1.973">DLMU300</text>
+	<g>
+		<rect x="956.308" y="23.915" fill="#5D5E5E" width="247.616" height="54.778"/>
+		<g>
+			<rect x="956.308" y="24.222" fill="#2C3D63" width="242.604" height="50.439"/>
+			<rect x="961.476" y="29.099" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" width="232.269" height="40.687"/>
+			
+				<text transform="matrix(1.0136 0 0 1 972.6104 55.0654)" fill="#FFFFFF" font-family="'STHeitiSC-Light'" font-size="19.7323" letter-spacing="0.987">客专通道监督分析单元</text>
+		</g>
+	</g>
+</g>
+</svg>

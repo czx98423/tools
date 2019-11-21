@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    
+</body>
+<script>
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box);
+    function init(){
+        initNetwork();
+        initDataBox();
+    }
+    function initNetwork(){
+        var view=network.getView();
+        document.body.appendChild(view);
+        network.adjustBounds({x:0,y:0,width:1300,height:600})
+        twaver.Util.registerImage("clip_false",{
+            w:150,
+            h:150,
+            clip:false,
+            origin:{x:0.5,y:0.5},
+            v:[{
+                shape:"ellipse",
+                cx:0,
+                cy:0,
+                rx:60,
+                ry:40,
+                fill:"red",
+                gradient:{
+                    type:"linear.west",
+                    color:"pink"
+                }
+            }]
+        })
+    }
+    function initDataBox(){
+        var node=new twaver.Node();
+        node.setImage("clip_false");
+        node.setLocation(100,80)
+        box.add(node)
+    }
+</script>
+</html>

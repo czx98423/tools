@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MultiLayer Layout</title>
+<script src="../../lib/twaver.js"></script>
+<script>
+var box = new twaver.ElementBox();
+var network = new twaver.vector.Network(box);
+var lastEnlargedGroup = null;
+var xScale =2;
+var yScale =3;
+
+var init = function() {
+  registImages(network);
+  initTools();
+  document.body.appendChild(network.getView());
+  network.adjustBounds({ x: 0, y: 0, width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
+  network.setDoubleClickToGroupExpand(false);
+  network.setLinkPathFunction(function (linkUI, defaultPoints) {
+    var link = linkUI._element;
+    if(link instanceof twaver.Link && !(link instanceof CLinkX)){
+      var f = linkUI.getFromPoint();
+      var t = linkUI.getToPoint();
+
+      var points = new twaver.List();
+      points.add(f);
+      points.add(t);
+
+      var lineLength = _twaver.math.getDistance(f, t);
+      var offset = lineLength/10;
+      var m = {
+        x: (f.x+t.x)/2 + offset,
+        y: (f.y+t.y)/2 + offset
+      }
+      var cps = new twaver.List();
+      cps.add(m);
+      cps.add(t);
+
+      points.removeAt(1);
+      points.add(cps);
+
+      return points;
+    }
+  });
+
+  network.onDoubleClickElement = function(element,e){
+    if(element instanceof CGroupX){
+      box.getSelectionModel().clearSelection();
+      var layerId = element.getId();
+      if (!element.isEnlarged()) {
+        enlargeGroup(layerId);
+      } else {
+        resetGroup(layerId);
+      }
+    }
+  };
+  buildData();
+  var self = this;
+      setInterval(function () { 
+        tick(); 
+      }, 1500);
+    };
+
+    var tick = function () {
+
+      if (randomInt(5) === 1) {
+        //clear all alarm and propagation.
+        var datas = box.getDatas();
+        var i;
+        for(i=0;i<datas.size();i++){
+          datas.get(i).getAlarmState().clear();
+        }
+      }
+      var element = box.getDataById("4." + randomInt(7));
+      if(element != null){
+        var severity = randomSeverity()
+        element.getAlarmState().increaseNewAlarm(severity);
+        if(severity.name !== twaver.AlarmSeverity.CLEARED.name){
+          propagate(element);
+        }
+      }
+    };
+
+    var propagate = function(node){
+      var severity = node.getAlarmState().getHighestNativeAlarmSeverity();
+      if (node instanceof twaver.Node) {
+
+        var links = node.getLinks();
+        if (links != null && !links.isEmpty()) {
+          var i;
+          for(i=0;i<links.size();i++){
+            var link = links.get(i);
+            if (link instanceof CLinkX) {
+              if (link.getAlarmState().isEmpty()) {
+                link.getAlarmState().increaseAcknowledgedAlarm(severity);
+
+                var anotherNode = link.getFromNode();
+
+                if (anotherNode.getAlarmState().isEmpty()) {
+                  anotherNode.getAlarmState().increaseAcknowledgedAlarm(severity);
+                  if (anotherNode !== node) {
+                    propagate(anotherNode);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }     
+    };
+
+    var enlargeGroup = function(layerId){
+      if (lastEnlargedGroup != null) {
+        resetGroup(lastEnlargedGroup.getLayerId());
+      }
+      var group = box.getDataById(layerId);
+      if (group != null && !group.isEnlarged()) {
+        lastEnlargedGroup = group;
+        group.setEnlarged(true);
+
+        var layer = box.getLayerBox().getDataById(layerId);
+        var layerBox = box.getLayerBox();
+        layer.setClient("oldIndex", box.getLayerBox().getSiblingIndex(layer));
+        box.getLayerBox().moveToBottom(layer);
+
+        var i;
+        var datas = box.getDatas();
+        for(i=0;i<datas.size();i++){
+          var element = datas.get(i);
+          if(element instanceof CLinkX){
+            if (element.getFromNode().getLayerId() === layerId || element.getToNode().getLayerId() === layerId) {
+              element.setVisible(false);
+            }
+          }
+        }
+
+        var children = group.getChildren();
+        var child;
+        var currentLocation;
+
+        var viewRect = network.getViewRect();
+        var xCenter = (viewRect.x + viewRect.width/2)/network.getZoom();
+        var yCenter = (viewRect.y + viewRect.height/2)/network.getZoom();
+
+        var oldLoc = group.getCenterLocation();
+        group.setClient("oldLocation",oldLoc);
+
+        var centerNode = box.getDataById(layerId + ".c");
+        var centerNodeLocation = centerNode.getCenterLocation();
+        var childOffsetMap = {};
+
+        for(i=0;i<children.size();i++){
+          child = children.get(i);
+          if(child instanceof twaver.Node && child !== centerNode && child.getClient("type") !== "connectPoint"){
+            currentLocation = child.getCenterLocation();
+            var xOffset = currentLocation.x - centerNodeLocation.x;
+            var yOffset = currentLocation.y - centerNodeLocation.y;
+            var offset = {x:xOffset,y:yOffset};
+            childOffsetMap[child.getId()] = offset;
+          }
+        }
+
+        new twaver.Animate({
+          from: { x: oldLoc.x, y: oldLoc.y },
+          to: { x: xCenter, y: yCenter },
+          type: 'point',
+          delay: 0,
+          dur: 1000,
+          easing: 'easeNone',
+          onUpdate: function (value) {
+            group.setCenterLocation(value.x, value.y);
+          }
+        }).chain(new twaver.Animate({
+          from: { x: 1, y: 1 },
+          to: { x: xScale, y: yScale },
+          type: 'point',
+          delay: 0,
+          dur: 1000,
+          easing: 'elasticOut',
+          onUpdate: function (value) {
+            var centerNode = box.getDataById(layerId + ".c");
+            var centerNodeLocation = centerNode.getCenterLocation();
+            for(i=0;i<children.size();i++){
+              child = children.get(i);
+              if(child instanceof twaver.Node && child !== centerNode && child.getClient("type") !== "connectPoint"){
+
+                var originalOffset = childOffsetMap[child.getId()];
+                var newLocationX = centerNodeLocation.x + originalOffset.x * value.x;
+                var newLocationY = centerNodeLocation.y + originalOffset.y * value.y;
+                child.setCenterLocation(newLocationX,newLocationY);
+              }
+            }
+          }
+        })).play();
+      }
+    };
+
+    var resetGroup = function(layerId){
+      var group = box.getDataById(layerId);
+      if (group != null && group.isEnlarged()) {
+        lastEnlargedGroup = null;
+        group.setEnlarged(false);
+
+        //reset group layer.
+        var layer = box.getLayerBox().getDataById(layerId);
+        var layerOldIndex = layer.getClient("oldIndex");
+        box.getLayerBox().moveTo(layer,layerOldIndex);
+
+        var i;
+        var children = group.getChildren();
+        var child;
+        var currentLocation;
+
+        var centerNode = box.getDataById(layerId + ".c");
+        var centerNodeLocation = centerNode.getCenterLocation();
+        var childOffsetMap = {};
+        for(i=0;i<children.size();i++){
+          child = children.get(i);
+          if(child instanceof twaver.Node && child !== centerNode && child.getClient("type") !== "connectPoint"){
+            currentLocation = child.getCenterLocation();
+            var xOffset = currentLocation.x - centerNodeLocation.x;
+            var yOffset = currentLocation.y - centerNodeLocation.y;
+            var offset = {x:xOffset,y:yOffset};
+            childOffsetMap[child.getId()] = offset;
+          }
+        }
+
+        var newLoc = group.getCenterLocation();
+        var oldLoc = group.getClient("oldLocation");
+
+        new twaver.Animate({
+          from: { x: xScale, y: yScale },
+          to: { x: 1, y: 1 },
+          type: 'point',
+          delay: 0,
+          dur: 1000,
+          easing: 'easeNone',
+          onUpdate: function (value) {
+            var centerNode = box.getDataById(layerId + ".c");
+            var centerNodeLocation = centerNode.getCenterLocation();
+            for(i=0;i<children.size();i++){
+              child = children.get(i);
+              if(child instanceof twaver.Node && child !== centerNode && child.getClient("type") !== "connectPoint"){
+
+                var originalOffset = childOffsetMap[child.getId()];
+                var newLocationX = centerNodeLocation.x + originalOffset.x / xScale * value.x;
+                var newLocationY = centerNodeLocation.y + originalOffset.y / yScale * value.y;
+                child.setCenterLocation(newLocationX,newLocationY);
+              }
+            }
+          }
+        }).chain(new twaver.Animate({
+          from: { x: newLoc.x, y: newLoc.y },
+          to: { x: oldLoc.x, y: oldLoc.y },
+          type: 'point',
+          delay: 0,
+          dur: 1000,
+          easing: 'easeNone',
+          onUpdate: function (value) {
+            group.setCenterLocation(value.x, value.y);
+            if(value.x === oldLoc.x){
+              var datas = box.getDatas();
+              for(i=0;i<datas.size();i++){
+                var element = datas.get(i);
+                if(element instanceof CLinkX){
+                  if (element.getFromNode().getLayerId() === layerId || element.getToNode().getLayerId() === layerId) {
+                    element.setVisible(true);
+                  }
+                }
+              }
+            }
+          }
+        })).play();
+      }
+    };
+
+
+    var buildData = function(){
+      createLayer("rgba(255,255,0,0.5)","1","multilayer-7",50,0,10,"Business layer");
+      createLayer("rgba(0,255,0,0.5)","2","multilayer-8",180,200,15,"Application layer");
+      createLayer("rgba(255,0,255,0.5)","3","multilayer-5",280,350,5,"Software layer");
+      createLayer("rgba(0,255,255,0.5)","4","multilayer-1",400,570,7,"Infrastructure layer");
+
+      createCrossLayerLink("1.2", "2.4", false);
+      createCrossLayerLink("1.3", "2.3", true);
+      createCrossLayerLink("1.9", "2.14", true);
+
+      createCrossLayerLink("2.3", "3.2", true);
+      createCrossLayerLink("2.14", "3.0", true);
+
+      createCrossLayerLink("3.2", "4.2", false);
+      createCrossLayerLink("3.0", "4.4", true);
+      createCrossLayerLink("3.4", "4.5", true);
+
+      createCrossLayerLink("1.4", "4.1", false);
+
+      _twaver.callLater(function(){
+        network.zoomOverview();
+      })
+    };
+
+    var createCrossLayerLink = function(fromId, toId,left){
+      var from = box.getDataById(fromId);
+      var to = box.getDataById(toId);
+      var link = new CLinkX(from,to);
+
+
+      var point = new twaver.Node();
+      point.setSize(2,2);
+      point.setClient("type","connectPoint");
+      point.setStyle("body.type","vector");
+      point.setStyle("vector.shape","circle");
+      point.setStyle('vector.fill', true);
+      point.setStyle('vector.fill.color', '#C0C0C0');
+      point.setLayerId(from.getLayerId());
+      var xOffset = -from.getWidth() / 2 - 15;
+      if (left) {
+        xOffset = from.getWidth() / 2 + 5;
+      }
+      var yOffset = from.getHeight() / 2 + 20;
+      var x = from.getCenterLocation().x + xOffset;
+      var y = from.getCenterLocation().y + yOffset;
+      point.setCenterLocation(x, y);
+      point.setParent(from.getParent());
+      box.add(point);
+
+
+      var upLink = new CLinkX(null,from, point, true);
+      upLink.setLayerId(from.getLayerId());
+      upLink.setParent(from.getParent());
+      box.add(upLink);
+
+      var downLink = new CLinkX(null,point, to, false);
+      downLink.setLayerId(to.getLayerId());
+      downLink.setParent(to.getParent());
+      box.add(downLink);
+    };
+
+    var createLayer = function(groupColor,layerId,nodeImage,xOffset,yOffset,count,name){
+      var layer = new twaver.Layer(layerId);
+      box.getLayerBox().add(layer);
+      box.getLayerBox().moveToTop(layer);
+
+      var group = new CGroupX(layerId);
+      group.setName(name);
+      group.setExpanded(true);
+      group.setStyle("group.fill.color",groupColor);
+      group.setEnlarged(false);
+      group.setLayerId(layerId);
+      box.add(group);
+
+      var centerX = 400;
+      var centerY = 200;
+      var centerNode = new twaver.Node(layerId+".c");
+      centerNode.setCenterLocation(centerX + xOffset, centerY + yOffset);
+      centerNode.setImage("4");
+      centerNode.setLayerId(layerId);
+      group.addChild(centerNode);
+      box.add(centerNode);
+      var i;
+      for (i = 0; i < count; i++) {
+        var circleWidth = 250;
+        var circleHeight = 80;
+        var node = new twaver.Node(layerId + "." + i);
+        var angle = Math.PI * 2 / count * i + 1;
+        var x = centerX + parseInt(circleWidth * Math.cos(angle));
+        var y = centerY + parseInt(circleHeight * Math.sin(angle));
+        node.setCenterLocation(x + xOffset, y + yOffset);
+        node.setImage(nodeImage);
+        node.setLayerId(layerId);
+        group.addChild(node);
+        box.add(node);
+
+        // var node = new CNode(layerId + "." + i);
+        // node.setStyle('whole.alpha',1);
+        // node.setStyle('body.type','vector');
+        // node.setStyle('vector.fill',true);
+        // node.setStyle('vector.fill.color','#FF0000');
+        // node.setStyle('vector.outline.width',0.5);
+        // node.setClient('angle',0);
+        // node.setCenterLocation(x + xOffset,y + yOffset);
+        // node.setWidth(30);
+        // node.setHeight(22);
+        // node.setLayerId(layerId);
+        // node.setCubeAngle(Math.PI/6);
+        // group.addChild(node);
+        // box.add(node);
+
+        var link = new twaver.Link(centerNode,node);
+        link.setStyle("link.width",1);
+        link.setStyle("link.color","#000000");
+        link.setStyle("arrow.to",true);
+        link.setStyle("arrow.to.shape","arrow.short");
+        link.setLayerId(layerId);
+        group.addChild(link);
+        box.add(link);
+      }
+    };
+
+    var registImages= function (network) {
+      registerImage("../images/multilayer-1.png",network);
+      registerImage("../images/multilayer-4.png",network);
+      registerImage("../images/multilayer-5.png",network);
+      registerImage("../images/multilayer-7.png",network);
+      registerImage("../images/multilayer-8.png",network);
+    };
+
+    var registerImage = function (url, network) {
+      var image = new Image();
+      image.src = url;
+      var views = arguments;
+      var that = this;
+      image.onload = function () {
+        twaver.Util.registerImage(that.getImageName(url), image, image.width, image.height, network);
+        image.onload = null;
+        for (var i = 1; i < views.length; i++) {
+          var view = views[i];
+          if (view.invalidateElementUIs) {
+            view.invalidateElementUIs();
+          }
+          if (view.invalidateDisplay) {
+            view.invalidateDisplay();
+          }
+        }
+      };
+    };
+    var getImageName = function (url) {
+      var index = url.lastIndexOf('/');
+      var name = url;
+      if (index >= 0) {
+        name = url.substring(index + 1);
+      }
+      index = name.lastIndexOf('.');
+      if (index >= 0) {
+        name = name.substring(0, index);
+      }
+      return name;
+    };
+
+    var randomInt = function (n) {
+      return Math.floor(Math.random() * n);
+    };
+
+    var randomSeverity= function () {
+      var severities = twaver.AlarmSeverity.severities;
+      return severities.get(randomInt(severities.size()));
+    };
+
+    var CLinkX = function(id,fromNode,toNode,upperHalfLink){
+      CLinkX.superClass.constructor.apply(this, arguments);
+      this.upperHalfLink = upperHalfLink;
+      if(upperHalfLink){
+        this.setStyle("link.type","orthogonal.H.V");
+
+      }else{
+        this.setStyle("link.type","orthogonal.V.H");
+      }
+      this.setStyle("link.color","#C0C0C0");
+    };
+
+    twaver.Util.ext(CLinkX, twaver.Link, {
+
+    });
+
+    var CGroupUIX = function(network,element){
+      CGroupUIX.superClass.constructor.apply(this, arguments);
+    };
+
+    twaver.Util.ext(CGroupUIX, twaver.vector.GroupUI, {
+      validateBodyBounds: function () {
+        var $math=_twaver.math;
+        var node = this._element;
+        this.getBodyRect();
+        var shape = node.getClient("group.shape");
+        if (shape === "parallelogram" && this._shapeRect) {
+          var rect = this.getPathRect("group", false);
+          var deep = this.getStyle('group.deep');
+          var parallelogramAngle = node.getClient("group.angle") * Math.PI / 180;
+          var xOffset = this._shapeRect.height*Math.tan(parallelogramAngle);
+          this._shapeRect.width = this._shapeRect.width + xOffset*3/2;
+          this._shapeRect.x = this._shapeRect.x-xOffset*3/4;
+
+          var rectXOffset = rect.height*Math.tan(parallelogramAngle);
+          rect.width = rect.width + rectXOffset*3/2;
+          rect.x = rect.x - rectXOffset*3/4;
+          $math.grow(rect,deep+1,deep+1);
+          this.addBodyBounds(rect);
+
+          var bound=_twaver.cloneRect(rect);
+          bound.width+=10;
+          bound.height+=10;
+          this.addBodyBounds(bound);
+
+        } else {
+          twaver.vector.GroupUI.superClass.validateBodyBounds.call(this);
+        }
+
+      },
+
+      drawPath : function(ctx, prefix, padding, pattern, points, segments, close) {
+
+        var $g=_twaver.g;
+        var zoomManager = this._network.zoomManager;
+        var node = this._element;
+        var rect = null;
+        var shape = node.getClient("group.shape");
+        if(shape === "parallelogram"){
+          if (prefix == 'group') {
+            rect = this._shapeRect;
+          } else {
+            rect = this.getZoomBodyRect();
+          };
+          if (padding) {
+            $math.addPadding(rect, node, prefix + '.padding', 1);
+          }
+          var lineWidth = node.getStyle(prefix + '.outline.width');
+          this.setGlow(this, ctx);
+          this.setShadow(this, ctx);
+          if (node.getAngle() != 0) {
+            if (!( node instanceof $Group)) {
+              rect = node.getOriginalRect();
+              rect = zoomManager._getElementZoomRect(this, rect);
+            }
+            ctx.save();
+            twaver.Util.rotateCanvas(ctx, rect, node.getAngle());
+          }
+
+          var fill = node.getStyle(prefix + '.fill');
+          var fillColor;
+          if (fill) {
+            if (this._innerColor && !$element.hasDefault(this._element)) {
+              fillColor = this._innerColor;
+            } else {
+              fillColor = node.getStyle(prefix + '.fill.color');
+            }
+            var gradient = node.getStyle(prefix + '.gradient');
+            if (gradient) {
+              $g.fill(ctx, fillColor, gradient, node.getStyle(prefix + '.gradient.color'), rect);
+            } else {
+              ctx.fillStyle = fillColor;
+            }
+          }
+
+      //draw round rect body.
+      var parallelogramAngle = node.getClient("group.angle") * Math.PI / 180;
+      var xOffset = rect.height*Math.tan(parallelogramAngle);
+      if(parallelogramAngle){
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(rect.x+xOffset, rect.y);
+        ctx.lineTo(rect.x+rect.width, rect.y);
+        ctx.lineTo(rect.x+rect.width-xOffset, rect.y+rect.height);
+        ctx.lineTo(rect.x,rect.y+rect.height);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        if(fillColor.indexOf("rgba(") !== -1){
+          var groupDeep = node.getClient("group.deep");
+          var changedColor = this._element.increaseOpacity(fillColor);
+          ctx.fillStyle=changedColor;
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(rect.x, rect.y+rect.height);
+          ctx.lineTo(rect.x+rect.width-xOffset, rect.y+rect.height);
+          ctx.lineTo(rect.x+rect.width-xOffset, rect.y+rect.height+groupDeep);
+          ctx.lineTo(rect.x, rect.y+rect.height+groupDeep);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+
+          changedColor = this._element.increaseOpacity(changedColor);
+          ctx.fillStyle=changedColor;
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(rect.x+rect.width-xOffset, rect.y+rect.height);
+          ctx.lineTo(rect.x+rect.width, rect.y);
+          ctx.lineTo(rect.x+rect.width, rect.y+groupDeep);
+          ctx.lineTo(rect.x+rect.width-xOffset, rect.y+rect.height+groupDeep);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }  
+
+      
+    }else{
+      twaver.vector.GroupUI.superClass.drawPath.apply(this,arguments);
+    }
+    
+
+    if (node.getAngle() != 0) {
+      ctx.restore();
+    }
+  },
+  
+});
+var CGroupX = function(id){
+  CGroupX.superClass.constructor.apply(this, arguments);
+  this.enlarged = false;
+};
+
+twaver.Util.ext(CGroupX, twaver.Group, {
+  getVectorUIClass:function(){
+    return CGroupUIX;
+  },
+  isEnlarged:function() {
+    return this.enlarged;
+  },
+  setEnlarged:function(value){
+    this.enlarged = value;
+    var fillColor;
+    if(value === false){
+      this.setClient("group.angle",45);
+      this.setClient("group.shape","parallelogram");
+      this.setClient("group.deep",10);
+
+      // group.setStyle('group.shape', 'hexagon');   
+      this.setStyle("select.style","none");
+      this.setStyle("group.gradient","linear.northeast");
+      this.setStyle("group.deep",0);
+      this.setStyle("label.position","right.left");
+      this.setStyle("label.xoffset",-10);
+      this.setStyle("label.yoffset",-30);
+      this.setStyle("label.font","italic bold 12px/30px arial,sans-serif");
+
+      fillColor = this.changeHalfOpacity(this.getStyle("group.fill.color"));
+      this.setStyle("group.fill.color",fillColor);
+    }else{
+      this.setClient("group.angle",1);
+      this.setClient("group.shape","parallelogram");
+      this.setClient("group.deep",0);
+
+      this.setStyle("select.style","none");
+      this.setStyle("group.gradient","linear.northeast");
+      this.setStyle("group.deep",0);
+      this.setStyle("label.position","right.right");
+      this.setStyle("label.xoffset",0);
+      this.setStyle("label.yoffset",0);
+      this.setStyle("label.font","italic bold 12px/30px arial,sans-serif");
+
+      fillColor = this.changeOpacity(this.getStyle("group.fill.color"));
+      this.setStyle("group.fill.color",fillColor);
+    }
+  },
+
+  increaseOpacity:function(rgba){
+    if(typeof rgba === "string" && rgba.indexOf("rgba(") !== -1 && rgba.indexOf(")") !== -1){
+      var rgbaSub = rgba.substring(5, rgba.length-1);
+      var rgbaNums = rgbaSub.split(",");
+      var returnColor ="rgba(";
+      var i;
+      for(i=0;i<rgbaNums.length;i++){
+        if(i !== rgbaNums.length-1){
+          returnColor = returnColor +rgbaNums[i]+",";
+        }else{
+          var opacity = parseFloat(rgbaNums[i])+0.25;
+          returnColor = returnColor +opacity+")";
+        }
+      }
+      return returnColor;
+    }else{
+      return rgba;
+    }
+  },
+  changeOpacity:function(rgba){
+    if(typeof rgba === "string" && rgba.indexOf("rgba(") !== -1 && rgba.indexOf(")") !== -1){
+      var rgbaSub = rgba.substring(5, rgba.length-1);
+      var rgbaNums = rgbaSub.split(",");
+      var returnColor ="rgba(";
+      var i;
+      for(i=0;i<rgbaNums.length;i++){
+        if(i !== rgbaNums.length-1){
+          returnColor = returnColor +rgbaNums[i]+",";
+        }else{
+          var opacity = 1;
+          returnColor = returnColor +opacity+")";
+        }
+      }
+      return returnColor;
+    }else{
+      return rgba;
+    }
+  },
+  changeHalfOpacity:function(rgba){
+    if(typeof rgba === "string" && rgba.indexOf("rgba(") !== -1 && rgba.indexOf(")") !== -1){
+      var rgbaSub = rgba.substring(5, rgba.length-1);
+      var rgbaNums = rgbaSub.split(",");
+      var returnColor ="rgba(";
+      var i;
+      for(i=0;i<rgbaNums.length;i++){
+        if(i !== rgbaNums.length-1){
+          returnColor = returnColor +rgbaNums[i]+",";
+        }else{
+          var opacity = 0.5;
+          returnColor = returnColor +opacity+")";
+        }
+      }
+      return returnColor;
+    }else{
+      return rgba;
+    }
+  },
+});
+
+
+CNode = function(id) {
+  CNode.superClass.constructor.call(this, id);
+}
+
+twaver.Util.ext("CNode", twaver.Node, {
+  _split:1/3,
+  _cubeAngle:Math.PI/6,
+  getVectorUIClass: function (){
+    return CNodeUI;
+  },
+  setSplit:function(split){
+    this._split = split;
+  },
+  setCubeAngle:function(angle){
+    this._cubeAngle = angle;
+  }
+});
+
+CNodeUI = function(network, element) {
+  CNodeUI.superClass.constructor.call(this, network, element);
+}
+
+twaver.Util.ext('CNodeUI', twaver.vector.NodeUI, {
+  drawVectorBody : function(ctx) {
+      // CNodeUI.superClass.drawVectorBody.call(this, ctx);
+      var node = this._element;
+      var rect = this.getZoomBodyRect();
+      // rect.x = rect.x + rect.width /4;
+      // rect.y = rect.y + rect.height /4;
+      // rect.width /= 2;
+      // rect.height /= 2;
+      var angleSin = Math.sin(node._cubeAngle);
+      var angleCos = Math.cos(node._cubeAngle);
+      var angleTan = Math.tan(node._cubeAngle);
+      var split = node._split;
+      var dash = false;
+      var fill = false;
+      var fillColor = this.getStyle('vector.fill.color');
+      var close = false;
+
+      var cubeDepth = node._width * split/angleCos;
+      var cubeWidth = node._width * (1 - split) / angleCos;
+      // var cubeHeight = rect.height/3;
+      var cubeHeight = rect.height - cubeWidth * angleSin - cubeDepth * angleSin;
+      var angle = node.getClient('angle');
+
+      var center = {x:rect.x + rect.width/2,y:rect.y + rect.height/2};
+      var p1 = {},p2 = {}, p3 = {}, p4 = {}, p5 = {},p6 = {}, p7 = {}, p8 = {};
+      p1.x = rect.x + rect.width * split;
+      p1.y = rect.y + rect.height;
+
+      p2.x = rect.x;
+      p2.y = rect.y + rect.height - cubeDepth * angleSin;
+
+      p3.x = p2.x;
+      p3.y = p2.y - cubeHeight;
+
+      p4.x = p1.x;
+      p4.y = p1.y - cubeHeight ;
+
+      p6.x = rect.x + rect.width;
+      p6.y = rect.y + rect.height - cubeWidth * angleSin;
+
+      p5.x = p6.x;
+      p5.y = p6.y - cubeHeight;
+
+      p7.x = rect.x + rect.width * (1 - split);
+      p7.y = rect.y;
+
+      p8.x = p7.x;
+      p8.y = p7.y + cubeHeight;
+
+      p1 = this.rotatePoint(center,p1,angle * Math.PI / 180);
+      p2 = this.rotatePoint(center,p2,angle * Math.PI / 180);
+      p3 = this.rotatePoint(center,p3,angle * Math.PI / 180);
+      p4 = this.rotatePoint(center,p4,angle * Math.PI / 180);
+      p5 = this.rotatePoint(center,p5,angle * Math.PI / 180);
+      p6 = this.rotatePoint(center,p6,angle * Math.PI / 180);
+      p7 = this.rotatePoint(center,p7,angle * Math.PI / 180);
+      p8 = this.rotatePoint(center,p8,angle * Math.PI / 180);
+
+
+      close = false;
+      dash = true;
+      fill = false;
+      this.drawPoints(ctx,[p2,p8],close,dash,fill);
+      this.drawPoints(ctx,[p7,p8],close,dash,fill);
+      this.drawPoints(ctx,[p6,p8],close,dash,fill);
+
+      dash = false;
+      close = true;
+      fill = true;
+      this.drawPoints(ctx,[p1,p2,p3,p4],close,dash,fill,fillColor);
+      this.drawPoints(ctx,[p1,p4,p5,p6],close,dash,fill);
+      this.drawPoints(ctx,[p3,p4,p5,p7],close,dash,fill);
+    },
+    drawPoints:function(ctx,points,close,dash,fill,fillColor){
+      if(!points || points.length == 0){
+        return;
+      }
+      ctx.beginPath();
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 0.5;
+      if(fill && fillColor) {
+        ctx.fillStyle = fillColor.colorRgb(0.6);
+      }
+      // ctx.fillStyle = 'rgba(105,100,80,0.5)';
+      // ctx.fillStyle = twaver.Util.randomColor();
+      if(dash){
+        ctx.setLineDash([8,8]);
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+      }else{
+        ctx.setLineDash([1,0]);
+      }
+      ctx.moveTo(points[0].x,points[0].y);
+
+      for(var i = 1;i < points.length; i++){
+        var p = points[i];
+        ctx.lineTo(p.x,p.y);
+      }
+
+      if(close){
+        ctx.lineTo(points[0].x,points[0].y);
+      }
+
+      ctx.closePath();
+      ctx.stroke();
+      if(fill){
+        ctx.fill();
+      }
+    },
+    rotatePoint:function(center,p,angle) {
+      var x = (p.x - center.x) * Math.cos(angle) - (p.y - center.y) * Math.sin(angle) + center.x;
+      var y = (p.x - center.x) * Math.sin(angle) + (p.y - center.y) * Math.cos(angle) + center.y;
+      return {x:x, y:y};
+    },
+  });
+
+function initTools () {
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;  
+  String.prototype.colorRgb = function(a){  
+    var sColor = this.toLowerCase();  
+    if(sColor && reg.test(sColor)){  
+      if(sColor.length === 4){  
+        var sColorNew = "#";  
+        for(var i=1; i<4; i+=1){  
+          sColorNew += sColor.slice(i,i+1).concat(sColor.slice(i,i+1));     
+        }  
+        sColor = sColorNew;  
+      }  
+      var sColorChange = [];  
+      for(var i=1; i<7; i+=2){  
+        sColorChange.push(parseInt("0x"+sColor.slice(i,i+2)));    
+      }  
+      if(a){
+        return "rgba(" + sColorChange.join(",") + "," + a + ")";  
+      }else{
+        return "rgb(" + sColorChange.join(",") + ")";  
+      }
+    }else{  
+      return sColor;    
+    }  
+  };  
+}
+</script>
+</head>
+<body onload="init()">
+</body>
+</html>

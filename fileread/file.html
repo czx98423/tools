@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="background-color:black">
+    <a href="../readme.txt" download="readme.txt">download</a>
+    <input type="file" name="file" id="file"></br>
+
+      <input type="button" name="btn" value="读取图像" id="btn">
+
+      <div id="picBox"><img src="" width="300" height="530" id="img"/></div>
+</body>
+<script>
+     var flObj=document.getElementById("file")
+     var btn=document.getElementById("btn");
+         btn.onclick=function()
+          {
+              var file=flObj.files[0];                 //因为每次只上传了一张图片，所以获取到flObj.files[0];    
+              var fReader=new FileReader();
+              fReader.readAsDataURL(file)
+              fReader.onload=function(e)
+              {
+                  document.getElementById("img").src= this.result
+              }
+          }
+</script>
+</html>

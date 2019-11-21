@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.59px" height="126.14px" viewBox="0 0 1275.59 126.14" enable-background="new 0 0 1275.59 126.14"
+	 xml:space="preserve">
+<g>
+	<g>
+		<rect y="0" fill="#989998" width="1275.59" height="126.141"/>
+	</g>
+	<text transform="matrix(1 0 0 1 53.79 95.6045)" fill="#232323" font-family="'MicrosoftYaHei'" font-size="18.9961">POWER-220VAC to 48VDC</text>
+	<text transform="matrix(1 0 0 1 550.4941 91.8076)" fill="#1E1E1E" font-family="'MicrosoftYaHei'" font-size="6.5035">POWER1</text>
+	<text transform="matrix(1 0 0 1 592.6602 91.8076)" fill="#1E1E1E" font-family="'MicrosoftYaHei'" font-size="6.5035">POWER2</text>
+	<text transform="matrix(1 0 0 1 956.2246 45.2627)" fill="#1E1E1E" font-family="'MicrosoftYaHei'" font-size="6.5035">ON</text>
+	<text transform="matrix(1 0 0 1 956.2246 71.2627)" fill="#1E1E1E" font-family="'MicrosoftYaHei'" font-size="6.5035">OFF</text>
+	<path fill="none" stroke="#494949" stroke-miterlimit="10" d="M301.422,98.184c0,2.209-1.791,4-4,4H51.864c-2.209,0-4-1.791-4-4
+		V76.186c0-2.209,1.791-4,4-4h245.558c2.209,0,4,1.791,4,4V98.184z"/>
+	<path fill="none" stroke="#494949" stroke-miterlimit="10" d="M646.492,98.184c0,2.209-1.791,4-4,4H526.744c-2.209,0-4-1.791-4-4
+		V65.07c0-2.209,1.791-4,4-4h115.748c2.209,0,4,1.791,4,4V98.184z"/>
+	<circle fill="#A6E027" stroke="#191919" stroke-miterlimit="10" cx="563.743" cy="69.635" r="5.75"/>
+	<circle fill="#A6E027" stroke="#191919" stroke-miterlimit="10" cx="605.493" cy="69.635" r="5.75"/>
+	<g>
+		<path fill="#A0A0A0" d="M949.543,101.184c0,0.553-0.434,1-0.968,1h-59.889c-0.534,0-0.969-0.447-0.969-1V19.134
+			c0-0.553,0.435-1,0.969-1h59.889c0.534,0,0.968,0.447,0.968,1V101.184z"/>
+		<polygon fill="#B2B2B2" points="888.24,18.134 951.139,18.134 948.375,22.134 891.533,22.134 		"/>
+		<polygon fill="#6B6B6B" points="888.24,102.184 951.139,102.184 948.375,98.184 891.533,98.184 		"/>
+		<path fill="#D6D6D6" d="M888.24,18.134c-0.424,1.75,0,84.049,0,84.049l3.293-4V22.134L888.24,18.134z"/>
+		<path fill="#767776" d="M951.095,18.134c0.425,1.75,0,84.049,0,84.049l-3.293-4V22.134L951.095,18.134z"/>
+	</g>
+	<g>
+		<path fill="#030303" d="M930.354,78.148c0,0.578-0.318,1.043-0.709,1.043h-19.912c-0.391,0-0.709-0.465-0.709-1.043v-41.75
+			c0-0.576,0.318-1.045,0.709-1.045h19.912c0.391,0,0.709,0.469,0.709,1.045V78.148z"/>
+		<g>
+			<defs>
+				<path id="SVGID_1_" d="M911.05,38.25c-0.342,0-0.615,0.406-0.615,0.908v18.113h18.51V39.159c0-0.502-0.275-0.908-0.615-0.908
+					H911.05z"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  overflow="visible"/>
+			</clipPath>
+			
+				<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="200.7065" y1="241.4609" x2="201.7065" y2="241.4609" gradientTransform="matrix(0 22.6221 22.6221 0 -4542.6719 -4494.0938)">
+				<stop  offset="0" style="stop-color:#261C19"/>
+				<stop  offset="1" style="stop-color:#514E4E"/>
+			</linearGradient>
+			<rect x="910.435" y="38.25" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="18.51" height="19.021"/>
+		</g>
+		<path fill="#050505" d="M910.435,57.272v18.117c0,0.502,0.275,0.906,0.613,0.906h17.283c0.338,0,0.613-0.404,0.613-0.906V57.272
+			H910.435z"/>
+		<path fill="#121212" d="M910.435,57.272v18.117c0,0.502,0.275,0.906,0.613,0.906h17.283c0.338,0,0.613-0.404,0.613-0.906V57.272
+			H910.435z"/>
+		<rect x="910.435" y="57.272" fill="#030303" width="18.51" height="0.785"/>
+		<rect x="918.337" y="43.198" fill="#4D4D4D" width="2.021" height="9.129"/>
+		<circle fill="none" stroke="#4D4D4D" stroke-width="0.783" stroke-miterlimit="10" cx="919.739" cy="66.828" r="1.6"/>
+	</g>
+</g>
+</svg>

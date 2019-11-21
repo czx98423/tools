@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+        
+</body>
+<script type="text/javascript">
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box);
+  
+  function init(){
+      initNetwork()
+      initBox()
+  }
+  function initNetwork(){
+      var view=network.getView()
+      document.body.appendChild(view)
+        network.adjustBounds({x:0,y:0,width:1300,height:800})
+        //network.setDefaultInteractions(true)//懒加载
+        //network.setEditInteractions(true)//编辑模式
+        //network.setCreateElementInteractions(twaver.Node)//创建元素交互模式
+        //network.setCreateLinkInteractions(twaver.Link)
+        //network.setCreateShapeLinkInteractions(twaver.ShapeLink);
+        //network.setCreateShapeNodeInteractions();
+        //放大模式
+        network.setInteractions([
+            new twaver.vector.interaction.DefaultInteraction(network),
+            new twaver.vector.interaction.MagnifyInteraction(network,2,100,100)
+        ]);
+}
+   function initBox(){
+       
+       var node1=new twaver.Node();
+       var node2=new twaver.Node();
+       var link=new twaver.Link(node1,node2)
+        box.add(node1);
+        box.add(node2);
+        box.add(link)
+   }
+</script>
+
+</html>

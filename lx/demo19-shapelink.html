@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+    <div id="main"></div>
+</body>
+<script type="text/javascript">
+	 var box = new twaver.ElementBox(); 
+	 var network = new twaver.vector.Network(box); 
+	 function init() { initNetwork(); initDataBox(); } 
+	 function initNetwork() { 
+		 var view = network.getView(); 
+		document.body.appendChild(view); 
+		network.adjustBounds({x: 0, y: 0, width: 1300, height: 600}); 
+	} 
+	function initDataBox() { 
+		var nodeA = new twaver.Node({name:'nodeA'}); 
+		nodeA.setLocation(100, 100); 
+		var nodeB = new twaver.Node({name:'nodeB'}); 
+		nodeB.setLocation(600, 300); 
+		var link = new twaver.ShapeLink(nodeA, nodeB); 
+		link.setName('shapeLink'); 
+		box.add(nodeA);
+		 box.add(nodeB);
+		  box.add(link); 
+		 var list = new twaver.List(); 
+	 list.add({ x : 350, y : 150 }); 
+	 list.add({ x : 300, y : 300 }); 
+	 list.add({ x : 500, y : 200 }); 
+	 link.addPoint(list); } 
+</script>
+
+</html>

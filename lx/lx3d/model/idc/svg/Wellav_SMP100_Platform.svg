@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.6px" height="126.1px" viewBox="0 0 1275.6 126.1" enable-background="new 0 0 1275.6 126.1" xml:space="preserve">
+<g>
+	<rect y="-0.021" fill="#050505" width="1275.6" height="126.12"/>
+	<g>
+		<path fill="#2B2B2B" d="M1275.6,126.1H0V-0.021h1275.6V126.1z M4.98,121.292h1265.639V4.789H4.98V121.292z"/>
+	</g>
+	<path fill="#6E160A" d="M220.525,116.498h882.227c-13.787-15.522-21.854-34.285-21.854-54.496c0-20.209,8.066-38.971,21.854-54.494
+		H220.524c17.771,15.765,28.066,34.453,28.066,54.494C248.59,82.045,238.295,100.733,220.525,116.498z"/>
+	<text transform="matrix(1.0002 0 0 1 45.4063 63.0391)" fill="#AAAAAA" font-family="'MicrosoftYaHei'" font-size="18.2837">SMP 100 Platform</text>
+	<circle fill="#EBFCA2" cx="276.456" cy="56.855" r="6.187"/>
+	<circle fill="#EBFCA2" cx="301.144" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="325.831" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="350.519" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="375.207" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="399.895" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="424.582" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="449.27" cy="56.855" r="6.187"/>
+	<circle fill="#A7AA8D" cx="473.958" cy="56.855" r="6.187"/>
+	<circle fill="#EBFCA2" cx="276.456" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="301.144" cy="86.017" r="6.187"/>
+	<circle fill="#EBFCA2" cx="325.831" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="350.519" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="375.207" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="399.895" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="424.582" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="449.27" cy="86.017" r="6.187"/>
+	<circle fill="#A7AA8D" cx="473.958" cy="86.017" r="6.187"/>
+	<rect x="556.576" y="34.024" fill="#494941" width="243.359" height="51.992"/>
+	<g>
+		<rect x="913.162" y="27.977" fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" width="17.799" height="17.796"/>
+		<polygon points="916.585,41.609 922.118,32.027 927.65,41.609 		"/>
+	</g>
+	<g>
+		<rect x="913.162" y="71.552" fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" width="17.799" height="17.796"/>
+		<polygon points="916.585,75.716 922.118,85.298 927.65,75.716 		"/>
+	</g>
+	<g>
+		<rect x="883.729" y="50.424" fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" width="17.798" height="17.796"/>
+		<polygon points="897.363,53.846 887.779,59.378 897.363,64.911 		"/>
+	</g>
+	<g>
+		<rect x="940.112" y="50.424" fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" width="17.799" height="17.796"/>
+		<polygon points="944.276,53.846 953.86,59.378 944.276,64.911 		"/>
+	</g>
+	<g>
+		<circle fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" cx="1053.83" cy="60.021" r="9"/>
+		<text transform="matrix(1.0002 0 0 1 1046.1621 62.002)" font-family="'MicrosoftYaHei'" font-size="4.8846">MEND</text>
+	</g>
+	<circle fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" cx="1091.331" cy="60.021" r="9"/>
+	<text transform="matrix(1.0002 0 0 1 1086.9131 62.002)" font-family="'MicrosoftYaHei'" font-size="4.8846">OK</text>
+	<circle fill="#BCBCBC" stroke="#000000" stroke-miterlimit="10" cx="1124.33" cy="60.021" r="9"/>
+	<text transform="matrix(1.0002 0 0 1 1119.9131 62.002)" font-family="'MicrosoftYaHei'" font-size="4.8846">ESC</text>
+</g>
+<rect x="1185.07" y="36.824" fill="#EDE96B" width="61.5" height="57.208"/>
+<text transform="matrix(1 0 0 1 1191.0703 65.4268)" font-family="'MicrosoftYaHei'" font-size="12">IP网关02</text>
+</svg>

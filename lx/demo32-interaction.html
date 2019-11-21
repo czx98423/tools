@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../lib/twaver.js"></script>
+<body onload="init()">
+        <div id="a1" style="height:800px;position: relative;width: 1300px"></div>
+        <div id="a2"></div>
+</body>
+<script type="text/javascript">
+    var box=new twaver.ElementBox();
+    var network=new twaver.vector.Network(box);
+    MyElement = function (id) {
+            MyElement.superClass.constructor.call(this, id);
+        
+            this.setStyle('body.type', 'vector');
+            this.setStyle('vector.shape', 'rectangle');
+            this.setStyle('vector.gradient', 'none');
+            this.setStyle('vector.fill.color', '#C0C0C0');
+            this.setStyle('vector.deep', 8);
+            this.setWidth(100);
+            this.setHeight(100);
+        };
+        twaver.Util.ext('MyElement', twaver.Follower);
+        addButton(document.getElementById("a2"), 'Rack', '', 
+        function(){
+            console.log(1)
+            network.setCreateElementInteractions(twaver.Node);
+            network.setCreateElementInteractions(null);
+     });    
+  function init(){
+      initNetwork()
+      initBox()
+  }
+  function initNetwork(){
+      var a=document.getElementById("a1")
+      var view=network.getView()
+       a.appendChild(view)
+        network.adjustBounds({x:0,y:0,width:1300,height:800})
+}
+   function initBox(){      
+       var node1=new twaver.Node();
+       node1.setLocation(100,100)
+       var node2=new twaver.Node();
+       node2.setLocation(300,300)
+       var link=new twaver.Link(node1,node2)
+        box.add(node1);
+        box.add(node2);
+        box.add(link)
+   }
+   function addButton(toolbar, label, src, handler) {
+            var button = document.createElement('input');
+            button.value = label;
+            button.onclick = handler;
+            button.setAttribute('type', src ? 'image' : 'button');
+            if (src) {
+            button.style.padding = '4px 4px 4px 4px';
+            if (src.indexOf('/') < 0) 
+            { src = '../img/' + src + '.png'; } 
+            button.setAttribute('src', src); }
+            else { button.value = label; } 
+            toolbar.appendChild(button); 
+        }
+</script>
+
+</html>

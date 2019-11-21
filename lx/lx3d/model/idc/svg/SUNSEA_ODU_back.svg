@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1275.59px" height="126.14px" viewBox="0 0 1275.59 126.14" enable-background="new 0 0 1275.59 126.14"
+	 xml:space="preserve">
+<g>
+	<rect y="-0.001" fill="#BEBFB7" width="1275.59" height="126.142"/>
+	<g>
+		<g>
+			<g>
+				<ellipse fill="#FFFFFF" cx="29.29" cy="18.885" rx="8.667" ry="8.159"/>
+				<ellipse fill="#555656" cx="28.665" cy="18.296" rx="8.042" ry="7.57"/>
+			</g>
+			<g>
+				<ellipse fill="#FFFFFF" cx="29.29" cy="63.364" rx="8.667" ry="8.159"/>
+				<ellipse fill="#555656" cx="28.665" cy="62.775" rx="8.042" ry="7.57"/>
+			</g>
+			<g>
+				<ellipse fill="#FFFFFF" cx="29.29" cy="107.843" rx="8.667" ry="8.158"/>
+				<ellipse fill="#555656" cx="28.665" cy="107.254" rx="8.042" ry="7.57"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<ellipse fill="#FFFFFF" cx="1246.3" cy="18.296" rx="8.667" ry="8.159"/>
+				<ellipse fill="#555656" cx="1245.675" cy="17.708" rx="8.042" ry="7.57"/>
+			</g>
+			<g>
+				<ellipse fill="#FFFFFF" cx="1246.3" cy="62.775" rx="8.667" ry="8.158"/>
+				<ellipse fill="#555656" cx="1245.675" cy="62.187" rx="8.042" ry="7.57"/>
+			</g>
+			<g>
+				<ellipse fill="#FFFFFF" cx="1246.3" cy="107.254" rx="8.667" ry="8.159"/>
+				<ellipse fill="#555656" cx="1245.675" cy="106.666" rx="8.042" ry="7.57"/>
+			</g>
+		</g>
+	</g>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="636.7358" y1="126.1406" x2="636.7358" y2="122.1055">
+		<stop  offset="0" style="stop-color:#BEBFB7"/>
+		<stop  offset="0.4665" style="stop-color:#E0E0DF"/>
+		<stop  offset="0.602" style="stop-color:#A3A3A4"/>
+		<stop  offset="1" style="stop-color:#252526"/>
+	</linearGradient>
+	<rect y="122.105" fill="url(#SVGID_1_)" width="1273.471" height="4.035"/>
+	<rect x="52.286" y="118.575" fill="#171717" width="1171.261" height="3.53"/>
+</g>
+</svg>
