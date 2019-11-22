@@ -28,7 +28,7 @@ var machine1,machine2,machine21,secondSplit1,secondSplit2,thirdSplit1,thirdSplit
 
 make.Default.load('machine1',function(obj){
   machine1=obj;
-  machine1.setPosition(-1000,250,325)
+  machine1.setPosition(0,250,0)
   network.getDataBox().addByDescendant(obj);
   make.Default.load('machine2',function(obj){
     machine2=obj
@@ -109,20 +109,22 @@ var huojiaList=[
   }
 ]
 make.Default.load('huojia',function(obj){
+  obj.setPosition(-500,150,150)
+  huojia1 = obj
   obj.setRotationY(Math.PI/2)
   // network.getDataBox().addByDescendant(obj);
-  make.Default.load('huojia',function(obj2){
-    obj2.setParent(obj)
-    obj2.setPosition(0,250,0)
-    //network.getDataBox().addByDescendant(obj2);
-  })
-  huojiaList.forEach(function(e){
-    for(var i=0;i<e.num;i++){
-      var huojia=obj.clonePrefab()
-      huojia.setPosition(e.first.x-132*i,e.first.y,e.first.z)
-      network.getDataBox().addByDescendant(huojia);
-    }
-  })
+  // make.Default.load('huojia',function(obj2){
+  //   obj2.setParent(obj)
+  //   obj2.setPosition(0,250,0)
+  //   //network.getDataBox().addByDescendant(obj2);
+  // })
+  // huojiaList.forEach(function(e){
+  //   for(var i=0;i<e.num;i++){
+  //     var huojia=obj.clonePrefab()
+  //     huojia.setPosition(e.first.x-132*i,e.first.y,e.first.z)
+      network.getDataBox().addByDescendant(obj);
+    //}
+  //})
 })
 
 
