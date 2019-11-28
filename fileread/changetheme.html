@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      :root {
+        --theme-color: red /* css 变量赋值位置 */
+      }
+      .title {
+        color: var(--theme-color) /* 用css变量标记颜色 */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">fffffffff</div>
+  </body>
+<script src="./jquery.js"></script>
+<script>
+ // console 中执行 changceColor('blue') 即可变色
+ function changeColor(color = 'blue') {
+        document.documentElement.style.setProperty("--theme-color",color);
+}
+</script>
+</html>

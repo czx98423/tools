@@ -1,0 +1,72 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-01-25 10:30:49
+ * @LastEditTime: 2019-08-26 14:42:09
+ * @LastEditors: Please set LastEditors
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Document</title>
+ </head>
+ <style>
+ </style>
+ <link rel="stylesheet" href="./css/fileinput.css">
+ <link rel="stylesheet" href="./css/font-awesome.min.css">
+ <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+ <script src="./jquery.js"></script>
+ <script src="./js/bootstrap.min.js"></script>
+ <script src="./js/jquery-ui.min.js"></script>
+ <!-- <script src="./js/purify.min.js"></script> -->
+ <script src="./js/fileinput.js"></script>
+ 
+
+ <body>
+         <div>
+             <input id='file' type="file" multiple>
+         </div>
+ </body>
+ <script>
+   $("#file").fileinput({
+    uploadExtraData:function(){
+      return {
+        id:1,
+        name:(function(){
+        var arr=[]
+        $(".file-caption-info").each(function(){
+          arr.push(this.innerText)
+        })
+        return JSON.stringify(arr)
+      })()
+    };
+    },
+    beforeAjaxTestFn:function(){
+      console.log(this)
+      return true
+    },
+    initialPreview: [
+      "<img src='./bg.png' style='width:100%'>",
+    ],
+    initialPreviewConfig: [
+      {caption: "nature-1.jpg", size: 329892, width: "120px", url: "/delete", key: 1,extra:{id:1}}
+    ],
+    overwriteInitial: false,//上传本地图片是否清除预览图片
+    uploadAsync: false,
+    theme:'fas',
+    enctype: 'application/x-www-form-urlencoded',
+    uploadUrl:'/upload',
+    allowedFileExtensions: ['jpg','png'],
+   });
+   $("#file").on("filebatchuploadcomplete", function() {
+        console.log(1)
+    });
+    $("#file").on("filetestbeforesend",function(){
+      console.log(2)
+    })
+ </script>
+ </html>

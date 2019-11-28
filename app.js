@@ -4,9 +4,18 @@ let fs = require('fs');
 let express = require('express');
 let app=express();
 let httpServer= require('http').Server(app);
+let bodyparse = require('body-parser')
 
 app.get('/ok', function (req, res) {
-    res.sendFile(__dirname+'/fileread/file.html');
+    res.sendFile(__dirname+'/fileread/upLoad2.html');
+ })
+ app.post('/delete', function (req, res) {
+  var form= new formidable.IncomingForm();
+  form.parse(req,function(err,fields,files){
+    console.log(fields);
+    console.log(files)
+  })
+  res.json({code:1})
  })
  app.post('/upload', function (req, res) {
 
@@ -37,10 +46,10 @@ app.get('/ok', function (req, res) {
 	  next(err); 
 	})
 	.parse(req,function(err, fields, files){
-		console.log(fields.type)
 	  if(err){
 		 console.log(err);
-	  }
+    }
+    console.log(fields)
 	  allFile.forEach(function(file,index){
 		  var fieldName=file[0];
 		  var types = file[1].name.split('.');
