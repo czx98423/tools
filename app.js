@@ -26,7 +26,8 @@ app.get('/ok', function (req, res) {
 		maxFieldsSize : 2 * 1024 * 1024//byte//最大可上传大小
 	});
 
-	var allFile=[];
+	var allFile=[],
+	savePath='./lx/lx3d/img';
 	form.on('progress', function(bytesReceived, bytesExpected) {//在控制台打印文件上传进度
 	  var progressInfo = { 
 		 value: bytesReceived, 
@@ -49,15 +50,25 @@ app.get('/ok', function (req, res) {
 	  if(err){
 		 console.log(err);
     }
-    console.log(fields)
-	  allFile.forEach(function(file,index){
-		  var fieldName=file[0];
-		  var types = file[1].name.split('.');
-		  var date = new Date();
-			var ms = Date.parse(date);
-			console.log(file[1].path)
-		  fs.renameSync(file[1].path,form.uploadDir+"/"+types[0]+"."+String(types[types.length-1]));//重命名文件，默认的文件名是带有一串编码的，我们要把它还原为它原先的名字。
-	  });
+	console.log(fields);
+	var save=savePath+'/'+new Date().getTime()
+	fs.exists(save,exist=>{
+		if(!exist){
+			fs.mkdir(save,e=>{
+				if(e){
+					console.log(e)
+				}
+				allFile.forEach(function(file,index){
+					var fieldName=file[0];
+					var types = file[1].name.split('.');
+					var date = new Date();
+					  var ms = Date.parse(date);
+					  console.log(file[1].path)
+					fs.renameSync(file[1].path,save+"/"+types[0]+"."+String(types[types.length-1]));//重命名文件，默认的文件名是带有一串编码的，我们要把它还原为它原先的名字。
+				});
+			})
+		}
+	})
 	}); 
  })
 app.use(express.static(path.join(__dirname,'./js')))
