@@ -2,73 +2,79 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
 
 <body onload="load()">
-    <div id="mainDiv">
-        <canvas id="myCanvas" width="800" height="800" />
-    </div>
-    <div>
-        <canvas id='canvas'></canvas>
-    </div>
+  <div id="mainDiv">
+    <canvas id="myCanvas" width="800" height="800" />
+  </div>
+  <div>
+    <canvas id='canvas'></canvas>
+  </div>
 </body>
 <style>
-    #plu,
-    #inc {
-        position: fixed;
-        top: 100px;
-        border: 1px solid black;
-    }
+  #plu,
+  #inc {
+    position: fixed;
+    top: 100px;
+    border: 1px solid black;
+  }
 
-    #plu {
-        left: 200px;
-    }
+  #plu {
+    left: 200px;
+  }
 </style>
 <script src="./js/t.js"></script>
 <script src="./js/twaver.js"></script>
 <script src="./js/jquery.js"></script>
-<script src="../c/js/bb.js"></script>
+
 <script>
-    var network, interaction;
-    var box = new mono.DataBox();
-    var camera = new mono.PerspectiveCamera(50, 1, 1.5, 10000);
-    var target = new mono.Vec3(150, 50, 150),node;
+  var network, interaction;
+  var box = new mono.DataBox();
+  var camera = new mono.PerspectiveCamera(50, 1, 1.5, 10000);
+  var target = new mono.Vec3(150, 50, 150),
+    node;
 
-    function load() {
-        camera.setPosition(-700, 1000, 500);
-        camera.lookAt(target);
-        network = new mono.Network3D(box, camera, myCanvas);
+  function load() {
+    camera.setPosition(-700, 1000, 500);
+    camera.lookAt(target);
+    network = new mono.Network3D(box, camera, myCanvas);
 
-        box.add(new mono.AmbientLight(0xffffff));
-        mono.Utils.autoAdjustNetworkBounds(network, document.documentElement, 'clientWidth', 'clientHeight');
-        network.setShowAxis(true); //显示原地
-        network.setShowAxisText(true); //显示坐标线
-        //创建一个设备节点
-        node = new mono.Cube(20, 20, 20);
-        node.setStyle('m.texture.image', './img/iron.png');    
-    }
-    setTimeout(function () {
-            create(json)
-            var billboard = new mono.Billboard();
+    box.add(new mono.AmbientLight(0xffffff));
+    mono.Utils.autoAdjustNetworkBounds(network, document.documentElement, 'clientWidth', 'clientHeight');
+    network.setShowAxis(true); //显示原地
+    network.setShowAxisText(true); //显示坐标线
+    //创建一个设备节点
+    node = new mono.Cube(20, 20, 20);
+    node.setStyle('m.texture.image', './img/iron.png');
 
-            billboard.s({
-                'm.texture.image': canvas,
-                'm.transparent': true,
-                'm.alignment': mono.BillboardAlignment.bottomLeft,
-                'm.texture.wrapS': mono.ClampToEdgeWrapping,
-                'm.texture.wrapT': mono.ClampToEdgeWrapping
-            });
-            billboard.setScale(60, 40, 1);
-            billboard.setParent(node);
-            billboard.setPosition(0, 0, 0); //设置公告牌位置
-            billboard.invalidateTexture();
-            box.addByDescendant(node);
-            console.log(billboard)
-        }, 1000)
+
+    var defaultInteraction = new mono.DefaultInteraction(network);
+    var editInteraction = new mono.EditInteraction(network);
+    editInteraction.setSize(0)
+    network.setInteractions([editInteraction]);
+  }
+  setTimeout(function () {
+    var billboard = new mono.Billboard();
+
+    billboard.s({
+      'm.texture.image': './img/1.png',
+      'm.transparent': true,
+      'm.alignment': mono.BillboardAlignment.bottomLeft,
+      'm.texture.wrapS': mono.ClampToEdgeWrapping,
+      'm.texture.wrapT': mono.ClampToEdgeWrapping
+    });
+    billboard.setScale(60, 40, 1);
+    billboard.setParent(node);
+    billboard.setPosition(0, 0, 0); //设置公告牌位置
+    billboard.invalidateTexture();
+    box.addByDescendant(node);
+    console.log(billboard)
+  }, 1000)
 </script>
 
 </html>

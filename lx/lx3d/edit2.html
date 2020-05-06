@@ -67,6 +67,21 @@
         box.add(new mono.AmbientLight(0xffffff));
 
         var setWall = function (offset, type) {
+          var node = new mono.Cube(20,20,20);
+          node.setStyle('m.texture.image','../images/bbb.png');
+          box.add(node);
+          
+          //构造一个公告牌对象
+          var billboard=new mono.Billboard();  
+          
+          billboard.setStyle('m.texture.image','./img/1.png'); //设置公告牌图片
+          billboard.setScale(20,40,1);  //设置图片的宽高放大比例。第三个z轴参数没有意义，传入1即可
+          billboard.setPosition(0,0,0);  //设置公告牌位置
+          
+          billboard.setStyle('m.alignment',mono.BillboardAlignment.bottomCenter); //设置公告牌在附属节点上的对齐位置。附属节点是公告牌的父节点，会随其移动。这里设置为公告牌的中间下方和父节点对齐
+          billboard.setStyle('m.transparent',true); //设置图片透明模式。此时图片的透明区域会显示为镂空
+          
+          billboard.setParent(node);
             wall = new mono.Cube(800, 200, 20)
             wall.s({
                 'm.type': 'phong',

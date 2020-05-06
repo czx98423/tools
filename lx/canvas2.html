@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<script src="./lx3d/js/jquery.js"></script>
+<body>
+
+</body>
+<script>
+  var width = 50,height=17.8;
+  var color = '#00FFFF';
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width =width //mono.Utils.nextPowerOfTwo(width);  //canvas按比例来缩放
+    canvas.height =height //mono.Utils.nextPowerOfTwo(height);
+    
+    context.save();
+    context.beginPath();
+    context.strokeStyle = color;
+    context.lineWidth = '2';
+    context.strokeRect(0,0,canvas.width,canvas.height);
+    context.stroke();
+    context.closePath();
+    context.restore();
+  document.body.appendChild(canvas)
+  let sleep = s =>{
+    let t1 = Date.now()
+    while(Date.now() - t1<s){}
+    console.log('a')
+  }
+  let async1 = async()=>{
+    await async2();
+    console.log('b')
+  }
+  let async2 = async()=>{
+    console.log('c');
+    await Promise.resolve()
+    console.log('d')
+  }
+  setTimeout(() => {
+    console.log(1)
+  }, timeout);
+
+  new Promise((resolve,reject)=>{
+    reject()
+    console.log(2)
+  }).catch(()=>{console.log(3)})
+  async1()
+  sleep(2000)
+</script>
+</html>
