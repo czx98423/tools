@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<script src="./lx3d/js/jquery.js"></script>
+<body>
+
+</body>
+<script>
+     var canvas2 = document.createElement('canvas');
+    var context2 = canvas2.getContext('2d'),
+    textHeight = context2.measureText('M').width;
+    canvas2.width = 150;
+    canvas2.height = 100;
+
+
+    
+    var fillColor = '#537D95',
+      strokeColor = '#009AEC';
+
+    context2.fillStyle = fillColor;
+    //context2.fillRect(0, 0, canvas2.width, canvas2.height);
+    context2.lineWidth = 5;
+    context2.strokeStyle = strokeColor;
+    context2.strokeRect(0, 0, canvas2.width, canvas2.height);
+
+  document.body.appendChild(canvas2)
+</script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<link rel="stylesheet" href="./layer.css">
+<script src="./jquery.js"></script>
+<script src="./mqtt.js"></script>
+<script src="./layer.min.js"></script>
+<body>
+</body>
+<script>
+var client = mqtt.connect("mqtt://127.0.0.1:3000");
+
+client.on('connect',()=>{
+  layer.msg('订阅成功')
+  client.subscribe("test",{qos:1});
+})
+
+
+client.on("message", function(topic, payload) {
+  layer.msg(topic+payload)
+});
+</script>
+</html>
