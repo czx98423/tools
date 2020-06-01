@@ -63,7 +63,7 @@ html{
 <!-- <script src="./js/scale.js"></script> -->
 <body class="bg">
         <div>
-            <!-- <a href="./导入模板-用户.xlsx" download="导入模板-用户.xlsx" class="pir">点击下载</a> -->
+            <a href="bg.png" download="bg.png" class="pir">点击下载</a>
         <button id='down'>down</button>
         <br>
             <input id='file' type="file"><button id='up' class="pir">上传</button>
@@ -152,6 +152,8 @@ $("#up").click(function(){
         });
     }
 })    
-
+$('#down').click(function(){
+  window.open('bg.png')
+})
 </script>
 </html>

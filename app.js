@@ -7,7 +7,7 @@ let httpServer= require('http').Server(app);
 let bodyparse = require('body-parser')
 
 app.get('/ok', function (req, res) {
-    res.sendFile(__dirname+'/fileread/upLoad2.html');
+    res.sendFile(__dirname+'/fileread/upLoad.html');
  })
  app.post('/delete', function (req, res) {
   var form= new formidable.IncomingForm();
@@ -18,7 +18,7 @@ app.get('/ok', function (req, res) {
   res.json({code:1})
  })
  app.post('/upload', function (req, res) {
-
+  console.log(1)
 	var form=formidable.IncomingForm({
 		encoding : 'utf-8',//上传编码
 		uploadDir : "lx",//上传目录，指的是服务器的路径，如果不存在将会报错。
@@ -34,13 +34,12 @@ app.get('/ok', function (req, res) {
 		 total: bytesExpected 
 	  }; 
 	  console.log('[progress]: ' + JSON.stringify(progressInfo)); 
-	  res.write(JSON.stringify(progressInfo)); 
 	})
 	.on('file', function (filed, file) {
 	   allFile.push([filed, file]);//收集传过来的所有文件
 	})
 	.on('end', function() { 
-	   res.end('上传成功！'); 
+	   res.json({status:1}); 
 	})
 	.on('error', function(err) {
 	  console.error('上传失败：', err.message); 
@@ -65,7 +64,7 @@ app.get('/ok', function (req, res) {
 					  var ms = Date.parse(date);
 					  console.log(file[1].path)
 					fs.renameSync(file[1].path,save+"/"+types[0]+"."+String(types[types.length-1]));//重命名文件，默认的文件名是带有一串编码的，我们要把它还原为它原先的名字。
-				});
+        });
 			})
 		}
 	})

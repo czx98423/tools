@@ -1,0 +1,1 @@
+{ "name":"用户及权限管理","icon":"solution","path":"auth","children":[{"name":"角色管理","path":"/auth/role","icon":"solution"},{"name":"用户管理","path":"/auth/account","icon":"solution"}]}
