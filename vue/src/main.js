@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import ViewUI from 'view-design'
 import Antd from 'ant-design-vue';
+import $ from 'jquery'
 import 'view-design/dist/styles/iview.css'
 import 'ant-design-vue/dist/antd.css'
 Vue.config.productionTip = false

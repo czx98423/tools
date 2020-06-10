@@ -8,7 +8,7 @@ module.exports = {
   dev: {
     useEslint: false,
     // Paths
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: 'modellib',
     assetsPublicPath: '/',
     proxyTable: {},
 
