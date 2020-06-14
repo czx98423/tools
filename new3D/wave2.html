@@ -38,7 +38,7 @@
       });
       //createGUI(scene);
       // const cubes = (window.cubes = []);
-      const buffers = createTruncatedCone(0.5, 0, 1, 32, 32, true, true);
+      const buffers = createTruncatedCone(6, 0, 0, 132, 132, true, true);
       const cube = new Data({
         vao: {
           buffers,
@@ -48,15 +48,41 @@
         diffuseColor: vec3.fromValues(
           1.0 / 255.0,
           206.0 / 255.0,
-          224.0 / 255.0
+          224.0 / 255.0,
+          20.0 /100.0
         ),
         // transparent: true,
         doubleSided: true,
         depthWrite: true,
       });
       scene.add(cube);
-      window.cube = cube;
+      const buffers2 = createTruncatedCone(2, 0, 0, 132, 132, true, true);
+      const cube2 = new Data({
+        vao: {
+          buffers:buffers2,
+        },
+      });
+      cube2.material = new STDMaterial({
+        diffuseColor: vec3.fromValues(
+          2.0 / 255.0,
+          26.0 / 255.0,
+          224.0 / 255.0
+        ),
+        // transparent: true,
+        doubleSided: true,
+        depthWrite: true,
+      });
+      scene.add(cube2);
+      window.cube2 = cube2;
       window.scene = scene;
+      var sc = 1 ;
+      var scalc =  function(){
+        sc>3?sc=1:sc+=0.02;
+        cube2.setScale(sc,1,sc);
+        requestAnimationFrame(scalc);
+      }
+      setTimeout(()=>{requestAnimationFrame(scalc)},1000)
+      
       // const count = 3;
       // for (let i = 0; i < count; i++) {
       // const cube = (window.cube = scene.add({
