@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>Clip</title>
+    <style>
+      html,
+      body {
+        margin: 0px;
+        overflow: hidden;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="module">
+      import {
+        Scene,
+        vec3,
+        vec4,
+        createTruncatedCone,
+        Animate,
+        createGUI,
+        STDMaterial,
+        Data,
+      } from './bundle.js';
+
+      const scene = new Scene({
+        canvas: 'canvas',
+        camera: {
+          position: vec3.fromValues(0, 10, 0),
+        },
+      });
+      //createGUI(scene);
+      // const cubes = (window.cubes = []);
+      const buffers = createTruncatedCone(0.5, 0, 1, 32, 32, true, true);
+      const cube = new Data({
+        vao: {
+          buffers,
+        },
+      });
+      cube.material = new STDMaterial({
+        diffuseColor: vec3.fromValues(
+          1.0 / 255.0,
+          206.0 / 255.0,
+          224.0 / 255.0
+        ),
+        // transparent: true,
+        doubleSided: true,
+        depthWrite: true,
+      });
+      scene.add(cube);
+      window.cube = cube;
+      window.scene = scene;
+      // const count = 3;
+      // for (let i = 0; i < count; i++) {
+      // const cube = (window.cube = scene.add({
+      //   vao: {
+      //     buffers,
+      //   },
+      //   // scale: vec3.fromValues(0, 0, 0),
+      //   material: {
+      //     diffuseColor: vec4.fromValues(
+      //       1.0 / 255.0,
+      //       206.0 / 255.0,
+      //       224.0 / 255.0,
+      //       1
+      //     ),
+      //     transparent: true,
+      //     doubleSided: true,
+      //     depthWrite: false,
+      //   },
+      // }));
+      // cube.flag = true;
+      // cube.animate = new Animate({
+      //   from: 0,
+      //   to: 1,
+      //   repeat: Number.POSITIVE_INFINITY,
+      //   reverse: false,
+      //   dur: 3000,
+      //   onUpdate(value) {
+      //     cube.flag = false;
+      //     cube.scale = vec3.fromValues(value, value, value);
+      //     cube.material.transparency = 1 - value;
+      //   },
+      // });
+      // cubes.push(cube);
+      // }
+
+      // const animate = new Animate({
+      //   from: 0,
+      //   to: 3,
+      //   repeat: 1,
+      //   reverse: false,
+      //   dur: 3000,
+      //   onUpdate(value) {
+      //     cubes[0].flag && cubes[0].animate.play();
+      //     if (value > 1) {
+      //       cubes[1].flag && cubes[1].animate.play();
+      //     }
+      //     if (value > 2) {
+      //       cubes[2].flag && cubes[2].animate.play();
+      //     }
+      //   },
+      // }).play();
+    </script>
+  </body>
+</html>
