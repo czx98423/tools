@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>wave</title>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, vec3, vec4, createTruncatedCone, Animate, Data,createGUI
+    } from './bundle.js';
+
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(0, 2, 10),
+      },
+    });
+
+    createGUI(scene);
+
+    function createCone(
+      bottomRadius,
+      topRadius,
+      height,
+      subdivisions,
+      bottomColor,
+      topColor,
+    ) {
+      const points = [];
+      const uvs = [];
+      const colors = [];
+      const indeces = [];
+      const ratio = bottomRadius / topRadius;
+      for (let i = 0; i <= subdivisions; i++) {
+        const angle = (-i / subdivisions) * Math.PI * 2;
+        const x = topRadius * Math.cos(angle);
+        const z = topRadius * Math.sin(angle);
+        points.push(x);
+        points.push(height);
+        points.push(z);
+        points.push(x * ratio);
+        points.push(0);
+        points.push(z * ratio);
+        uvs.push(i / subdivisions);
+        uvs.push(0);
+        uvs.push(i / subdivisions);
+        uvs.push(1);
+        colors.push(topColor[0]);
+        colors.push(topColor[1]);
+        colors.push(topColor[2]);
+        colors.push(topColor[3]);
+        colors.push(bottomColor[0]);
+        colors.push(bottomColor[1]);
+        colors.push(bottomColor[2]);
+        colors.push(bottomColor[3]);
+      }
+      for (let i = 0; i < subdivisions; i++) {
+        const p1Index = i * 2;
+        const p2Index = p1Index + 1;
+        const p3Index = (i + 1) * 2;
+        const p4Index = p3Index + 1;
+
+        indeces.push(p1Index);
+        indeces.push(p2Index);
+        indeces.push(p4Index);
+
+        indeces.push(p4Index);
+        indeces.push(p3Index);
+        indeces.push(p1Index);
+      }
+      return {
+        position: new Float32Array(points),
+        uv: new Float32Array(uvs),
+        color: new Float32Array(colors),
+        index: indeces,
+      };
+    }
+
+    const cubes = [];
+    const buffers = createTruncatedCone(1, 0.1, 1, 80, 11, false, 0.0, Math.PI * 2);
+    const count = 3;
+    for (let i = 0; i < count; i++) {
+      const cube = scene.add({
+        vao: {
+          buffers,
+        },
+        scale: vec3.fromValues(0, 0, 0),
+        material: {
+          // diffuseColor: vec4.fromValues(1.0 / 255.0, 206.0 / 255.0, 224.0 / 255.0, 1),
+          diffuseColor: vec4.fromValues(255.0 / 255.0, 0 / 255.0, 0 / 255.0, 1),
+          transparent: true,
+          doubleSided: true,
+          depthWrite: false,
+        },
+      });
+      cube.flag = true;
+      cube.animate = new Animate({
+        from: 0,
+        to: 1,
+        repeat: Number.POSITIVE_INFINITY,
+        reverse: false,
+        dur: 3000,
+        onUpdate(value) {
+          cube.flag = false;
+          cube.scale = vec3.fromValues(value, value, value);
+          cube.material.transparency = 1 - value;
+        },
+      });
+      cubes.push(cube);
+    }
+
+    const animate = new Animate({
+      from: 0,
+      to: 3,
+      repeat: 1,
+      reverse: false,
+      dur: 3000,
+      onUpdate(value) {
+        cubes[0].flag && cubes[0].animate.play();
+        if (value > 1) {
+          cubes[1].flag && cubes[1].animate.play();
+        }
+        if (value > 2) {
+          cubes[2].flag && cubes[2].animate.play();
+        }
+      },
+    }).play();
+
+
+    function createAlarm() {
+      const alarmHeight = 1;
+      const alarmTop = new Data({
+        material: {
+          light: false,
+          transparent: true,
+          doubleSided: true,
+          depthWrite: false,
+          flipY: false,
+          diffuseImage: {
+            url: '../img/1.jpg',
+          },
+        },
+        vao: {
+          buffers: createCone(
+            0.8,
+            1,
+            alarmHeight,
+            80,
+            vec4.fromValues(1, 1, 1, 1),
+            vec4.fromValues(1, 1, 1, 0),
+          ),
+        },
+      });
+      return alarmTop;
+    }
+
+    // const alarm = createAlarm();
+    // scene.add(alarm);
+
+    // scene.onAnimationFrame = (time) => {
+    //   alarm.material.ty += 0.01;
+    // };
+  </script>
+</body>
+
+</html>
