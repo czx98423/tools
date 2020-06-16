@@ -18,7 +18,7 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, vec3, vec4,Billboard, createTruncatedCone, Animate, Data,createGUI
+      Scene, vec3, vec4,Billboard, createTruncatedCone, Animate, Data,createGUI,createPlane
     } from './bundle.js';
 
 
@@ -129,7 +129,7 @@
       cubes.push(cube);
     }
     var bbd = window.bbd=new Data({
-      scale :vec3.fromValues(0.8,0.8,0.8),
+      scale :vec3.fromValues(0.6,0.6,0.6),
       position: vec3.fromValues(0, 5, 0),
       material: {
         TYPE: 'BILLBOARD',
@@ -139,16 +139,34 @@
       },
     })
     scene.addBillboard(bbd);
-    var bbd2 =window.bbd2 = new Data({
-      //scale :vec3.fromValues(0,0,0),
+    // var bbd2 =window.bbd2 = new Data({
+    //   //scale :vec3.fromValues(0,0,0),
+    //   position: vec3.fromValues(0, 5, 0.01),
+    //   material: {
+    //     TYPE: 'BILLBOARD',
+    //     transparent: true,
+    //     diffuseImage: './rot.png',
+    //     vertical: true,
+    //   },
+    // })
+    var bbd2 =window.bbd2= new Data({
       position: vec3.fromValues(0, 5, 0.01),
-      material: {
-        TYPE: 'BILLBOARD',
-        transparent: true,
-        diffuseImage: './rot.png',
-        vertical: true,
-      },
-    })
+        material: {
+          light: true,
+          transparent: true,
+          doubleSided: true,
+          depthWrite: false,
+          diffuseImage: './rot.png',
+        },
+        vao: {
+          /** createCone
+           * @Description {上径百分比，下径，柱高 ，圆柱宽，下颜色，上颜色 }
+           * @param {string}
+           * @return {null} 
+          */
+          buffers: createPlane(1,1,1,1),
+        },
+      });
     bbd2.animate = new Animate({
       from:0,
       to:Math.PI*2,
@@ -158,7 +176,7 @@
         bbd2.rotation = vec3.fromValues(0,0,value)
       }
     })
-    scene.addBillboard(bbd2);
+    scene.add(bbd2);
     const animate = new Animate({
       from: 0,
       to: 3,
