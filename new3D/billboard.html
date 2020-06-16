@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Billboard</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, vec3, mat4,createCube
+    } from './bundle.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(2.5, 2, 2.7),
+      },
+      lights: [
+        {
+          type: 'DIRECTION',
+        },
+      ],
+      datas: [
+        {
+          type: 'cube',
+          position: vec3.fromValues(2, 0, 0),
+          material: {
+            diffuseImage: './b.png',
+          },
+          // vao:{
+          //   buffer:createCube(5)
+          // }
+        },
+      ],
+      billboards: [{
+        position: vec3.fromValues(2, 1, 0),
+        material: {
+          TYPE: 'BILLBOARD',
+          transparent: true,
+          diffuseImage: './b.png',
+          fixedSize: true,
+          fixedSizeScale: 5.0,
+        },
+      }],
+    });
+
+    const div = document.createElement('div');
+    div.style.background = 'red';
+    div.style.position = 'absolute';
+    div.style.width = '4px';
+    div.style.height = '4px';
+    document.body.appendChild(div);
+
+    const box = scene.add({
+      type: 'cube',
+      material: {
+        TYPE: 'STD',
+      },
+      position: vec3.fromValues(-2, 0, 0),
+    });
+
+    scene.addBillboard({
+      position: vec3.fromValues(-2, 1, 0),
+      material: {
+        TYPE: 'BILLBOARD',
+        transparent: true,
+        diffuseImage: './b.png',
+      },
+    });
+
+    function setDivLocation() {
+      const mvpMatrix = mat4.create();
+      const pvMatrix = scene.camera.projectViewMatrix;
+      mat4.mul(mvpMatrix, pvMatrix, box.worldMatrix);
+      const sceenPosition = vec3.create();
+      vec3.transformMat4(sceenPosition, sceenPosition, mvpMatrix);
+      if (sceenPosition[0] <= 1 && sceenPosition[0] >= -1
+          && sceenPosition[1] <= 1 && sceenPosition[1] >= -1
+          && sceenPosition[2] <= 1 && sceenPosition[2] >= -1) {
+        const halfW = scene._canvas.clientWidth / 2;
+        const halfH = scene._canvas.clientHeight / 2;
+        const sceenX = Math.floor((sceenPosition[0] + 1) * halfW);
+        const sceenY = Math.floor((1 - sceenPosition[1]) * halfH);
+        div.style.left = `${sceenX - div.clientWidth / 2}px`;
+        div.style.top = `${sceenY - div.clientHeight / 2}px`;
+        div.style.display = 'block';
+      } else {
+        div.style.display = 'none';
+      }
+    }
+
+    scene.camera.on('all', (e) => {
+      setDivLocation();
+    });
+
+    setDivLocation();
+    createGUI(scene);
+  </script>
+</body>
+</html>
