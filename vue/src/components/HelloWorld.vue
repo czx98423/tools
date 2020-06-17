@@ -119,7 +119,7 @@ export default {
     modelFilter (objs) {
       for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
-        if (!make.Default.getCreator(obj.id)) {
+        if (!make.Default.getCreator(obj.id+'.top')) {
           make.Default.registerModel({
              "id": obj.id, "modelType": obj.modelType, "width": obj.width||0, "depth": obj.depth||0, "height": obj.height ||0
           });

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>LOD</title>
+    <style>
+      html,
+      body {
+        margin: 0px;
+        overflow: hidden;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="module">
+      import {
+        Scene,
+        Cube,
+        Sphere,
+        STDMaterial,
+        vec3,
+        vec4,
+        createGUI,
+      } from './bundle.js'
+
+      const scene = new Scene({
+        canvas: 'canvas',
+        camera: {
+          near: 0.1,
+          target: vec3.fromValues(0, 0, 0),
+          position: vec3.fromValues(0.13, 2, 6),
+        },
+        lights: [
+          {
+            type: 'DIRECTION',
+          },
+        ],
+      })
+
+      const count = 10
+      const halfCount = count / 2
+      for (let x = -halfCount; x < halfCount; x++) {
+        for (let y = -halfCount; y < halfCount; y++) {
+          const object = scene.add({
+            type: 'torus',
+            position: vec3.fromValues(x * 2, 0, y * 2),
+            material: {
+              diffuseColor: vec4.fromValues(0, 0, 1, 1),
+            },
+          })
+
+          const lod1 = new Sphere()
+          lod1.material = new STDMaterial()
+          lod1.material.diffuseColor = [0, 1, 0, 1]
+          object.addLOD(5, lod1)
+
+          const lod2 = new Cube()
+          lod2.material = new STDMaterial()
+          lod2.material.diffuseColor = [1, 0, 0, 1]
+          object.addLOD(10, lod2)
+
+          object.addLOD(50, null)
+        }
+      }
+
+      createGUI(scene)
+    </script>
+  </body>
+</html>

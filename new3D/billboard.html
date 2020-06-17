@@ -15,10 +15,10 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, createGUI, vec3, mat4,createCube
+      Scene, createGUI, vec3,Data, mat4,createCube
     } from './bundle.js';
 
-    const scene = new Scene({
+    const scene = window.s = new Scene({
       canvas: 'canvas',
       camera: {
         position: vec3.fromValues(2.5, 2, 2.7),
@@ -64,17 +64,19 @@
       material: {
         TYPE: 'STD',
       },
-      position: vec3.fromValues(-2, 0, 0),
+      position: vec3.fromValues(-2, -1, 0),
     });
-
-    scene.addBillboard({
+    window.box = box
+    var bbd = window.bbd = new Data({
       position: vec3.fromValues(-2, 1, 0),
       material: {
         TYPE: 'BILLBOARD',
         transparent: true,
         diffuseImage: './b.png',
+        vertical: true,
       },
-    });
+    })
+    scene.addBillboard(bbd);
 
     function setDivLocation() {
       const mvpMatrix = mat4.create();
@@ -96,9 +98,10 @@
         div.style.display = 'none';
       }
     }
-
+    let v = 0
     scene.camera.on('all', (e) => {
       setDivLocation();
+      box.rotation = vec3.fromValues(0,scene.camera.hRotation,0,)
     });
 
     setDivLocation();

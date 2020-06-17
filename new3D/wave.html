@@ -1,234 +1,291 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-  <title>wave</title>
-  <style>
-    html,
-    body {
-      margin: 0px;
-      overflow: hidden;
-      height: 100%;
-    }
-  </style>
-</head>
-
-<body>
-  <canvas id="canvas"></canvas>
-  <script type="module">
-    import {
-      Scene, vec3, vec4,Billboard, createTruncatedCone, Animate, Data,createGUI,createPlane
-    } from './bundle.js';
-
-
-    const scene = new Scene({
-      canvas: 'canvas',
-      camera: {
-        position: vec3.fromValues(0, 2, 10),
-      },
-    });
-
-    createGUI(scene);
-
-    function createCone(
-      bottomRadius,
-      topRadius,
-      height,
-      subdivisions,
-      bottomColor,
-      topColor,
-    ) {
-      const points = [];
-      const uvs = [];
-      const colors = [];
-      const indeces = [];
-      const ratio = bottomRadius / topRadius;
-      for (let i = 0; i <= subdivisions; i++) {
-        const angle = (-i / subdivisions) * Math.PI * 2;
-        const x = topRadius * Math.cos(angle);
-        const z = topRadius * Math.sin(angle);
-        points.push(x);
-        points.push(height);
-        points.push(z);
-        points.push(x * ratio);
-        points.push(0);
-        points.push(z * ratio);
-        uvs.push(i / subdivisions);
-        uvs.push(0);
-        uvs.push(i / subdivisions);
-        uvs.push(1);
-        colors.push(topColor[0]);
-        colors.push(topColor[1]);
-        colors.push(topColor[2]);
-        colors.push(topColor[3]);
-        colors.push(bottomColor[0]);
-        colors.push(bottomColor[1]);
-        colors.push(bottomColor[2]);
-        colors.push(bottomColor[3]);
+  <head>
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>wave</title>
+    <style>
+      html,
+      body {
+        margin: 0px;
+        overflow: hidden;
+        height: 100%;
       }
-      for (let i = 0; i < subdivisions; i++) {
-        const p1Index = i * 2;
-        const p2Index = p1Index + 1;
-        const p3Index = (i + 1) * 2;
-        const p4Index = p3Index + 1;
+    </style>
+  </head>
 
-        indeces.push(p1Index);
-        indeces.push(p2Index);
-        indeces.push(p4Index);
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="module">
+      import {
+        Scene,
+        vec2,
+        vec3,
+        vec4,
+        Billboard,
+        createTruncatedCone,
+        Animate,
+        Data,
+        createGUI,
+        createPlane,
+      } from './bundle.js'
 
-        indeces.push(p4Index);
-        indeces.push(p3Index);
-        indeces.push(p1Index);
-      }
-      return {
-        position: new Float32Array(points),
-        uv: new Float32Array(uvs),
-        color: new Float32Array(colors),
-        index: indeces,
-      };
-    }
-    // var cc = new Data({
-    //   type: 'cube',
-    // })
-    // scene.add(cc)
-    window.s =scene
-    const cubes = [];
-    const buffers = createTruncatedCone(1, 0.1, 0.1, 80, 11, false, 0.0, Math.PI * 2);
-    const count = 3;
-    for (let i = 0; i < count; i++) {
-      const cube = scene.add({
-        vao: {
-          buffers,
+      const scene = new Scene({
+        canvas: 'canvas',
+        camera: {
+          position: vec3.fromValues(0, 2, 10),
         },
-        scale: vec3.fromValues(0, 0, 0),
+      })
+
+      createGUI(scene)
+
+      function createCone(
+        bottomRadius,
+        topRadius,
+        height,
+        subdivisions,
+        bottomColor,
+        topColor
+      ) {
+        const points = []
+        const uvs = []
+        const colors = []
+        const indeces = []
+        const ratio = bottomRadius / topRadius
+        for (let i = 0; i <= subdivisions; i++) {
+          const angle = (-i / subdivisions) * Math.PI * 2
+          const x = topRadius * Math.cos(angle)
+          const z = topRadius * Math.sin(angle)
+          points.push(x)
+          points.push(height)
+          points.push(z)
+          points.push(x * ratio)
+          points.push(0)
+          points.push(z * ratio)
+          uvs.push(i / subdivisions)
+          uvs.push(0)
+          uvs.push(i / subdivisions)
+          uvs.push(1)
+          colors.push(topColor[0])
+          colors.push(topColor[1])
+          colors.push(topColor[2])
+          colors.push(topColor[3])
+          colors.push(bottomColor[0])
+          colors.push(bottomColor[1])
+          colors.push(bottomColor[2])
+          colors.push(bottomColor[3])
+        }
+        for (let i = 0; i < subdivisions; i++) {
+          const p1Index = i * 2
+          const p2Index = p1Index + 1
+          const p3Index = (i + 1) * 2
+          const p4Index = p3Index + 1
+
+          indeces.push(p1Index)
+          indeces.push(p2Index)
+          indeces.push(p4Index)
+
+          indeces.push(p4Index)
+          indeces.push(p3Index)
+          indeces.push(p1Index)
+        }
+        return {
+          position: new Float32Array(points),
+          uv: new Float32Array(uvs),
+          color: new Float32Array(colors),
+          index: indeces,
+        }
+      }
+      // var cc = new Data({
+      //   type: 'cube',
+      // })
+      // scene.add(cc)
+      window.s = scene
+      const cubes = []
+      const buffers = createTruncatedCone(
+        1,
+        0.1,
+        0.1,
+        80,
+        11,
+        false,
+        0.0,
+        Math.PI * 2
+      )
+      const count = 3
+      for (let i = 0; i < count; i++) {
+        const cube = scene.add({
+          vao: {
+            buffers,
+          },
+          scale: vec3.fromValues(0, 0, 0),
+          material: {
+            // diffuseColor: vec4.fromValues(1.0 / 255.0, 206.0 / 255.0, 224.0 / 255.0, 1),
+            diffuseColor: vec4.fromValues(
+              74.0 / 255.0,
+              234 / 255.0,
+              254 / 255.0,
+              1
+            ),
+            transparent: true,
+            doubleSided: true,
+            depthWrite: false,
+          },
+        })
+        cube.flag = true
+        cube.animate = new Animate({
+          from: 0,
+          to: 1,
+          repeat: Number.POSITIVE_INFINITY,
+          reverse: false,
+          dur: 3000,
+          onUpdate(value) {
+            cube.flag = false
+            cube.scale = vec3.fromValues(value, value, value)
+            cube.material.transparency = 1 - value
+          },
+          onStop: function () {
+            console.log(11)
+          },
+        })
+        cubes.push(cube)
+      }
+      var bbd = window.bbd = new Data({
+        //scale: vec3.fromValues(0.6, 0.6, 0.6),
+        position: vec3.fromValues(0, 5, 0),
         material: {
-          // diffuseColor: vec4.fromValues(1.0 / 255.0, 206.0 / 255.0, 224.0 / 255.0, 1),
-          diffuseColor: vec4.fromValues(74.0 / 255.0, 234 / 255.0, 254 / 255.0, 1),
+          TYPE: 'BILLBOARD',
           transparent: true,
-          doubleSided: true,
-          depthWrite: false,
+          diffuseImage: './rot.png',
+          vertical: true,
         },
-      });
-      cube.flag = true;
-      cube.animate = new Animate({
+      })
+      scene.addBillboard(bbd)
+      function createCanvas(width, height) {
+        const canvas = document.createElement('canvas')
+        width = width || 64
+        height = height || 256
+        canvas.width = width
+        canvas.height = height
+        const context = canvas.getContext('2d')
+        var img = new Image()
+        img.src = './tx.png'
+        img.onload = function () {
+          var gradient = context.createLinearGradient(0, 0, canvas.width, 0)
+          gradient.addColorStop(0, 'rgb(74,234,255)')
+          gradient.addColorStop(1, 'white')
+          context.fillStyle = gradient
+          context.drawImage(img, 0, 0, 64, 64)
+          context.beginPath()
+          context.moveTo((width * 0.96) / 2, width)
+          context.lineTo((width * 1.04) / 2, width)
+          context.lineTo((width * 1.04) / 2, height)
+          context.closePath()
+          context.fill()
+          var bbd2 = window.bbd2 = new Billboard({
+            scale: vec3.fromValues(1, 4, 1),
+            visible: true,
+            position: vec3.fromValues(0, 2.5, 0.01),
+            material: {
+              TYPE: 'BILLBOARD',
+              transparent: true,
+              diffuseImage: canvas,
+              depthWrite: false,
+              vertical: true,
+            },
+          })
+          scene.addBillboard(bbd2)
+          setTimeout(()=>{
+            context.clearRect(0,0,width,height)
+            window.bbd2._material._diffuseImage.url = canvas
+          },5000)
+        }
+      }
+      createCanvas()
+     
+      // cb.addChild(bbd2)
+
+      // var bbd2 = window.bbd2 = new Data({
+      //   position: vec3.fromValues(0, 5, 0.01),
+      //   material: {
+      //     rotation : vec3.fromValues(0, 11, 1),
+      //     light: true,
+      //     transparent: true,
+      //     doubleSided: true,
+      //     depthWrite: false,
+      //     diffuseImage: './rot.png',
+      //   },
+      //   vao: {
+      //     buffers: createPlane(1, 1, 1, 1),
+      //   },
+      // })
+      // bbd2.animate = new Animate({
+      //   from: 0,
+      //   to: Math.PI * 2,
+      //   repeat: Infinity,
+      //   dur: 2000,
+      //   onUpdate: function (value) {
+      //     bbd2.rotation = vec3.fromValues(0, 0, value)
+      //   },
+      // })
+      //bbd.addChild(bbd2)
+
+      const animate = new Animate({
         from: 0,
-        to: 1,
-        repeat: Number.POSITIVE_INFINITY,
+        to: 3,
+        repeat: 1,
         reverse: false,
         dur: 3000,
         onUpdate(value) {
-          cube.flag = false;
-          cube.scale = vec3.fromValues(value, value, value);
-          cube.material.transparency = 1 - value;
+          cubes[0].flag && cubes[0].animate.play()
+          if (value > 1) {
+            cubes[1].flag && cubes[1].animate.play() //&&bbd2.animate.play();
+          }
+          if (value > 2) {
+            cubes[2].flag && cubes[2].animate.play()
+          }
         },
-        onStop:function(){
-          console.log(11)
-        }
-      });
-      cubes.push(cube);
-    }
-    var bbd = window.bbd=new Data({
-      scale :vec3.fromValues(0.6,0.6,0.6),
-      position: vec3.fromValues(0, 5, 0),
-      material: {
-        TYPE: 'BILLBOARD',
-        transparent: true,
-        diffuseImage: './tx.png',
-        vertical: true,
-      },
-    })
-    scene.addBillboard(bbd);
-    // var bbd2 =window.bbd2 = new Data({
-    //   //scale :vec3.fromValues(0,0,0),
-    //   position: vec3.fromValues(0, 5, 0.01),
-    //   material: {
-    //     TYPE: 'BILLBOARD',
-    //     transparent: true,
-    //     diffuseImage: './rot.png',
-    //     vertical: true,
-    //   },
-    // })
-    var bbd2 =window.bbd2= new Data({
-      position: vec3.fromValues(0, 5, 0.01),
-        material: {
-          light: true,
-          transparent: true,
-          doubleSided: true,
-          depthWrite: false,
-          diffuseImage: './rot.png',
-        },
-        vao: {
-          /** createCone
-           * @Description {上径百分比，下径，柱高 ，圆柱宽，下颜色，上颜色 }
-           * @param {string}
-           * @return {null} 
-          */
-          buffers: createPlane(1,1,1,1),
-        },
-      });
-    bbd2.animate = new Animate({
-      from:0,
-      to:Math.PI*2,
-      repeat:Infinity,
-      dur:2000,
-      onUpdate:function(value){
-        bbd2.rotation = vec3.fromValues(0,0,value)
+      }).play()
+      window.cubes = cubes
+
+      function createAlarm() {
+        const alarmHeight = 1
+        const alarmTop = new Data({
+          material: {
+            light: true,
+            transparent: true,
+            doubleSided: true,
+            depthWrite: false,
+            flipY: false,
+          },
+          vao: {
+            /** createCone
+             * @Description {上径百分比，下径，柱高 ，圆柱宽，下颜色，上颜色 }
+             * @param {string}
+             * @return {null}
+             */
+            buffers: createCone(
+              0.8,
+              1,
+              alarmHeight,
+              80,
+              vec4.fromValues(74 / 255, 250 / 255, 251 / 255, 1),
+              vec4.fromValues(1, 1, 1, 0)
+            ),
+          },
+        })
+        return alarmTop
       }
-    })
-    scene.add(bbd2);
-    const animate = new Animate({
-      from: 0,
-      to: 3,
-      repeat: 1,
-      reverse: false,
-      dur: 3000,
-      onUpdate(value) {
-        cubes[0].flag && cubes[0].animate.play();
-        if (value > 1) {
-          cubes[1].flag && cubes[1].animate.play()//&&bbd2.animate.play();
-        }
-        if (value > 2) {
-          cubes[2].flag && cubes[2].animate.play();
-        }
-      },
-    }).play();
-    window.cubes = cubes
-
-    function createAlarm() {
-      const alarmHeight = 1;
-      const alarmTop = new Data({
-        material: {
-          light: true,
-          transparent: true,
-          doubleSided: true,
-          depthWrite: false,
-          flipY: false,
-        },
-        vao: {
-          /** createCone
-           * @Description {上径百分比，下径，柱高 ，圆柱宽，下颜色，上颜色 }
-           * @param {string}
-           * @return {null} 
-          */
-          buffers: createCone(
-            0.8,
-            1,
-            alarmHeight,
-            80,
-            vec4.fromValues(74/255, 250/255, 251/255, 1),
-            vec4.fromValues(1, 1, 1, 0),
-          ),
-        },
-      });
-      return alarmTop;
-    }
-    const alarm = createAlarm();
-    scene.add(alarm);
-    scene.onAnimationFrame = (time) => {
-      alarm.material.sy += 0.1;
-    };
-  </script>
-</body>
-
+      const alarm = createAlarm()
+      scene.add(alarm)
+      scene.onAnimationFrame = (time) => {
+        alarm.material.sy += 0.1
+      }
+      scene.camera.on('all', (e) => {
+        bbd2.rotation = vec3.fromValues(0, scene.camera.hRotation, 0)
+      })
+    </script>
+  </body>
 </html>

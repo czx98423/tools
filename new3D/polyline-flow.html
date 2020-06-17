@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Polyline Flow</title>
-  <style>
-    html, body {
-      margin: 0px;
-      overflow: hidden;
-      height: 100%;
-    }
-  </style>
-</head>
-<body>
-  <canvas id="canvas"></canvas>
-  <script type="module">
-    import {
-      Scene, ShaderMaterial,
-      createGUI, polylineToShape,
-      vec2, vec3,
-    } from './bundle.js';
+  <head>
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>Polyline Flow</title>
+    <style>
+      html,
+      body {
+        margin: 0px;
+        overflow: hidden;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="module">
+      import {
+        Scene,
+        ShaderMaterial,
+        createGUI,
+        polylineToShape,
+        extrudePolyline,
+        vec2,
+        vec3,
+      } from './bundle.js'
 
-const VERTEX_SHADER = `#version 300 es
+      const VERTEX_SHADER = `#version 300 es
 precision highp float;
 
 uniform mat4 u_projectMatrix;
@@ -35,8 +43,9 @@ void main() {
   v_percent = a_percent;
   gl_Position = u_projectMatrix * u_viewMatrix * u_modelMatrix * vec4(a_position, 1.0);
 }
-`;
-const FRAGMENT_SHADER = `#version 300 es
+`
+      //
+      const FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 
 uniform float u_percent;
@@ -46,77 +55,99 @@ in vec2 v_percent;
 out vec4 fragColor;
 
 void main() {
-  fragColor = vec4(0.8510, 0.5412, 0.1765, mod((1.0 - v_percent[1]) + u_percent, 1.0 / u_length) * u_length);
+  fragColor = vec4(0.8510, 0.5412, 0.1765, mod((1.0 - v_percent[1]) - u_percent, 1.0 / u_length) * u_length);
 }
-`;
-    const material = new ShaderMaterial({
-      vertex: VERTEX_SHADER,
-      fragment: FRAGMENT_SHADER,
-      uniforms: {
-        percent: 0,
-        length: 4,
-      },
-      transparent: true,
-      doubleSided: true,
-    });
-
-    const scene = new Scene({
-      canvas: 'canvas',
-      camera: {
-        position: vec3.fromValues(0, 10, 10),
-      },
-      lights: [
-        {
-          type: 'DIRECTION',
-          intensity: 1.0,
-          direction: vec3.fromValues(0, -1, -0),
+`
+      //mod 透明度函数
+      //mod((1.0 - v_percent[1]) + u_percent, 4.0 / u_length) * u_length); 逆时针
+      //mod((1.0 - v_percent[1]) - u_percent, 1.0 / u_length) * u_length); 4等分
+      const material = new ShaderMaterial({
+        vertex: VERTEX_SHADER,
+        fragment: FRAGMENT_SHADER,
+        uniforms: {
+          percent: 0,
+          length: 1,
         },
-      ],
-      onAnimationFrame(time) {
-        if (time > 2000) {
-          material.percent = (time % 4000) / 4000;
-        }
-      },
-    });
+        transparent: true,
+        doubleSided: true,
+      })
 
-    function addPath(options) {
-      scene.add({
-        material,
-        vao: {
-          buffers: polylineToShape(options),
+      const scene = new Scene({
+        canvas: 'canvas',
+        camera: {
+          position: vec3.fromValues(0, 10, 10),
         },
-      });
-    }
+        lights: [
+          {
+            type: 'DIRECTION',
+            intensity: 1.0,
+            direction: vec3.fromValues(0, -1, -0),
+          },
+        ],
+        onAnimationFrame(time) {
+          if (time > 2000) {
+            material.percent = (time % 4000) / 4000
+          }
+        },
+      })
 
-    let points = [
-      vec2.fromValues(-5, -5),
-      vec2.fromValues(-5, 5),
-      vec2.fromValues(5, 5),
-      vec2.fromValues(5, -5),
-    ];
+      function addPath(options) {
+        var result = extrudePolyline([options.points], { depth: 0, lineWidth :2})
+        scene.add({
+          material: {
+            doubleSided: true,
+            transparent: true,
+            diffuseImage: './l.png',
+            depthWrite: false,
+          },
+          vao: {
+            buffers: {
+              index: result.indices,
+              position: result.position,
+              normal: result.normal,
+              uv: result.uv,
+            },
+          },
+        })
+      }
 
-    addPath({
-      points,
-      thickness: 0.2,
-      closed: true,
-      innerColor: [1, 0, 0, 1],
-      outerColor: [0, 1, 0, 1],
-    });
+      let points = [
+        // vec2.fromValues(-5, -5),
+        // vec2.fromValues(-5, 5),
+        // vec2.fromValues(5, 5),
+        // vec2.fromValues(5, -5),
+      ]
+      for (let i = 1; i <= 60; i++) {
+        points.push(
+          vec2.fromValues(
+            Math.sin((Math.PI * 2 * i) / 60) * 5,
+            Math.cos((Math.PI * 2 * i) / 60) * 5
+          )
+        )
+      }
 
-    points = [
-      vec2.fromValues(-3, -3),
-      vec2.fromValues(3, -3),
-      vec2.fromValues(3, 3),
-      vec2.fromValues(-3, 3),
-    ];
+      addPath({
+        points,
+        thickness: 0.2,
+        closed: true,
+        innerColor: [1, 0, 0, 1],
+        outerColor: [0, 1, 0, 1],
+      })
 
-    addPath({
-      points,
-      thickness: 1,
-      closed: true,
-    });
-    
-    createGUI(scene);
-  </script>
-</body>
+      points = [
+        vec2.fromValues(-3, -3),
+        vec2.fromValues(3, -3),
+        vec2.fromValues(3, 3),
+        vec2.fromValues(-3, 3),
+      ]
+
+      // addPath({
+      //   points,
+      //   thickness: 1,
+      //   closed: true,
+      // })
+
+      createGUI(scene)
+    </script>
+  </body>
 </html>
