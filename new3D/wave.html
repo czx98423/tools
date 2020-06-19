@@ -27,7 +27,7 @@
         Billboard,
         createTruncatedCone,
         Animate,
-        Data,
+        Data, mat4,
         createGUI,
         createPlane,
       } from './bundle.js'
@@ -152,85 +152,93 @@
         })
         cubes.push(cube)
       }
-      var bbd = window.bbd = new Data({
-        //scale: vec3.fromValues(0.6, 0.6, 0.6),
-        position: vec3.fromValues(0, 5, 0),
-        material: {
-          TYPE: 'BILLBOARD',
-          transparent: true,
-          diffuseImage: './rot.png',
-          vertical: true,
-        },
-      })
-      scene.addBillboard(bbd)
-      function createCanvas(width, height) {
-        const canvas = document.createElement('canvas')
-        width = width || 64
-        height = height || 256
-        canvas.width = width
-        canvas.height = height
-        const context = canvas.getContext('2d')
-        var img = new Image()
-        img.src = './tx.png'
-        img.onload = function () {
-          var gradient = context.createLinearGradient(0, 0, canvas.width, 0)
-          gradient.addColorStop(0, 'rgb(74,234,255)')
-          gradient.addColorStop(1, 'white')
-          context.fillStyle = gradient
-          context.drawImage(img, 0, 0, 64, 64)
-          context.beginPath()
-          context.moveTo((width * 0.96) / 2, width)
-          context.lineTo((width * 1.04) / 2, width)
-          context.lineTo((width * 1.04) / 2, height)
-          context.closePath()
-          context.fill()
-          var bbd2 = window.bbd2 = new Billboard({
-            scale: vec3.fromValues(1, 4, 1),
-            visible: true,
-            position: vec3.fromValues(0, 2.5, 0.01),
-            material: {
-              TYPE: 'BILLBOARD',
-              transparent: true,
-              diffuseImage: canvas,
-              depthWrite: false,
-              vertical: true,
-            },
-          })
-          scene.addBillboard(bbd2)
-          setTimeout(()=>{
-            context.clearRect(0,0,width,height)
-            window.bbd2._material._diffuseImage.url = canvas
-          },5000)
+      const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      canvas.style.position = 'absolute'
+
+      function setDivLocation(div) {
+        const mvpMatrix = mat4.create()
+        const pvMatrix = scene.camera.projectViewMatrix
+        mat4.mul(mvpMatrix, pvMatrix, window.bbd2.worldMatrix)
+        const sceenPosition = vec3.create()
+        vec3.transformMat4(sceenPosition, sceenPosition, mvpMatrix)
+        if (
+          sceenPosition[0] <= 1 &&
+          sceenPosition[0] >= -1 &&
+          sceenPosition[1] <= 1 &&
+          sceenPosition[1] >= -1 &&
+          sceenPosition[2] <= 1 &&
+          sceenPosition[2] >= -1
+        ) {
+          const halfW = scene._canvas.clientWidth / 2
+          const halfH = scene._canvas.clientHeight / 2
+          const sceenX = Math.floor((sceenPosition[0] + 1) * halfW)
+          const sceenY = Math.floor((1 - sceenPosition[1]) * halfH)
+          div.style.left = `${sceenX - div.clientWidth / 2}px`
+          div.style.top = `${sceenY - div.clientHeight / 2}px`
+          div.style.display = 'block'
+        } else {
+          div.style.display = 'none'
         }
       }
-      createCanvas()
-     
-      // cb.addChild(bbd2)
+      scene.camera.on('all', (e) => {
+        setDivLocation(canvas)
+      })
+      var width = 64,
+        height = 256
+      canvas.width = width
+      canvas.height = height
+      var img = new Image()
+      img.src = '../new3D/jj.png'
+      var img2 = new Image()
+      img2.src = '../new3D/rot.png'
+      var angle = 0,
+        pice = (Math.PI * 2) / 50
+      function createCanvas() {
+        context.drawImage(img2, 0, 0, 64, 64)
+        context.drawImage(img, 0, 0, 64, 256)
+        var bbd2 = (window.bbd2 = new Billboard({
+          scale: vec3.fromValues(1, 4, 1),
+          visible: true,
+          position: vec3.fromValues(0, 2.5, 0.01),
+          material: {
+            TYPE: 'BILLBOARD',
+            transparent: true,
+            diffuseImage: canvas,
+            depthWrite: false,
+            vertical: true,
+          },
+        }))
+        scene.addBillboard(bbd2)
+        document.body.appendChild(canvas);
+        setDivLocation(canvas)
+        bbd2.animate = new Animate({
+          from: 0,
+          to: 1,
+          repeat: Number.POSITIVE_INFINITY,
+          reverse: false,
+          dur: 1500,
+          onUpdate(value) {
+            var angle = Math.PI * 2 * value
+            var x = 32 * Math.cos(angle) - 32 * Math.sin(angle)
+            var y = 32 * Math.sin(angle) + 32 * Math.cos(angle)
+            context.clearRect(0, 0, 64, 256)
+            context.save()
+            context.translate(32 - x, 32 - y)
+            context.rotate(angle)
+            context.drawImage(img2, 0, 0, 64, 64)
+            context.restore()
+            context.drawImage(img, 0, 0, 64, 256)
+            //bbd2.material.diffuseImage = canvas
+          },
+        }).play()
+      }
 
-      // var bbd2 = window.bbd2 = new Data({
-      //   position: vec3.fromValues(0, 5, 0.01),
-      //   material: {
-      //     rotation : vec3.fromValues(0, 11, 1),
-      //     light: true,
-      //     transparent: true,
-      //     doubleSided: true,
-      //     depthWrite: false,
-      //     diffuseImage: './rot.png',
-      //   },
-      //   vao: {
-      //     buffers: createPlane(1, 1, 1, 1),
-      //   },
-      // })
-      // bbd2.animate = new Animate({
-      //   from: 0,
-      //   to: Math.PI * 2,
-      //   repeat: Infinity,
-      //   dur: 2000,
-      //   onUpdate: function (value) {
-      //     bbd2.rotation = vec3.fromValues(0, 0, value)
-      //   },
-      // })
-      //bbd.addChild(bbd2)
+      img.onload = function () {
+        setTimeout(() => {
+          createCanvas()
+        }, 1000)
+      }
 
       const animate = new Animate({
         from: 0,
@@ -283,9 +291,6 @@
       scene.onAnimationFrame = (time) => {
         alarm.material.sy += 0.1
       }
-      scene.camera.on('all', (e) => {
-        bbd2.rotation = vec3.fromValues(0, scene.camera.hRotation, 0)
-      })
     </script>
   </body>
 </html>

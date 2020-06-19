@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<script src="./lx3d/js/jquery.js"></script>
-<body>
-
-</body>
-<script>
- const canvas = document.createElement('canvas');
-        var width = width||64,
-        height = height||256
-        canvas.width = width
-        canvas.height = height
-        const context = canvas.getContext('2d')
-        var img = new Image();
-        img.src = '../new3D/tx.png';
-        img.onload=function(){
-          var gradient = context.createLinearGradient(0, 0, canvas.width, 0);
-
-        gradient.addColorStop(0, 'rgb(74,234,255)');
-        gradient.addColorStop(1, 'white');
-          context.fillStyle = gradient
-        context.drawImage(img,0,0,64,64);
-        context.beginPath();
-        context.moveTo(width*0.96/2,width);
-        context.lineTo(width*1.04/2,width);
-        context.lineTo(width*1.04/2,height);
-        context.closePath();
-        context.fill()
-        }
-  document.body.appendChild(canvas)
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <script src="./lx3d/js/jquery.js"></script>
+  <body></body>
+  <script>
+    const canvas = document.createElement('canvas')
+    var width = width || 64,
+      height = height || 256
+    canvas.width = width
+    canvas.height = height
+    const context = canvas.getContext('2d')
+    var img = new Image()
+    img.src = '../new3D/jj.png';
+    var img2 = new Image();
+    img2.src = '../new3D/rot.png';
+    var angle = 0,pice = Math.PI*2/50
+    function draw(){
+      angle += pice ;
+      var x = 32*Math.cos(angle)-32*Math.sin(angle);
+      var y = 32*Math.sin(angle)+32*Math.cos(angle);
+      context.clearRect(0,0,64,256)
+      context.save()
+      context.translate( 32-x, 32-y)
+      context.rotate(angle)
+      context.drawImage(img2, 0, 0, 64, 64)
+      context.restore()
+      context.drawImage(img, 0, 0, 64, 256 )
+    }
+    img.onload = function () {
+      setInterval(() => {
+        draw()
+      }, 20);
+    }
+    document.body.appendChild(canvas)
+  </script>
 </html>

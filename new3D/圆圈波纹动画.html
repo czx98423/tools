@@ -17,7 +17,7 @@
     import {
       Scene, ShaderMaterial,
       createGUI, polylineToShape,
-      vec2, vec3,
+      vec2, vec3,vec4
     } from './bundle.js';
 
 const VERTEX_SHADER = `#version 300 es
@@ -46,7 +46,7 @@ in vec2 v_percent;
 out vec4 fragColor;
 
 void main() {
-  fragColor = vec4(0.8510, 0.5412, 0.1765, mod((1.0 - v_percent) + u_percent, 1.0 / u_length) * u_length);
+  fragColor = vec4(0.047, 0.2235, 0.5647, mod((1.0 - v_percent) + u_percent, 1.0 / u_length) * u_length*0.75);
 }
 `;
     const material = new ShaderMaterial({
@@ -54,7 +54,7 @@ void main() {
       fragment: FRAGMENT_SHADER,
       uniforms: {
         percent: 0,
-        length: 4,
+        length: 0.5,
       },
       transparent: true,
       doubleSided: true,
@@ -72,11 +72,11 @@ void main() {
           direction: vec3.fromValues(0, -1, -0),
         },
       ],
-      onAnimationFrame(time) {
-        if (time > 2000) {
-          material.percent = (time % 4000) / 4000;
-        }
-      },
+      // onAnimationFrame(time) {
+      //   if (time > 2000) {
+      //     material.percent = (time % 4000) / 4000;
+      //   }
+      // },
     });
 
     function addPath(options) {
@@ -87,7 +87,16 @@ void main() {
         },
       });
     }
-
+    function addPath2(options) {
+      scene.add({
+        material:{
+          diffuseColor:vec4.fromValues(12/255,57/255,144/255,0.1)
+        },
+        vao: {
+          buffers: polylineToShape(options),
+        },
+      });
+    }
     let points = [
       // vec2.fromValues(-5, -5),
       // vec2.fromValues(-5, 5),
@@ -95,27 +104,22 @@ void main() {
       // vec2.fromValues(5, -5),
     ];
     for(let i = 1;i<=60;i++){
-      points.push(vec2.fromValues(Math.sin(Math.PI*2*i/60)*5,Math.cos(Math.PI*2*i/60)*5))
+      points.push(vec2.fromValues(Math.sin(Math.PI*2*i/60)*4,Math.cos(Math.PI*2*i/60)*4))
     }
 
     addPath({
       points,
-      thickness: 10,
+      thickness: 8,
       closed: true,
-      innerColor: [1, 0, 0, 1],
-      outerColor: [0, 1, 0, 1],
     });
+    points.length = 0
+    for(let i = 1;i<=60;i++){
+      points.push(vec2.fromValues(Math.sin(Math.PI*2*i/60)*2.5,Math.cos(Math.PI*2*i/60)*2.5))
+    }
 
-    points = [
-      vec2.fromValues(-3, -3),
-      vec2.fromValues(3, -3),
-      vec2.fromValues(3, 3),
-      vec2.fromValues(-3, 3),
-    ];
-
-    addPath({
+    addPath2({
       points,
-      thickness: 1,
+      thickness: 0.05,
       closed: true,
     });
     
