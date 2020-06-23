@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>wave</title>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+        Scene,
+        vec2,
+        vec3,
+        vec4,
+        Billboard,
+        createTruncatedCone,
+        Animate,
+        Data, mat4,
+        createGUI,
+        STDMaterial,
+        createPlane,
+        BillboardMaterial
+      } from './bundle.js'
+      import drawRotateBbd from './js/drawRotateBbbd.js'
+      const scene = new Scene({
+        canvas: 'canvas',
+        camera: {
+          position: vec3.fromValues(0, 2, 10),
+        },
+        lights: [
+          {
+            type: 'DIRECTION',
+            intensity: 1.0,
+            direction: vec3.fromValues(0, -1, -0),
+          },
+        ],
+      })
+      var cube = new Data({
+      type: 'cube',
+    })
+    scene.add(cube)
+
+    var bbd2 = (window.bbd2 = new Billboard({       
+          visible: true,
+          position: vec3.fromValues(0, 3, 0),
+          scale:vec3.fromValues(1, 4, 1),
+        }))
+      var bgImg = new Image()
+      bgImg.src = '../new3D/jj.png'
+      var circleImg = new Image()
+      circleImg.src = './rot.png'
+      setTimeout(()=>{
+        var br = new drawRotateBbd({
+          scene,
+          width:64,
+          height:256,
+          circleImg,
+          bgImg,
+          BbdArr:[bbd2]
+        })
+        br.play()
+      },1000)
+        
+      scene.addBillboard(bbd2)
+      createGUI(scene)
+
+
+    </script>
+</body>
+
+</html>
