@@ -191,7 +191,7 @@
       var img = new Image()
       img.src = '../new3D/jj.png'
       var img2 = new Image()
-      img2.src = '../new3D/rot.png'
+      img2.src = './rot2.png'
       var angle = 0,
         pice = (Math.PI * 2) / 50
       function createCanvas() {
@@ -210,8 +210,8 @@
           },
         }))
         scene.addBillboard(bbd2)
-        document.body.appendChild(canvas);
-        setDivLocation(canvas)
+        // document.body.appendChild(canvas);
+        // setDivLocation(canvas)
         bbd2.animate = new Animate({
           from: 0,
           to: 1,
@@ -230,6 +230,7 @@
             context.restore()
             context.drawImage(img, 0, 0, 64, 256)
             //bbd2.material.diffuseImage = canvas
+            scene.updateTexture(bbd2.material.diffuseImage, canvas);
           },
         }).play()
       }
