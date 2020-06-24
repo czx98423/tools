@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Shader wave</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, vec3,vec4, Data, Animate, createGUI,
+      createPlane
+    } from './bundle.js'
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        near: 0.1,
+        far: 20,
+        position: vec3.fromValues(0, 3.5, 9),
+      },
+    });
+    var pl = createPlane(1,1,5,5/*多边形需要更多的点位*/)
+    
+    console.log(pl)
+    var position = new Float32Array([
+     -0.5, 0.5, 0,
+     0.5, 0.5, 0,
+     0.5, -0.25, 0,
+     0.25, -0.5, 0,
+     -0.5, -0.5, 0,
+      -0.5, 0.5, 0,
+    ]);
+    pl.position = position
+    
+    var cube = window.cube =new Data({
+      rz:Math.PI/4,
+      y:3,
+      material: {
+            doubleSided: true,
+           // transparent: true,
+           diffuseColor: vec4.fromValues(
+          1.0 / 255.0,
+          206.0 / 255.0,
+          224.0 / 255.0,
+          0.9 /1.0
+        ),
+            // depthWrite: false,
+          },
+      type: 'plane',
+      
+      vao:{
+        buffers : pl
+      }
+    })
+
+    scene.add(cube)
+    scene.add({
+      type:'cube'
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Extrude Polygon</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, extrudePolygon, vec2, vec3,
+    } from './bundle.js';
+
+
+    const polygons = [
+      [
+        [
+          [0, 0], [8, 0],[10, 2], [10, 10], [0, 10], [0, 0],
+        ],
+        // Hole
+        // [
+        //   [2, 2], [8, 2], [8, 8], [2, 8],
+        // ],
+      ],
+    ];
+    const result = extrudePolygon(polygons, {
+      depth: 0.2,
+    });
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(0, 8, 10),
+      },
+    });
+
+    const data =window.data = scene.add({
+      // x: -(result.boundingRect.x + result.boundingRect.width / 2),
+      // z: result.boundingRect.y + result.boundingRect.height / 2,
+      rx: -(Math.PI / 180) * 90,
+      vao: {
+        buffers: {
+          index: result.indices,
+          position: result.position,
+          normal: result.normal,
+          uv: result.uv,
+        },
+      },
+      material: {
+        diffuseColor: vec3.fromValues(125/255,214/255,243/255,1),
+        //textureScale: vec2.fromValues(2, 2),
+       //ambientColor:vec3.fromValues(0/255,174/255,245/255)
+      },
+    });
+    scene.add(data);
+    var d2=data.clone();
+    d2.y = 2
+    console.log(data)
+    scene.add(d2);
+    //d2.material.ambientColor = 
+    createGUI(scene);
+  </script>
+</body>
+</html>
