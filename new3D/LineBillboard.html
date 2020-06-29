@@ -24,19 +24,19 @@
     import LineBillboard from './LineBillboard.js';
 
     const allBillboard = [];
-    const scene = new Scene({
+    const scene =window.s = new Scene({
       canvas: 'canvas',
       camera: {
         position: vec3.fromValues(0, 0, 8),
       },
     });
-
-    scene.camera.on('all', (e) => {
+    const f = (e) => {
       allBillboard.forEach((item) => {
         item.divBillboard.setDivPosition(item.position);
       });
-    });
-
+    }
+    scene.camera.on('all',f ,'c1');
+    scene.camera.off('all', f,'c1');
     const cube = scene.add({
       type: 'cube',
     });

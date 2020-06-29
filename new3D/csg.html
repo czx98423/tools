@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>CSG</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, Cube, Sphere, STDMaterial,
+      createGUI, toCSG, fromCSG, vec3,vec4
+    } from './bundle.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(0, 1, 1),
+      },
+      lights: [
+        {
+          type: 'DIRECTION',
+        },
+      ],
+    });
+
+    const cube = new Cube();
+    cube.material = new STDMaterial();
+    cube.setPosition(0, 0, 0);
+    cube.material.diffuseImage = {
+      anisotropy: 16,
+    }
+    cube.material.diffuseColor =vec4.fromValues(2/255,47/255,234/255,1)
+    const cubeCSG = toCSG(cube);
+
+    const sphere = new Cube();
+    sphere.setPosition(0.5, 0, 1);
+    sphere.ry=Math.PI/4
+    sphere.material = new STDMaterial();
+    sphere.material.diffuseImage = {
+      url: '../asset/images/brick.jpg',
+      anisotropy: 16,
+    };
+    //sphere.material.diffuseColor ='white'
+    const sphereCSG = toCSG(sphere);
+
+    const unionCSG = cubeCSG.subtract(sphereCSG);
+
+    const data = fromCSG(unionCSG, scene);
+    console.log(data)
+    scene.add(data);
+    data.sy = 0.02
+    //data.material.diffuseColor ='white'
+    
+    createGUI(scene);
+  </script>
+</body>
+</html>

@@ -66,14 +66,14 @@ export default class drawRotateBbd {
     }
     //暂停
     stop() {
-
+      this.animate.stop()
     }
     //注册 
-    register() {
-
+    register(bbd) {
+      this.bbdArr.add(bbd)
     }
     //注销
-    register() {
-
+    register(bbd) {
+      this.bbdArr.delete(bbd)
     }
 }
