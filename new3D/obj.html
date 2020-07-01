@@ -15,14 +15,16 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, createGUI, vec3,
+      Scene, createGUI, vec3,STDMaterial,Animate
     } from './bundle.js';
+    
 
     const scene = window.s = new Scene({
       canvas: 'canvas',
       camera: {
         near: 0.01,
         position: vec3.fromValues(20, 20, 20),
+        diffuseColor:vec3.fromValues(0.3,0.4,0.5)
       },
       lights: [
         {
@@ -30,14 +32,38 @@
         },
       ],
     });
+    console.log()
     scene.loadGLTF('./che/ff.gltf',{onlyLoad:true})
     .then(e=>{
       e = e.root
-      window.e=e
+      e.children.forEach(e=>{
+        e.mesh.primitives.forEach(ee=>{
+          ee.material._transparent = false
+        })
+      })
       let c2 = e.clone();
-      c2.y=10
+      c2.y=15
+      window.e=c2
       scene.add(c2)
     });
+
+  //   function doCarAnimate () {
+  //   const r = Math.random()*Math.PI,
+  //   ry = window.e.ry
+  //   new Animate({
+  //     from: 0,
+  //     to: r,
+  //     repeat: 1,
+  //     dur: 1000,
+  //     onUpdate (val) {
+  //       window.e.ry =ry+ val
+  //     },
+  //   }).play()
+  // }
+  // setInterval(() => {
+  //   doCarAnimate()
+    
+  // }, 2000);
     createGUI(scene);
   </script>
 </body>

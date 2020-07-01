@@ -36,15 +36,14 @@
       });
     }
     scene.camera.on('all',f ,'c1');
-    scene.camera.off('all', f,'c1');
     const cube = scene.add({
       type: 'cube',
     });
-
+    cube.visible = false;
     const content = [['1#101'], ['隔离人员: 3'], ['隔离情况: 正常']];
     const fromPosition = cube.position;
     const toPosition = [fromPosition[0] + 2, 1, fromPosition[2]];
-
+console.log(fromPosition,toPosition)
     const lineBillboard = new LineBillboard(scene, {
       content,
       fromPosition,

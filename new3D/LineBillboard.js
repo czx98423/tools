@@ -1,5 +1,5 @@
 import {
-  Data, Cube, mat4, vec3,
+  Data, Cube, mat4,vec2, vec3,polylineToShape,
 } from './bundle.js';
 
 export default class LineBillboard {
@@ -87,26 +87,24 @@ export default class LineBillboard {
     const { options } = this;
     const line = this.scene.add({
       vao: {
-        buffers: {
-          position: new Float32Array([
-            options.fromPosition[0],
-            options.fromPosition[1],
-            options.fromPosition[2],
-            options.toPosition[0],
-            options.toPosition[1],
-            options.toPosition[2],
-          ]),
-        },
-        mode: 'LINES',
+        buffers: polylineToShape({
+          points:[vec2.fromValues(0,0),vec2.fromValues(2,1)],
+          thickness: 1,
+          closed: true,
+          innerColor: [0.3098, 0.3098, 0.3098, 1],
+          outerColor: [0.8510, 0.5412, 0.1765, 1],
+        }),
+        //mode: 'LINES',
       },
       material: {
-        castShadow: false,
-        receiveShadow: false,
-        diffuseColor: this.lineColor,
+        doubleSided: true,
+        // castShadow: false,
+        // receiveShadow: false,
+        // diffuseColor: this.lineColor,
       },
     });
     this.line = line;
-
+    window.line = line
     this.toCube = new Cube();
     this.toCube.setPosition(
       options.toPosition[0],

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Polyline</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, polylineToShape, vec2, vec3,
+    } from './bundle.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(0, 10, 10),
+      },
+      lights: [
+        {
+          type: 'DIRECTION',
+          intensity: 1.0,
+          direction: vec3.fromValues(0, -1, 0),
+        },
+      ],
+    });
+
+    createGUI(scene);
+
+    function addPath(options) {
+      scene.add({
+        vao: {
+          buffers: polylineToShape(options),
+        },
+        material: {
+          //diffuseImage: '../asset/images/crate.gif',
+          doubleSided: true,
+        },
+      });
+    }
+
+    let points = [
+      vec2.fromValues(-5, -5),
+      vec2.fromValues(-5, 5),
+      vec2.fromValues(5, 5),
+      vec2.fromValues(5, -5),
+    ];
+    // addPath({
+    //   points,
+    //   thickness: 1,
+    //   closed: true,
+    //   innerColor: [0.3098, 0.3098, 0.3098, 1],
+    //   outerColor: [0.8510, 0.5412, 0.1765, 1],
+    // });
+
+    points = [
+      vec2.fromValues(0, 0),
+      vec2.fromValues(1, 1),
+      vec2.fromValues(1, 1.1),
+      vec2.fromValues(0, 0.1),
+    ];
+    addPath({
+      points,
+      thickness: 0.1,
+      closed: true,
+    });
+  </script>
+</body>
+</html>
