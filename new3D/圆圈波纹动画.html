@@ -72,11 +72,11 @@ void main() {
           direction: vec3.fromValues(0, -1, -0),
         },
       ],
-      // onAnimationFrame(time) {
-      //   if (time > 2000) {
-      //     material.percent = (time % 4000) / 4000;
-      //   }
-      // },
+      onAnimationFrame(time) {
+        if (time > 2000) {
+          material.percent = (time % 4000) / 4000;
+        }
+      },
     });
 
     function addPath(options) {

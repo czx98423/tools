@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Extrude Polyline</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, extrudePolyline, vec3,addGeometry,createTruncatedCone
+    } from './bundle.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(0, 8, 10),
+      },
+      lights: [
+        {
+          type: 'DIRECTION',
+          intensity: 1.0,
+          direction: vec3.fromValues(-1, -2, -3),
+        },
+      ],
+    });
+    const result = createTruncatedCone(0.5, 0.5, 1) 
+    const data = scene.add({
+      type:"cylinder",
+      vao: {
+        buffers: result,
+      },
+      material: {
+        diffuseColor: vec3.fromValues(5/255,74/255,253/255),
+      },
+    });
+    scene.add(data);
+    window.data = data
+    createGUI(scene);
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Fire Demo</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, vec3, extrudePolygon,
+    } from './bundle.js';
+    import FireMaterial from './js/FireMaterial.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        near: 0.1,
+        far: 20,
+        position: vec3.fromValues(-1.4, 1.18, 2.15),
+      },
+      onAnimationFrame(time) {
+        if (time > 2000) {
+          this.redraw();
+        }
+      },
+    });
+    createGUI(scene);
+
+    const polygons = [
+      [
+        [
+          [0, 0], [1.5, 0],[1.5+0.1, 0.5-Math.sqrt(Math.pow(0.5,2)-Math.pow(0.1,2))],
+          [1.5+0.1, 0.5-Math.sqrt(Math.pow(0.5,2)-Math.pow(0.1,2))],
+          [1.5+0.2, 0.5-Math.sqrt(Math.pow(0.5,2)-Math.pow(0.2,2))],
+          [1.5+0.3, 0.5-Math.sqrt(Math.pow(0.5,2)-Math.pow(0.3,2))],
+          [1.5+0.4, 0.5-Math.sqrt(Math.pow(0.5,2)-Math.pow(0.4,2))],
+          [1.5+0.5, 0.5-Math.sqrt(Math.pow(0.5,2)-Math.pow(0.5,2))],[2, 0.5], [2, 2], [0, 2], [0, 0],
+        ],
+      ],
+    ];
+    const result = extrudePolygon(polygons, {
+      depth: 1,
+      excludeTop: true,
+      excludeBottom: true,
+    });
+
+    const maskCanvas = document.createElement('canvas');
+    maskCanvas.width = 256;
+    maskCanvas.height = 144;
+    const ctx = maskCanvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 256);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.1');
+    gradient.addColorStop(1, 'white');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 256, 144);
+
+    scene.add({
+      x: -(result.boundingRect.x + result.boundingRect.width / 2),
+      z: result.boundingRect.y + result.boundingRect.height / 2,
+      rx: -(Math.PI / 180) * 90,
+      vao: {
+        buffers: {
+          index: result.indices,
+          position: result.position,
+          normal: result.normal,
+          uv: result.uv,
+        },
+      },
+       material: new FireMaterial({
+        noiseImage: './images/fence.png',
+        maskImage: maskCanvas,
+      }),
+    });
+  </script>
+</body>
+</html>

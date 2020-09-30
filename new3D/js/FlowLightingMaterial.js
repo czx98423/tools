@@ -57,7 +57,7 @@ export default class FlowLightingMaterial extends ShaderMaterial {
       fragment: FRAGMENT_SHADER_SOURCE,
       uniforms: {
         center: vec2.fromValues(0, 0),
-        lineHightlightRadius: 0.09,
+        lineHightlightRadius: 0.6,
         time: 0,
         hightlightColor: vec3.fromValues(0, 84 / 255, 255 / 255),
       },

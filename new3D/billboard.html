@@ -15,7 +15,7 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, createGUI, vec3,Data, mat4,createCube
+      Scene, createGUI, vec3,vec4,Data, mat4,createCube,createPlane,BillboardMaterial
     } from './bundle.js';
 
     const scene = window.s = new Scene({
@@ -28,28 +28,16 @@
           type: 'DIRECTION',
         },
       ],
-      datas: [
-        {
-          type: 'cube',
-          position: vec3.fromValues(2, 0, 0),
-          material: {
-            diffuseImage: './b.png',
-          },
-          // vao:{
-          //   buffer:createCube(5)
-          // }
-        },
-      ],
-      billboards: [{
-        position: vec3.fromValues(2, 1, 0),
-        material: {
-          TYPE: 'BILLBOARD',
-          transparent: true,
-          diffuseImage: './b.png',
-          fixedSize: true,
-          fixedSizeScale: 5.0,
-        },
-      }],
+      // billboards: [{
+      //   position: vec3.fromValues(2, 1, 0),
+      //   material: {
+      //     TYPE: 'BILLBOARD',
+      //     transparent: true,
+      //     diffuseImage: './b.png',
+      //     fixedSize: true,
+      //     fixedSizeScale: 5.0,
+      //   },
+      // }],
     });
 
     const div = document.createElement('div');
@@ -59,25 +47,24 @@
     div.style.height = '4px';
     document.body.appendChild(div);
 
-    const box = scene.add({
-      type: 'cube',
-      material: {
-        TYPE: 'STD',
-      },
-      position: vec3.fromValues(-2, -1, 0),
-    });
-    window.box = box
-    var bbd = window.bbd = new Data({
-      position: vec3.fromValues(-2, 1, 0),
-      material: {
-        TYPE: 'BILLBOARD',
+    // const box = scene.add({
+    //   type: 'cube',
+    //   material: {
+    //     TYPE: 'STD',
+    //   },
+    //   position: vec3.fromValues(-2, -1, 0),
+    // });
+    // window.box = box
+    var a = new BillboardMaterial( {
         transparent: true,
-        diffuseImage: './b.png',
+        diffuseImage: './5G.png',
         vertical: true,
-      },
-    })
+      })
+    var bbd = window.bbd = new Data()
+    bbd.scalc = new vec3.fromValues(5,15,1)
+    bbd.material=a
+    //bbd.visible = false;
     scene.addBillboard(bbd);
-
     function setDivLocation() {
       const mvpMatrix = mat4.create();
       const pvMatrix = scene.camera.projectViewMatrix;

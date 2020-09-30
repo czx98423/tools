@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Shader checkerboard</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, Program, vec3, createGUI,
+    } from './bundle.js';
+
+const POSITION_VERTEX_SHADER = `#version 300 es
+precision highp float;
+
+layout(location = 0) in vec3 a_position;
+layout(location = 2) in vec2 a_uv;
+
+uniform mat4 u_modelMatrix;
+uniform mat4 u_projectViewMatrix;
+
+out vec2 v_uv;
+
+void main(void) {
+  
+
+  gl_Position = u_projectViewMatrix * u_modelMatrix * vec4(a_position, 1.0);
+}
+`;
+
+    const POSITION_FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+out vec4 fragColor;
+float plot(vec2 st) {    
+    return smoothstep(0.02, 0.0, abs(st.y - st.x));
+}
+
+void main() {
+	vec2 st = gl_FragCoord.xy/u_resolution;
+
+    float y = st.x;
+
+    vec3 color = vec3(y);
+
+    float pct = plot(st);
+    color = (1.0-pct)*color+pct*vec3(0.839,0.920,1.000);
+
+	fragColor = vec4(color,1.0);
+}
+`;
+    
+    function drawCheckerboard(data, scene) {
+      const self = this;
+      const gl = scene._gl;
+      //self.count+=0.1
+      self.program.use(gl);
+      self.program.bindUniforms({
+        u_count: self.count,
+        u_whiteColor: self.whiteColor,
+        u_blackColor: self.blackColor,
+        u_projectViewMatrix: scene.camera.projectViewMatrix,
+        u_modelMatrix: data.worldMatrix,
+      });
+      data.vao.draw(gl);
+    }
+    
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        target: vec3.fromValues(0, 0, 0),
+        position: vec3.fromValues(0, 0, 3),
+      },
+      lights: [
+        {
+          type: 'DIRECTION',
+        },
+      ],
+      datas: [
+        {
+          type: 'plane',
+          scale: vec3.fromValues(2, 2, 2),
+          material: {
+            draw: drawCheckerboard,
+            doubleSided: true,
+            program: new Program({
+              vertex: POSITION_VERTEX_SHADER,
+              fragment: POSITION_FRAGMENT_SHADER,
+            }),
+            count: 8,
+            whiteColor: [0.8, 0.8, 0.8],
+            blackColor: [0.4, 0.4, 0.4],
+          },
+        },
+      ],
+    });
+
+    createGUI(scene);
+  </script>
+</body>
+</html>

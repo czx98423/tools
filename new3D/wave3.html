@@ -53,11 +53,11 @@
       if (cLength > 0.5) {
         discard;
       }
-      float a = (0.5 - cLength) * (0.5 - cLength) * 5.0 * cos(cLength * 30.0 - u_time);
-      fragColor = vec4(u_waveColor, a);
+      float a = floor(abs(sin(cLength*50.0-u_time)*1.01));
+      fragColor = vec4(u_waveColor, a*(1.0-cLength*2.0));
     }
     `;
-
+   
     function drawWave(data, scene, vao) {
       const self = this;
       const gl = scene._gl;

@@ -182,14 +182,14 @@
         }
       }
       scene.camera.on('all', (e) => {
-        //setDivLocation(canvas)
+        setDivLocation(canvas)
       })
       var width = 64,
         height = 256
       canvas.width = width
       canvas.height = height
       var img = new Image()
-      img.src = './jj(2).png'
+      img.src = '../new3D/jj.png'
       var img2 = new Image()
       img2.src = './rot2.png'
       var angle = 0,
@@ -208,7 +208,6 @@
             diffuseImage: canvas,
             depthWrite: false,
             vertical: true,
-            clipPlane:[...vec3.fromValues(2,2,2),...vec3.fromValues(-2,2,-2),...vec3.fromValues(-2,2,2)],
           },
         }))
         scene.addBillboard(bbd2)

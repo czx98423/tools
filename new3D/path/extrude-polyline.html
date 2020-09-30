@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Extrude Polyline</title>
+  <style>
+    html, body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, extrudePolyline, vec3,vec4
+    } from './libs/bundle.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(0, 8, 10),
+      },
+      lights: [
+        {
+          type: 'DIRECTION',
+          intensity: 1.0,
+          direction: vec3.fromValues(-1, -2, -3),
+        },
+      ],
+    });
+
+    let fenceDatas = [
+    [
+      // [-6.6,-13.6],
+      // [-6.3,-13.6],
+      // [-6,-13.6],
+      // [-5.6,-13.6],
+      // [23.3,-13.6],
+      // [23.6,-13.6],
+      // [23.9,-13.6],
+      // [24.2,-13.6],
+      // [24.5,-13.6],
+      // [24.8,-13.6],
+      // [25.2,-13.6],
+      // [25.4,-13.5],
+      // [25.7,-13.3],
+      // [25.9,-13.1],
+      // [26.1,-12.8],
+      // [26.2,-12.5],
+      // [26.3,-12.2],
+      // [26.3,-11.9],
+      // [26.3,-11],
+      // [26.9,-3.8],
+      // [26.9,-3.5],
+      // [26.9,-3.2],
+      // [26.8,-2.9],
+      // [26.7,-2.6],
+      // [26.5,-2.4],
+      // [26.3,-2.1],
+      // [26.1,-2],
+      // [25.8,-1.8],
+      // [25.5,-1.8],
+      // [25.2,-1.7],
+      // [-7.8,-1.2],
+      // [-8.1,-1.1],
+      // [-8.4,-1.1],
+      // [-8.7,-1.1],
+      // [-9,-1.3],
+      // [-9.1,-1.6],
+      // [-9.1,-1.9],
+      //[-9.1,-2.2],
+      [-8.9,-11.2],
+      [-8.9,-11.5],
+      [-8.9,-11.8],
+      [-8.8,-12.1],
+      [-8.7,-12.4],
+      [-8.5,-12.7],
+      [-8.3,-12.9],
+      [-8.1,-13.1],
+       [-7.9,-13.3],
+      [-7.6,-13.5],
+      [-7.3,-13.6],
+      [-7,-13.6],
+     [-6.6,-13.6]
+    ],
+      ];
+
+
+      fenceDatas.forEach((polylines)=>{
+        const result = extrudePolyline([polylines], {
+          depth: 0.5,
+          lineWidth: 0.01,
+        });
+
+        const data = scene.add({
+          // x: -(result.boundingRect.x + result.boundingRect.width / 2),
+          // z: result.boundingRect.y + result.boundingRect.height / 2,
+          //rx: (Math.PI / 180) * 90,
+          vao: {
+            buffers: {
+              index: result.indices,
+              position: result.position,
+              normal: result.normal,
+              uv: result.uv,
+            },
+          },
+          material: {
+            //diffuseImage: './image/fence.png',
+            emissiveColor:vec3.fromValues(1, 1, 1) ,
+            diffuseImage: '../images/fence.png',
+            //doubleSided: true,//是否双面显示
+            transparent: true,
+            depthWrite: false,
+            transparency: 0.5,
+            // diffuseColor: vec4.fromValues(29 / 255, 76 / 255, 120 / 255, 1),
+          },
+        });
+        data.scale = vec3.fromValues(0.5,0.5, 1);
+        scene.add(data);
+        // scene.add(data.toWireframe({
+        //   wireframeColor: vec3.fromValues(1, 1, 1),
+        // }));
+
+      });
+
+  
+  
+    createGUI(scene);
+  </script>
+</body>
+</html>
