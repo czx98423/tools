@@ -7,36 +7,19 @@
     <title>Document</title>
   </head>
   <script src="./lx3d/js/jquery.js"></script>
-  <body></body>
+  <body>
+    <canvas id="canvas" width="300" height="200"></canvas>
+  </body>
   <script>
-    const canvas = document.createElement('canvas')
-    var width = width || 64,
-      height = height || 256
-    canvas.width = width
-    canvas.height = height
-    const context = canvas.getContext('2d')
-    var img = new Image()
-    img.src = '../new3D/jj.png';
-    var img2 = new Image();
-    img2.src = '../new3D/rot.png';
-    var angle = 0,pice = Math.PI*2/50
-    function draw(){
-      angle += pice ;
-      var x = 32*Math.cos(angle)-32*Math.sin(angle);
-      var y = 32*Math.sin(angle)+32*Math.cos(angle);
-      context.clearRect(0,0,64,256)
-      context.save()
-      context.translate( 32-x, 32-y)
-      context.rotate(angle)
-      context.drawImage(img2, 0, 0, 64, 64)
-      context.restore()
-      context.drawImage(img, 0, 0, 64, 256 )
-    }
-    img.onload = function () {
-      setInterval(() => {
-        draw()
-      }, 20);
-    }
-    document.body.appendChild(canvas)
+
+    var canvas = document.getElementById('canvas'),
+    context = canvas.getContext('2d');
+    var startX = 150,startY = 100
+    context.fontStyle = 'red'
+context.font = '200 12px 微软雅黑';
+      context.fillText('剩余停车位        个', startX, startY*3/2);   
+      context.font = '300 14px 微软雅黑';
+      
+      context.fillText('num', startX*1.35, startY*3/2); 
   </script>
 </html>

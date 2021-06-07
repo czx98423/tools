@@ -15,23 +15,43 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, createGUI, extrudePolygon, vec2, vec3,
+      Scene, createGUI, extrudePolygon, vec2, vec3,extrudePolyline
     } from './bundle.js';
 
-
+    let path = [[14995, -16721], [27008, -29081], [19431, -36680], [18474, -36680], [15867, -34153]]
+  function scalePath (path) {
+    return path.map(e => {
+      if (e instanceof Array) {
+        return scalePath(e)
+      } else {
+        return e / 3000
+      }
+    })
+  }
+  path = scalePath(path)
     const polygons = [
       [
-        [
-          [0, 0], [8, 0],[10, 2], [10, 10], [0, 10], [0, 0],
+      [
+          [0, 0], [10, 0], [10, 10], [0, 10], [0, 0],
         ],
-        // Hole
-        // [
-        //   [2, 2], [8, 2], [8, 8], [2, 8],
-        // ],
+        [
+          [2, 2], [8, 2], [8, 8], [2, 8],
+        ],
       ],
     ];
-    const result = extrudePolygon(polygons, {
-      depth: 0.2,
+    
+    var l = 2
+    const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      canvas.width=128;
+      canvas.height=256;
+      context.strokeStyle='#ff0000a0'
+      context.fillStyle='#ff000030'
+      context.strokeRect(l/2,l/2,128-l/2,256-l/2)
+      context.fillRect(l,l,128-l,256-l)
+    const result = extrudePolyline(polygons, {
+      depth: 5,
+      lineWidth:0.1
     });
     const scene = new Scene({
       canvas: 'canvas',
@@ -53,16 +73,12 @@
         },
       },
       material: {
-        diffuseColor: vec3.fromValues(125/255,214/255,243/255,1),
-        //textureScale: vec2.fromValues(2, 2),
-       //ambientColor:vec3.fromValues(0/255,174/255,245/255)
+        doubleSided: true,
+           // transparent: true,
+           diffuseImage: canvas,
       },
     });
     scene.add(data);
-    var d2=data.clone();
-    d2.y = 2
-    console.log(data)
-    scene.add(d2);
     //d2.material.ambientColor = 
     createGUI(scene);
   </script>

@@ -49,32 +49,10 @@
     network.setShowAxis(true); //显示原地
     network.setShowAxisText(true); //显示坐标线
     //创建一个设备节点
-    node = new mono.Cube(20, 20, 20);
-    node.setStyle('m.texture.image', './img/iron.png');
-
-
-    var defaultInteraction = new mono.DefaultInteraction(network);
-    var editInteraction = new mono.EditInteraction(network);
-    editInteraction.setSize(0)
-    network.setInteractions([editInteraction]);
+    node = new mono.Cube(5, 40, 3);
+    node.setStyle('m.texture.image', './img/安全设备板卡1.jpg');
+    box.add(node)
   }
-  setTimeout(function () {
-    var billboard = new mono.Billboard();
-
-    billboard.s({
-      'm.texture.image': './img/1.png',
-      'm.transparent': true,
-      'm.alignment': mono.BillboardAlignment.bottomLeft,
-      'm.texture.wrapS': mono.ClampToEdgeWrapping,
-      'm.texture.wrapT': mono.ClampToEdgeWrapping
-    });
-    billboard.setScale(60, 40, 1);
-    billboard.setParent(node);
-    billboard.setPosition(0, 0, 0); //设置公告牌位置
-    billboard.invalidateTexture();
-    box.addByDescendant(node);
-    console.log(billboard)
-  }, 1000)
 </script>
 
 </html>

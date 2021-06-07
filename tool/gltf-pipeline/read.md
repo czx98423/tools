@@ -1,0 +1,1 @@
+gltf-pipeline -i model.gltf -o modelDraco.gltf -d

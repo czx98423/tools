@@ -1,0 +1,1 @@
+obj2gltf -i xx.obj -o xx.gltf -s

@@ -117,6 +117,7 @@ twaver.Util.ext('BundleDemo', Object, {
         link = new twaver.Link(from, to);
         link.setStyle('link.color', '#00FF00');
         link.setStyle('link.handler.color', '#00FF00');
+        link.setStyle('link.bundle.expanded', false);
         link.setStyle('link.bundle.id', 3);
         this.box.add(link);
     }

@@ -24,21 +24,33 @@
     cube.s({
         "m.type":"phong",
         "m.color":"red",
-        "m.ambient":"red"
+        "m.ambient":"red",
+        "m.transparent":true,
+        "m.opacity":1
     })
-    cube.setRotation(-Math.PI/10, -Math.PI/5, Math.PI/10)
     box.add(cube);
-    window.document.onkeydown = function(){
-            if (window.event.ctrlKey) {
-                self.forbidCtrlClickAppend=true;
-                console.log(window.event.ctrlKey)
-            }
-        }
-        window.document.onkeyup = function(){
-            if (window.event.ctrlKey) {
-                self.forbidCtrlClickAppend=false;
-                console.log(2)
-            }
-        }
+    var cube2 = cube.clone()
+    cube2.setPosition(20,0,0)
+    cube2.s({
+      "m.opacity":0
+    })
+    box.add(cube2);
+    setTimeout(() => {
+      new mono.Animate({
+      from:0,
+      to:1,
+      dur:2000,
+      onUpdate:function(v){
+        cube2.s({
+      "m.opacity":v
+      })
+        cube.s({
+      "m.opacity":1-v
+      })
+      }
+    }).play()
+    }, 1000);
+    
+
 </script>
 </html>

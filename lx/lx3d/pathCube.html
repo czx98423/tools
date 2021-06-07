@@ -44,13 +44,13 @@ function load(){
     network.setShowAxis(true);//显示原地
 network.setShowAxisText(true);//显示坐标线
 path = new mono.Path();
-path.moveTo(0,100,0);
+path.moveTo(100,100,0);
 path.lineTo(200,100,0);
 path.lineTo(200,200,0);
-path.lineTo(300,200,0);
+path.lineTo(100,300,0);
 //path = mono.PathNode.prototype.adjustPath(path,20,1);
 
-path = mono.PathNode.prototype.adjustPath(path,2, 100);
+path = mono.PathNode.prototype.adjustPath(path,2, 200);
 node=new mono.PathNode(path, 5, 5, 50);
 box.add(node)
 

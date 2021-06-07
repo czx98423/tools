@@ -15,7 +15,7 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, createGUI, vec3,STDMaterial,Animate
+      Scene, createGUI, vec3,STDMaterial,Animate,setupSceneEnv
     } from './bundle.js';
     
 
@@ -23,30 +23,24 @@
       canvas: 'canvas',
       camera: {
         near: 0.01,
-        position: vec3.fromValues(20, 20, 20),
+        position: vec3.fromValues(50, 200, -350),
         diffuseColor:vec3.fromValues(0.3,0.4,0.5)
       },
       lights: [
         {
           type: 'DIRECTION',
+          diffuseColor:vec3.fromValues(1,1,1),
+          intensity:4,
+          shadow:true
         },
       ],
     });
-    console.log()
-    scene.loadGLTF('./che/ff.gltf',{onlyLoad:true})
+    var gltf =null
+    scene.loadGLTF('./bodya.gltf',{onlyLoad:true})
     .then(e=>{
-      e = e.root
-      e.children.forEach(e=>{
-        e.mesh.primitives.forEach(ee=>{
-          ee.material._transparent = false
-        })
-      })
-      let c2 = e.clone();
-      c2.y=15
-      window.e=c2
-      scene.add(c2)
+      gltf=e.root
+      scene.add(e.root)
     });
-
   //   function doCarAnimate () {
   //   const r = Math.random()*Math.PI,
   //   ry = window.e.ry

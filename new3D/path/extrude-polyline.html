@@ -16,7 +16,7 @@
   <script type="module">
     import {
       Scene, createGUI, extrudePolyline, vec3,vec4
-    } from './libs/bundle.js';
+    } from '../bundle.js';
 
     const scene = new Scene({
       canvas: 'canvas',
@@ -88,14 +88,14 @@
     ],
       ];
 
-
+      var datas = []
       fenceDatas.forEach((polylines)=>{
         const result = extrudePolyline([polylines], {
-          depth: 0.5,
-          lineWidth: 0.01,
+          depth: 1,
+          lineWidth: 1,
         });
-
-        const data = scene.add({
+        console.log(result.position)
+        var data = scene.add({
           // x: -(result.boundingRect.x + result.boundingRect.width / 2),
           // z: result.boundingRect.y + result.boundingRect.height / 2,
           //rx: (Math.PI / 180) * 90,
@@ -114,18 +114,39 @@
             //doubleSided: true,//是否双面显示
             transparent: true,
             depthWrite: false,
-            transparency: 0.5,
+            transparency: 1,
             // diffuseColor: vec4.fromValues(29 / 255, 76 / 255, 120 / 255, 1),
           },
         });
-        data.scale = vec3.fromValues(0.5,0.5, 1);
+        data.point = polylines
+        datas.push(data)
+        //data.scale = vec3.fromValues(0.5,0.5, 1);
         scene.add(data);
         // scene.add(data.toWireframe({
         //   wireframeColor: vec3.fromValues(1, 1, 1),
         // }));
 
       });
+      // {
+      //         index: result2.indices,
+      //         position: result2.position,
+      //         normal: result2.normal,
+      //         uv: result2.uv,
+      //       }
+      setTimeout(()=>{
+        datas.forEach(data=>{
+          const result2 = extrudePolyline([data.point], {
+          depth: 1,
+          lineWidth: 2
+        });
+        // data._vao.setBufferData('uv',result2.uv)
+        // data._vao.setBufferData('normal',result2.normal)
+        // data._vao.setBufferData('index',result2.indices)
+        data._vao.setBufferData('position',result2.position)
+        console.log(result2.position)
+        })
 
+      },3000)
   
   
     createGUI(scene);

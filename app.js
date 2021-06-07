@@ -1,15 +1,127 @@
 let path = require('path');
-let formidable = require('formidable');
+//let formidable = require('formidable');
 let fs = require('fs');
 let express = require('express');
+let http = require('http');
 let app = express();
 let httpServer = require('http').Server(app);
-let bodyparse = require('body-parser')
-
+//let xlsx = require('xlsx')
 app.get('/ok', function (req, res) {
   res.sendFile(__dirname + '/fileread/upLoad.html');
 })
 
+// let workbook = xlsx.readFile('./hz.xls');
+// let sheetNames = workbook.SheetNames;
+// let sheet1 = workbook.Sheets[sheetNames[0]];
+// let range = xlsx.utils.decode_range(sheet1['!ref']);
+// let obj = {}
+// for (let R = range.s.r; R <= range.e.r; ++R) {
+//   let row_value = '';
+//   let arr = []
+//   for (let C = range.s.c; C <= range.e.c; ++C) {
+//     let cell_address = {c: C, r: R}; //获取单元格地址
+//     let cell = xlsx.utils.encode_cell(cell_address); //根据单元格地址获取单元格
+//     //获取单元格值
+//     if (sheet1[cell]) { 
+//       if(sheet1[cell].v.indexOf&&sheet1[cell].v.indexOf('栋')>0){
+
+//       }else{
+//         arr.push(sheet1[cell].v)
+//       }
+//       if(sheet1[cell].v.length==18){
+//         obj[sheet1[cell].v] = arr  
+//       }
+//     } 
+//   }
+// }
+// let workbook2 = xlsx.readFile('./all.xls');
+// let sheetNames2 = workbook2.SheetNames;
+// let sheet2 = workbook2.Sheets[sheetNames2[0]];
+// let range2 = xlsx.utils.decode_range(sheet2['!ref']);
+// let bigArr=[];
+// let num = 1,all = 0,sfzid;
+// for (let R = range2.s.r; R <= range2.e.r; ++R) {
+//   let row_value = '';
+//   let arr = []
+//   for (let C = range2.s.c; C <= range2.e.c; ++C) {
+//     let cell_address = {c: C, r: R}; //获取单元格地址
+//     let cell = xlsx.utils.encode_cell(cell_address); //根据单元格地址获取单元格
+//     //获取单元格值
+//     if (sheet2[cell]) {
+//       // 如果出现乱码可以使用iconv-lite进行转码
+//       // row_value += iconv.decode(sheet1[cell].v, 'gbk') + ", ";
+//       arr.push(sheet2[cell].v)
+//     }else{
+//       arr.push('')
+//     } 
+//   } 
+//   if(R>0){
+//     if(arr[5]=='户主'){
+//       num = 1;
+//       all = arr[8]
+//       sfzid = arr[6]
+//     }else{
+//       num ++
+//     }
+//     if(obj[sfzid]){
+//       let person = [];
+//       let qishu,building;
+//       if(typeof obj[sfzid][0]!== "number"){
+//         let sArr = obj[sfzid][0].split('-')
+//         qishu = sArr[1]
+//         building ='building' + sArr[0]
+//       }else{
+//         obj[sfzid][0] = obj[sfzid][0]+''
+//         obj[sfzid][0] = obj[sfzid][0].slice(0,obj[sfzid][0].length-4)+'-'+obj[sfzid][0].slice(-4)[0]+'-'+obj[sfzid][0].slice(-3)
+//         let sArr = obj[sfzid][0].split('-')
+//         qishu = sArr[1]
+//         building ='building' + sArr[0]
+//       }  
+//       person.push(num)//序号
+//       person.push(arr[3])//名字
+//       person.push('自住')
+//       person.push(arr[6].slice&&arr[6].slice(6,10)<1995?'已婚':'未婚')
+//       person.push(sfzid.slice(16,17)%2==1?'男':'女')
+//       person.push(arr[4])//关系
+//       person.push(arr[6])//身份证
+//       bigArr.push([qishu,building].concat(obj[sfzid],person))
+//     }else{
+//       console.log(sfzid)
+//     }
+//   }
+// }
+
+
+// let arrayWorkSheet = xlsx.utils.aoa_to_sheet(bigArr)
+// let workBook = {
+//   SheetNames: ['arrayWorkSheet'],
+//   Sheets: {
+//     'arrayWorkSheet': arrayWorkSheet,
+//   }
+// };
+// xlsx.writeFile(workBook, "./aa.xlsx");
+// console.log(bigArr)planStatus
+let importantId = ['f3','ups1','ups2','ups3','4.25','4.26','4.27','4.28','5.25','5.26','5.27','5.28']
+app.get('/planStatus', function (req, res) {
+  console.log('getTestData')
+    let arr = []
+    let time = new Date().toLocaleDateString().replace(/\//g,'-') +' '+ new Date().toLocaleTimeString()
+    importantId.forEach(e => {
+      arr.push({
+        "配电站": e,
+        "巡视状态": Math.random() > 0.5 ? "已巡视" : '未巡视',
+        "开始时间":time,
+        "结束时间":time
+      })
+    })
+    for (let index = 1; index <= 67; index++) {
+      arr.push({
+        "配电站": 'room' + index,
+        "巡视状态": Math.random() > 0.5 ? "已巡视" : '未巡视'
+      })
+    }
+  res.json(arr)
+})
 app.get('/api/core/assets/:id/poleAssets', function (req, res) {
   console.log(1)
   res.json({
@@ -84,33 +196,29 @@ app.get('/api/core/v2/faults', function (req, res) {
   }
   res.json(arr)
 })
-app.get('/api/core/statuses', function (req, res) {
-  var obj = {
-    "id": "00158D000046A689", 
-    "model": "ssslc", 
-    "domain_id": "5cbd4385d7e28623a46bee2a", 
-    "status": {
-      "online-status": 0, // 在线状态，0：离线，1：在线 
-      "switch-status": [ // 当前开关状态，目前只有第一路 
-        { "index": 0, "status": 1 }
-      ], 
-      "dim-level":
-        [ // 当前调光亮度（0%-100%） 
-          { "index": 0, "level": 0 }
-        ],
-      "active-power": 1.17, // 当前功率 单位 W 
-      "current": 0.016, // 当前电流 单位 A 
-      "voltage": 70.5, // 当前电压 单位 V 
-      "running-time": 48035100, // 运行时间 单位秒 
-      "total-energy": 289.03000000000003 // 当前能耗 单位 kwh 
-    },
-    "update_time": "2019-06-06T22:06:11.823Z"
-  }
-  var arr =[] ;
-  for(var i =0;i<14;i++){
-    arr.push(obj)
-  }
+app.post('/api/core/statusLogs', function (req, res) {
+  console.log('123')
+  arr.push(obj)
   res.json(arr)
+})
+
+app.get('/v1/access/vehicleAccessControlDetail', function (req, res) {
+  var id = req.query.identifier
+  console.log(id)
+  var data = []
+  Math.random()>0.5&&data.push({
+    id
+  })
+  res.json({
+    "code": 0,
+    "data": {
+      "data": data,
+      "idle": 0,
+      "inUse": 0,
+      "total": 0
+    },
+    "message": ""
+  })
 })
 app.post('/delete', function (req, res) {
   var form = new formidable.IncomingForm();
@@ -177,5 +285,5 @@ app.use(express.static(path.join(__dirname, './js')))
 app.use(express.static(path.join(__dirname, './fileread')))
 app.use(express.static(path.join(__dirname, './img')))
 app.use(express.static(path.join(__dirname, './lx3d')))
-httpServer = app.listen(8083)
+httpServer = app.listen(8082)
 console.log('ok')

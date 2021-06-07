@@ -15,7 +15,7 @@
   <canvas id="canvas"></canvas>
   <script type="module">
     import {
-      Scene, vec3,vec4, Data, Animate, createGUI,
+      Scene, vec3,vec4, Data, Animate, createGUI,quat2,mat2,
       createPlane
     } from './bundle.js'
 
@@ -27,31 +27,41 @@
         position: vec3.fromValues(0, 3.5, 9),
       },
     });
-    var pl = createPlane(1,1,5,5/*多边形需要更多的点位*/)
-    
-    console.log(pl)
+    var pl = createPlane(0,0,5,5/*多边形需要更多的点位*/)
+    console.log(vec3.rotateX(vec3.fromValues(0,0,0),vec3.fromValues(0,5,0),vec3.fromValues(1,0,0),-0.5*Math.PI))
     var position = new Float32Array([
      -0.5, 0.5, 0,
      0.5, 0.5, 0,
-     0.5, -0.25, 0,
-     0.25, -0.5, 0,
+     0,0,-1,
+     0.5, 0.5, 0,
+     -0.5, 0.5, 0,
+     0.5, -0.5, 0,
+     0,0,-1,
+     0.5, -0.5, 0,
      -0.5, -0.5, 0,
       -0.5, 0.5, 0,
+      0,0,-1,
+      -0.5, -0.5, 0,
     ]);
     pl.position = position
-    
+    var l = 2
+    const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      canvas.width=128;
+      canvas.height=256;
+      context.fillStyle='#ff0000a0'
+      context.fillRect(0,0,128,l)
+      context.fillRect(0,256-l,128,256)
+      context.fillStyle='#ff000030'
+      context.fillRect(0,l,128,256-l)
     var cube = window.cube =new Data({
-      rz:Math.PI/4,
+      rx:-Math.PI/2,
       y:3,
+      sz:0.5,
       material: {
             doubleSided: true,
-           // transparent: true,
-           diffuseColor: vec4.fromValues(
-          1.0 / 255.0,
-          206.0 / 255.0,
-          224.0 / 255.0,
-          0.9 /1.0
-        ),
+           transparent: true,
+           diffuseColor: vec4.fromValues(0.3,0.4,0.5,0.75),
             // depthWrite: false,
           },
       type: 'plane',
@@ -62,9 +72,6 @@
     })
 
     scene.add(cube)
-    scene.add({
-      type:'cube'
-    })
   </script>
 </body>
 </html>

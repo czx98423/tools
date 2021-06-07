@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>Shader wave</title>
+    <style>
+      html,
+      body {
+        margin: 0px;
+        overflow: hidden;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="module">
+      import {
+        Scene,
+        Program,
+        createGUI,
+        vec3,
+        STDMaterial,
+        Data,
+      } from './bundle.js'
+
+      const POSITION_VERTEX_SHADER = `#version 300 es
+    precision highp float;
+
+    layout(location = 0) in vec3 a_position;
+    layout(location = 2) in vec2 a_uv;
+
+    uniform mat4 u_modelMatrix;
+    uniform mat4 u_projectViewMatrix;
+
+    out vec2 v_uv;
+
+    void main(void) {
+      v_uv = a_uv;
+
+      gl_Position = u_projectViewMatrix * u_modelMatrix * vec4(a_position, 1.0);
+    }
+    `
+
+      const POSITION_FRAGMENT_SHADER = `#version 300 es
+    precision highp float;
+
+    uniform float u_time;
+    uniform vec3 u_waveColor;
+
+    in vec2 v_uv;
+    out vec4 fragColor;
+
+    void main()
+    {
+      vec2 cPos = v_uv - vec2(0.5);
+      float cLength = length(cPos);
+      if (cLength > 0.5) {
+        discard;
+      }
+      float a = floor(abs(sin(cLength*50.0-u_time)*1.01));
+      fragColor = vec4(u_waveColor, a*(1.0-cLength*2.0));
+    }
+    `
+
+      function drawWave(data, scene, vao) {
+        const self = this
+        const gl = scene._gl
+
+        //self.time += 0.1;
+
+        self.program.use(gl)
+        self.program.bindUniforms({
+          u_time: self.time,
+          u_waveColor: self.waveColor,
+          u_projectViewMatrix: scene.camera.projectViewMatrix,
+          u_modelMatrix: data.worldMatrix,
+        })
+        vao.draw(gl)
+      }
+      let material = new STDMaterial({
+        TYPE: 'DRAW',
+        draw: drawWave,
+        doubleSided: true,
+        transparent: true,
+        depthWrite: false,
+        program: new Program({
+          vertex: POSITION_VERTEX_SHADER,
+          fragment: POSITION_FRAGMENT_SHADER,
+        }),
+        time: 0,
+        waveColor: [190.0 / 255.0, 27.0 / 255.0, 133.0 / 255.0],
+      })
+      let data = new Data({
+        type: 'plane',
+        sx: 2,
+        sy: 2,
+        material: material,
+      })
+      const scene = new Scene({
+        canvas: 'canvas',
+        camera: {
+          target: vec3.fromValues(0, 0, 0),
+          position: vec3.fromValues(0, 0, 3),
+        },
+        lights: [
+          {
+            type: 'DIRECTION',
+          },
+        ],
+        onAnimationFrame(time) {
+          if (time > 0) {
+            material.time += 0.05
+          }
+        },
+      })
+      scene.add(data)
+      createGUI(scene)
+    </script>
+  </body>
+</html>

@@ -21,6 +21,7 @@
       import {
         Scene,
         Cube,
+        Data,
         Sphere,
         STDMaterial,
         vec3,
@@ -46,19 +47,24 @@
       const halfCount = count / 2
       for (let x = -halfCount; x < halfCount; x++) {
         for (let y = -halfCount; y < halfCount; y++) {
-          const object = scene.add({
+          var data = new Data({
             type: 'torus',
             position: vec3.fromValues(x * 2, 0, y * 2),
             material: {
               diffuseColor: vec4.fromValues(0, 0, 1, 1),
             },
           })
+          const object = scene.add(data.toBoxHelper({
+          wireframeColor: vec3.fromValues(70 / 255, 176 / 255, 176 / 255),
+        }))
 
           const lod1 = new Sphere()
           lod1.material = new STDMaterial()
           lod1.material.diffuseColor = [0, 1, 0, 1]
+          lod1.material.transparent = true
+          lod1.material.transparency = 0.5
           object.addLOD(5, lod1)
-
+          
           const lod2 = new Cube()
           lod2.material = new STDMaterial()
           lod2.material.diffuseColor = [1, 0, 0, 1]

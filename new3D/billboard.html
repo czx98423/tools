@@ -55,16 +55,22 @@
     //   position: vec3.fromValues(-2, -1, 0),
     // });
     // window.box = box
-    var a = new BillboardMaterial( {
+    var img = new Image()
+    img.src='./5G.png'
+    img.onload=function(){
+      var a = new BillboardMaterial( {
         transparent: true,
-        diffuseImage: './5G.png',
+        diffuseImage: img,
         vertical: true,
       })
-    var bbd = window.bbd = new Data()
+      var bbd = window.bbd = new Data()
     bbd.scalc = new vec3.fromValues(5,15,1)
     bbd.material=a
     //bbd.visible = false;
     scene.addBillboard(bbd);
+    }
+    
+    
     function setDivLocation() {
       const mvpMatrix = mat4.create();
       const pvMatrix = scene.camera.projectViewMatrix;

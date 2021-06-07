@@ -29,9 +29,8 @@ uniform mat4 u_projectViewMatrix;
 
 out vec2 v_uv;
 
-void main(void) {
-  
-
+void main(void) { 
+  v_uv = a_uv;
   gl_Position = u_projectViewMatrix * u_modelMatrix * vec4(a_position, 1.0);
 }
 `;
@@ -39,26 +38,17 @@ void main(void) {
     const POSITION_FRAGMENT_SHADER = `#version 300 es
 precision highp float;
 
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
+uniform float u_count;
+uniform vec3 u_whiteColor;
+uniform vec3 u_blackColor;
 
+in vec2 v_uv;
 out vec4 fragColor;
-float plot(vec2 st) {    
-    return smoothstep(0.02, 0.0, abs(st.y - st.x));
-}
 
 void main() {
-	vec2 st = gl_FragCoord.xy/u_resolution;
-
-    float y = st.x;
-
-    vec3 color = vec3(y);
-
-    float pct = plot(st);
-    color = (1.0-pct)*color+pct*vec3(0.839,0.920,1.000);
-
-	fragColor = vec4(color,1.0);
+  vec2 uv = mod(floor(v_uv * u_count), 2.0);
+  float delta = abs(uv.x - uv.y);
+  fragColor = vec4(mix(u_whiteColor, u_blackColor, delta), 1.0);
 }
 `;
     
@@ -93,20 +83,16 @@ void main() {
           type: 'plane',
           scale: vec3.fromValues(2, 2, 2),
           material: {
-            draw: drawCheckerboard,
-            doubleSided: true,
-            program: new Program({
-              vertex: POSITION_VERTEX_SHADER,
-              fragment: POSITION_FRAGMENT_SHADER,
-            }),
-            count: 8,
-            whiteColor: [0.8, 0.8, 0.8],
-            blackColor: [0.4, 0.4, 0.4],
+            diffuseImage:'./jj.png'
           },
         },
       ],
     });
-
+    //(this.__direction = Y.create()), Y.normalize(this.__direction, this._direction), this.parent)) {
+     // const e = this._direction;
+    var y = vec3.create();
+    vec3.normalize(y,vec3.fromValues(-1,-1,-1))
+    console.log(y)
     createGUI(scene);
   </script>
 </body>

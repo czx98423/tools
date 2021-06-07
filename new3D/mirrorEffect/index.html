@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <title>GLTF</title>
+  <style>
+    html,
+    body {
+      margin: 0px;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import {
+      Scene, createGUI, vec3, createPlane,Data
+    } from './bundle.js';
+    
+    import MirrorMaterial from './MirrorMaterial.js';
+
+    const scene = new Scene({
+      canvas: 'canvas',
+      camera: {
+        position: vec3.fromValues(5, 2, 4),
+      },
+    });
+    
+    createGUI(scene);
+
+    scene._renderer._bloomEffect.enabled = true;
+    scene._renderer._bloomEffect.strength = 0.3;
+    scene._renderer._bloomEffect.Radius = 0;
+
+    // const cube = scene.add({
+    //   type: 'cube',
+    //   y: 0.5,
+    //   material: {
+    //     diffuseImage: './crate.gif',
+    //   },
+    // });
+    var pl = createPlane(0,0,5,5/*多边形需要更多的点位*/)
+    var position = new Float32Array([
+    -0.5, 0.5, 0,
+     0.5, 0.5, 0,
+     0.5, -0.25, 0,
+     0.25, -0.5, 0,
+     -0.5, -0.5, 0,
+      -0.5, 0.5, 0,
+    ]);
+    pl.position = position
+    scene.loadGLTF('./build1/build1.gltf', {
+      generateTangent: true,
+      useIBLWhenMissingTexture: true,
+      loadTexture: true,
+      onlyLoad: true,
+    }).then((data) => {
+      data.root.scale = vec3.fromValues(0.001, 0.001, 0.001);
+      [data.root.y] = [data.root.boundingBox._halfSize[1]];
+      data.root.children.forEach((child) => {
+        scene.add(child.toWireframe({
+          wireframeColor: vec3.fromValues(70 / 255, 176 / 255, 176 / 255),
+        }));
+      });
+    });
+    let a = new Data({
+      type: 'plane',
+      rx: -Math.PI / 2,
+      scale: vec3.fromValues(10, 10, 10),
+      material: new MirrorMaterial(),
+      vao:{
+        buffers : pl
+      }
+    })
+    scene.add(a);
+    window.s =scene
+    window.a =a
+    // scene.onAnimationFrame = (time) => {
+    //   const timmer = time * 0.01;
+    //   cube.rx = (((Math.PI / 2) - timmer * 0.1) * 180) / Math.PI;
+    //   cube.rz = (timmer * 0.8 * 180) / Math.PI;
+    //   cube.position = vec3.fromValues(
+    //     Math.cos(timmer * 0.1) * 2,
+    //     Math.abs(Math.cos(timmer * 0.2)) * 2 + 0.5,
+    //     Math.sin(timmer * 0.1) * 2,
+    //   );
+    // };
+
+  </script>
+</body>
+
+</html>

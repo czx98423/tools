@@ -19,6 +19,7 @@
     <canvas id="canvas"></canvas>
     <script type="module">
       import {
+        STDMaterial,
         Scene,
         ShaderMaterial,
         createGUI,
@@ -26,6 +27,7 @@
         extrudePolyline,
         vec2,
         vec3,
+        vec4
       } from './bundle.js'
 
       const VERTEX_SHADER = `#version 300 es
@@ -61,45 +63,58 @@ void main() {
       //mod 透明度函数
       //mod((1.0 - v_percent[1]) + u_percent, 4.0 / u_length) * u_length); 逆时针
       //mod((1.0 - v_percent[1]) - u_percent, 1.0 / u_length) * u_length); 4等分
-      const material = new ShaderMaterial({
-        vertex: VERTEX_SHADER,
-        fragment: FRAGMENT_SHADER,
-        uniforms: {
-          percent: 0,
-          length: 1,
-        },
-        transparent: true,
-        doubleSided: true,
-      })
+      var l = 0
+    const canvas = document.createElement('canvas')
+      const context = canvas.getContext('2d')
+      canvas.width=2048;
+      canvas.height=256;
+      // context.fillStyle='#ffffff00'
+      // context.fillRect(0,0,1025,256)
+       context.fillStyle='#ffffff'
+       //context.fillRect(1024,0,2048,256)
+      //var base64Img = canvas.toDataURL('image/png');
+      var material = new STDMaterial({
+            doubleSided: true,
+            transparent: true,
+            diffuseImage:'./1.png',
+            depthWrite: false,
+            tsx:0.5,
+            tx:-0.49
+          })
 
       const scene = new Scene({
         canvas: 'canvas',
         camera: {
-          position: vec3.fromValues(0, 10, 10),
+          position: vec3.fromValues(200, 200, 200),
         },
         lights: [
           {
             type: 'DIRECTION',
             intensity: 1.0,
-            direction: vec3.fromValues(0, -1, -0),
+            direction: vec3.fromValues(0, 0, 0),
           },
         ],
         onAnimationFrame(time) {
-          if (time > 2000) {
-            material.percent = (time % 4000) / 4000
-          }
-        },
+        
+          material.tx +=0.002
+        
+      },
       })
-
+      window.material = material
+      let animate = function(){
+        context.clearRect(0,0,2048,256)
+        context.fillRect(0,0,l,256);
+        scene.updateTexture(material.diffuseImage, canvas);
+        l+=3;
+        if(l<=2048) requestAnimationFrame(animate)
+      }
+      //requestAnimationFrame(animate)
       function addPath(options) {
-        var result = extrudePolyline([options.points], { depth: 0, lineWidth :2})
+        var result = extrudePolyline([options.points], { depth: 0, lineWidth :0.05})
+
         scene.add({
-          material: {
-            doubleSided: true,
-            transparent: true,
-            diffuseImage: './l.png',
-            depthWrite: false,
-          },
+          rx:Math.PI/2,
+          material,
           vao: {
             buffers: {
               index: result.indices,
@@ -111,21 +126,25 @@ void main() {
         })
       }
 
-      let points = [
-        // vec2.fromValues(-5, -5),
-        // vec2.fromValues(-5, 5),
-        // vec2.fromValues(5, 5),
-        // vec2.fromValues(5, -5),
-      ]
-      for (let i = 1; i <= 60; i++) {
-        points.push(
-          vec2.fromValues(
-            Math.sin((Math.PI * 2 * i) / 60) * 5,
-            Math.cos((Math.PI * 2 * i) / 60) * 5
-          )
-        )
+      let points = [[14995, -16721], [27008, -29081], [19431, -36680], [18474, -36680], [15867, -34153]]
+      // for (let i = 1; i <= 61; i++) {
+      //   points.push(
+      //     vec2.fromValues(
+      //       Math.sin((Math.PI * 2 * i) / 60) * 5,
+      //       Math.cos((Math.PI * 2 * i) / 60) * 5
+      //     )
+      //   )
+      // }
+      function scalePath (path) {
+    return path.map(e => {
+      if (e instanceof Array) {
+        return scalePath(e)
+      } else {
+        return e / 100
       }
-
+    })
+  }
+  points = scalePath(points)
       addPath({
         points,
         thickness: 0.2,
@@ -148,6 +167,7 @@ void main() {
       // })
 
       createGUI(scene)
+      
     </script>
   </body>
 </html>
